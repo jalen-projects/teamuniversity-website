@@ -1,0 +1,255 @@
+/* ==========================================================================
+   TEAM UNIVERSITY - INNER PAGE COMPONENTS
+   Loaded after site.css on every page except the home page.
+   Banner + breadcrumb, sidebar sub-navigation, prose, tables, people,
+   accordions, news, forms, related links.
+   ========================================================================== */
+
+/* --- Dropdown navigation (Academics) ------------------------------------ */
+.nav-item { position: relative; }
+.nav-item > button {
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .55rem .8rem; border: 0; background: none; cursor: pointer;
+  font: inherit; font-size: .94rem; font-weight: 500; color: var(--ink-2);
+  border-radius: var(--r-pill);
+  transition: color .2s, background-color .2s;
+}
+.nav-item > button:hover { color: var(--blue); background: var(--surface-2); }
+.nav-item.is-section > button { color: var(--blue); font-weight: 600; }
+.nav-item > button svg { width: .7em; height: .7em; transition: transform .25s var(--ease); }
+.nav-item.is-open > button svg { transform: rotate(90deg); }
+
+.submenu {
+  position: absolute; top: calc(100% + .5rem); left: 0; z-index: 20;
+  min-width: 20rem; padding: .5rem;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-card); box-shadow: var(--shadow-lg);
+  display: grid; gap: .1rem;
+  opacity: 0; visibility: hidden; transform: translateY(-6px);
+  transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s;
+}
+.nav-item.is-open .submenu { opacity: 1; visibility: visible; transform: none; }
+.submenu a { padding: .6rem .75rem; border-radius: var(--r-input); font-size: .93rem; text-decoration: none; color: var(--ink); }
+.submenu a:hover { background: var(--surface-2); color: var(--blue); }
+.submenu a small { display: block; color: var(--muted); font-size: .8rem; font-weight: 400; margin-top: .1rem; }
+
+@media (max-width: 1024px) {
+  .nav-item { width: 100%; }
+  .nav-item > button {
+    width: 100%; justify-content: space-between; padding: .95rem .4rem;
+    border-bottom: 1px solid var(--line); border-radius: 0; font-size: 1.02rem;
+  }
+  .submenu {
+    position: static; opacity: 1; visibility: visible; transform: none;
+    box-shadow: none; border: 0; border-radius: 0; padding: .35rem 0 .6rem .8rem;
+    display: none; min-width: 0; background: none;
+  }
+  .nav-item.is-open .submenu { display: grid; }
+  .submenu a { border-bottom: 0; }
+}
+
+/* --- Page banner --------------------------------------------------------- */
+.banner {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: var(--navy-deep); color: #fff;
+}
+.banner-img {
+  position: absolute; inset: 0; z-index: -2;
+  width: 100%; height: 100%; object-fit: cover; object-position: center 42%;
+}
+.banner::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(95deg, rgba(7,31,51,.96) 0%, rgba(7,31,51,.87) 46%, rgba(7,31,51,.6) 100%);
+}
+.banner .wrap { padding-block: clamp(2.75rem, 6vw, 4.5rem); }
+.banner h1 { font-size: clamp(1.9rem, 1.35rem + 2.4vw, 3.05rem); text-wrap: balance; max-width: 22ch; }
+.banner p { color: #cfe0ee; margin-top: .9rem; max-width: 58ch; font-size: 1.05rem; }
+
+.crumbs {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .45rem;
+  font-size: .85rem; margin-bottom: 1.1rem; color: #a9bed1;
+}
+.crumbs a { color: #a9bed1; text-decoration: none; }
+.crumbs a:hover { color: var(--gold); }
+.crumbs svg { width: .7em; height: .7em; opacity: .55; }
+.crumbs [aria-current] { color: var(--gold); }
+
+/* --- Page body: sidebar + content --------------------------------------- */
+.page { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+.page .wrap { display: grid; gap: clamp(2rem, 5vw, 3.5rem); grid-template-columns: 1fr; }
+@media (min-width: 1000px) { .page .wrap { grid-template-columns: 250px minmax(0, 1fr); } }
+
+.sidenav { align-self: start; }
+@media (min-width: 1000px) { .sidenav { position: sticky; top: 96px; } }
+.sidenav h2 { font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: .9rem; }
+.sidenav ul { display: grid; gap: .15rem; }
+.sidenav a {
+  display: block; padding: .62rem .85rem; border-radius: var(--r-input);
+  text-decoration: none; color: var(--ink-2); font-size: .93rem;
+  transition: background-color .2s, color .2s;
+}
+.sidenav a:hover { background: var(--surface-2); color: var(--blue); }
+.sidenav a[aria-current] { background: var(--surface-2); color: var(--blue); font-weight: 600; }
+
+/* --- Prose --------------------------------------------------------------- */
+.prose { max-width: 72ch; }
+.prose > * + * { margin-top: 1.15rem; }
+.prose h2 { font-size: clamp(1.4rem, 1.15rem + 1vw, 1.85rem); margin-top: 2.9rem; }
+.prose > h2:first-child { margin-top: 0; }
+.prose h3 { font-size: 1.18rem; margin-top: 2rem; }
+.prose p, .prose li { color: var(--ink-2); }
+.prose strong { color: var(--ink); }
+.prose a { color: var(--blue); text-underline-offset: 3px; }
+/* Buttons keep their own colours inside prose. `.prose a` outranks the .btn
+   variants on specificity and would otherwise print blue text on a navy or
+   gold fill, which fails contrast. */
+.prose a.btn { text-decoration: none; }
+.prose a.btn--primary { color: #241a02; }
+.prose a.btn--solid, .prose a.btn--ghost { color: #fff; }
+.prose a.btn--line { color: var(--ink); }
+.prose a.btn--line:hover { color: var(--blue); }
+.prose ul.bullets { display: grid; gap: .6rem; padding-left: 1.2rem; list-style: disc; }
+.prose ul.bullets li { padding-left: .2rem; }
+
+.prose ol.steps { counter-reset: s; display: grid; gap: 1.5rem; margin-top: 1.75rem; list-style: none; padding: 0; }
+.prose ol.steps li { counter-increment: s; position: relative; padding-left: 3.4rem; }
+.prose ol.steps li::before {
+  content: counter(s); position: absolute; left: 0; top: -.1rem;
+  width: 2.3rem; height: 2.3rem; border-radius: var(--r-pill);
+  display: grid; place-items: center;
+  background: var(--navy); color: #fff; font-weight: 700; font-size: .95rem;
+}
+.prose ol.steps strong { display: block; margin-bottom: .25rem; font-size: 1.06rem; }
+
+.callout {
+  margin-top: 2rem; padding: 1.45rem 1.6rem;
+  background: var(--surface-2); border-radius: var(--r-card);
+}
+.callout h3 { margin-top: 0; font-size: 1.05rem; }
+.callout p { margin-top: .45rem; font-size: .95rem; }
+.callout .btn { margin-top: 1.1rem; }
+
+.lead-figure { margin: 0 0 2.25rem; }
+.lead-figure img { width: 100%; border-radius: var(--r-card); }
+.lead-figure figcaption { margin-top: .7rem; font-size: .88rem; color: var(--muted); }
+
+/* --- Tables -------------------------------------------------------------- */
+.table-scroll { overflow-x: auto; margin-top: 1.6rem; }
+table.data { width: 100%; border-collapse: collapse; font-size: .94rem; min-width: 34rem; }
+table.data caption { text-align: left; color: var(--muted); font-size: .88rem; padding-bottom: .8rem; }
+table.data th, table.data td { padding: .85rem 1rem; text-align: left; vertical-align: top; }
+table.data thead th { background: var(--navy); color: #fff; font-weight: 600; font-size: .85rem; }
+table.data tbody tr { border-bottom: 1px solid var(--line); }
+table.data tbody td { color: var(--ink-2); }
+table.data tbody td:first-child { color: var(--ink); font-weight: 500; }
+
+/* --- Accordion ----------------------------------------------------------- */
+.faq { margin-top: 1.75rem; display: grid; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+  cursor: pointer; padding: 1.1rem .25rem; font-weight: 600; list-style: none;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: ""; flex: none; width: .55rem; height: .55rem;
+  border-right: 2px solid var(--blue); border-bottom: 2px solid var(--blue);
+  transform: rotate(45deg); transition: transform .25s var(--ease);
+}
+.faq details[open] summary::after { transform: rotate(-135deg); }
+.faq details p { padding: 0 .25rem 1.3rem; color: var(--ink-2); max-width: 68ch; }
+
+/* --- People -------------------------------------------------------------- */
+.people { display: grid; gap: 1.6rem; grid-template-columns: 1fr; margin-top: 1.75rem; }
+@media (min-width: 620px) { .people { grid-template-columns: repeat(2, 1fr); } }
+.person { display: grid; gap: 1rem; grid-template-columns: 78px minmax(0, 1fr); align-items: start; }
+.person img, .person .avatar {
+  width: 78px; height: 78px; border-radius: var(--r-card); object-fit: cover;
+}
+.person .avatar {
+  background: var(--surface-2); display: grid; place-items: center;
+  color: var(--blue); font-weight: 700; font-size: 1.35rem; letter-spacing: .02em;
+}
+.person h3 { font-size: 1.02rem; }
+.person .role { font-size: .85rem; color: var(--blue); font-weight: 600; margin-top: .15rem; }
+.person p { font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+
+/* --- Leadership message -------------------------------------------------- */
+.message { display: grid; gap: clamp(1.75rem, 4vw, 3rem); grid-template-columns: 1fr; align-items: center; margin-top: 1.75rem; }
+@media (min-width: 860px) { .message { grid-template-columns: 290px minmax(0, 1fr); } }
+.message-portrait {
+  border-radius: var(--r-card); overflow: hidden; background: var(--surface-2);
+  aspect-ratio: 4 / 5; display: grid; place-items: center;
+  color: var(--muted); font-size: .85rem; text-align: center; padding: 1rem;
+}
+.message-portrait img { width: 100%; height: 100%; object-fit: cover; }
+.message blockquote { margin: 0; font-size: clamp(1.08rem, 1rem + .5vw, 1.28rem); line-height: 1.55; color: var(--ink); }
+.message blockquote p + p { margin-top: 1rem; }
+.message cite { display: block; margin-top: 1.35rem; font-style: normal; }
+.message cite strong { display: block; }
+.message cite span { color: var(--muted); font-size: .9rem; }
+
+/* --- News ---------------------------------------------------------------- */
+.news-list { display: grid; gap: 1.8rem; margin-top: 1.75rem; }
+.news-item { display: grid; gap: 1.3rem; grid-template-columns: 1fr; padding-bottom: 1.8rem; border-bottom: 1px solid var(--line); }
+@media (min-width: 700px) { .news-item { grid-template-columns: 230px minmax(0, 1fr); } }
+.news-item img { border-radius: var(--r-card); aspect-ratio: 16 / 10; object-fit: cover; width: 100%; }
+.news-date { font-size: .82rem; color: var(--muted); font-weight: 600; }
+.news-item h3 { font-size: 1.2rem; margin-top: .35rem; }
+.news-item p { color: var(--ink-2); margin-top: .55rem; font-size: .95rem; }
+
+/* --- Contact / forms ----------------------------------------------------- */
+.contact-grid { display: grid; gap: clamp(2rem, 5vw, 3.5rem); grid-template-columns: 1fr; }
+@media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
+.field { display: grid; gap: .4rem; margin-bottom: 1.15rem; }
+.field label { font-weight: 600; font-size: .9rem; }
+.field input, .field select, .field textarea {
+  font: inherit; font-size: .96rem; padding: .75rem .9rem;
+  border: 1px solid var(--line); border-radius: var(--r-input);
+  background: var(--surface); color: var(--ink); width: 100%;
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--blue); outline: 2px solid rgba(22, 96, 140, .2); outline-offset: 0;
+}
+.field .hint { font-size: .83rem; color: var(--muted); }
+.field textarea { min-height: 8.5rem; resize: vertical; }
+
+.contact-block { display: grid; gap: 1.6rem; }
+.contact-row { display: flex; gap: .95rem; align-items: flex-start; }
+.contact-row svg { width: 1.2rem; height: 1.2rem; color: var(--blue); flex: none; margin-top: .2rem; }
+.contact-row h3 { font-size: .95rem; }
+.contact-row p, .contact-row a { color: var(--ink-2); font-size: .95rem; text-decoration: none; }
+.contact-row a:hover { color: var(--blue); }
+
+.map { margin-top: 1.75rem; border-radius: var(--r-card); overflow: hidden; border: 1px solid var(--line); }
+.map iframe { display: block; width: 100%; height: 340px; border: 0; }
+
+/* --- Related links ------------------------------------------------------- */
+.related { margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: 2rem; border-top: 1px solid var(--line); }
+.related h2 { font-size: 1.05rem; margin-bottom: 1.15rem; }
+.related ul { display: grid; gap: .8rem; grid-template-columns: 1fr; }
+@media (min-width: 700px) { .related ul { grid-template-columns: repeat(3, 1fr); } }
+.related a {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1rem 1.15rem; border: 1px solid var(--line); border-radius: var(--r-card);
+  text-decoration: none; font-weight: 600; font-size: .95rem; color: var(--ink);
+  transition: border-color .25s, color .25s, transform .25s var(--ease);
+}
+.related a:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-2px); }
+.related svg { width: 1em; height: 1em; flex: none; }
+
+/* --- Facts strip --------------------------------------------------------- */
+.facts {
+  display: grid; gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: var(--r-card); overflow: hidden;
+  grid-template-columns: 1fr; margin: 1.75rem 0 0;
+}
+@media (min-width: 620px) { .facts { grid-template-columns: repeat(3, 1fr); } }
+.fact { background: var(--surface); padding: 1.35rem 1.5rem; }
+.fact dt { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.fact dd { margin: .4rem 0 0; font-size: 1.05rem; font-weight: 600; color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  .related a:hover { transform: none; }
+}

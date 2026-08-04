@@ -1,0 +1,8 @@
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+.impeccable/
+
+# Python
+__pycache__/
+*.pyc
