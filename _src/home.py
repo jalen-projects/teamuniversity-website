@@ -103,6 +103,7 @@ HERO = HERO.replace("{rotator}", "".join(
 HERO = HERO.format(photo=(
     '<video class="hero-photo hero-video" autoplay muted loop playsinline '
     'preload="metadata" poster="img/campus-group-1000.jpg" '
+    'disablepictureinpicture disableremoteplayback '
     'aria-hidden="true" tabindex="-1">'
     '<source src="video/graduation.mp4" type="video/mp4"></video>'
     + media.picture(
@@ -110,6 +111,23 @@ HERO = HERO.format(photo=(
         "Team University graduands in blue and gold academic gowns walking "
         "together on graduation day",
         sizes="100vw", cls="hero-photo hero-fallback", eager=True)))
+
+
+# ---------------------------------------------------------------------------
+# The marquee
+# ---------------------------------------------------------------------------
+# Built from the catalogue, so it cannot advertise a faculty the university
+# does not have. The list is written twice into the markup because a marquee
+# that translates -50% needs two identical halves or the loop shows a gap.
+
+def marquee():
+    items = "".join(
+        f'<a class="marquee-item" href="{page}">'
+        f'<span class="dot"></span><span>{title}</span> <b>{n}</b></a>'
+        for _c, page, title, _b, _i, _ph, n in cat.all_faculties())
+    return f"""<div class="marquee" aria-label="Faculties and how many programmes each runs">
+  <div class="marquee-track">{items}{items}</div>
+</div>"""
 
 
 # ---------------------------------------------------------------------------
@@ -360,7 +378,7 @@ def body():
     speaking is what turns a list of programmes into somewhere you might go.
     """
     return "\n\n".join([
-        HERO, QUICK, SCHOLARSHIP, finder(), faculties(), STATS,
+        HERO, marquee(), QUICK, SCHOLARSHIP, finder(), faculties(), STATS,
         VC_MESSAGE, MODES_HTML, GALLERY, WHY_HTML,
     ])
 

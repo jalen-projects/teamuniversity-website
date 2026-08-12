@@ -843,3 +843,116 @@
 @media (max-width: 720px) {
   .rotator > span { white-space: normal; }
 }
+
+/* ==========================================================================
+   THE PHONE HERO — it was a still picture and a block of text
+   On a laptop the split hero has the video and the drift doing the work. On a
+   phone the video is (rightly) never fetched, so all the motion went with it
+   and what was left was a photograph sitting there. These put it back without
+   downloading a single extra byte.
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero--photo .hero-media { height: 46vh; min-height: 290px; }
+  /* Keep the faces. A tall crop with the focal point at the middle of a wide
+     photograph shows waists and gowns; the people are in the upper third. */
+  .hero--photo .hero-fallback, .hero--photo video.hero-video {
+    object-position: 52% 26%;
+  }
+
+  /* A visible Ken Burns rather than the imperceptible desktop drift. Twenty
+     seconds, so it reads as the picture breathing, not as a slideshow. */
+  .hero--photo .hero-fallback {
+    animation: kenburns 20s ease-in-out infinite alternate;
+    transform-origin: 62% 42%;
+  }
+  @keyframes kenburns {
+    from { transform: scale(1.02); }
+    to   { transform: scale(1.16); }
+  }
+
+  /* The eyebrow stays in the text flow. Absolutely positioning it put it
+     over the seam between the photograph and the paper, where it read as a
+     label that had come loose. It keeps the pill treatment, which is what
+     made it worth doing. */
+  .hero--photo .hero-eyebrow {
+    background: var(--surface); color: var(--terra-deep);
+    padding: .4rem .85rem; border-radius: var(--r-pill);
+    box-shadow: var(--shadow-sm); border: 1px solid var(--line);
+    margin-bottom: .2rem;
+  }
+
+  /* The gold button breathes, once every six seconds. Enough to catch the eye
+     on a small screen; not enough to nag. */
+  .hero--photo .btn--primary { animation: breathe 6s ease-in-out infinite; }
+  @keyframes breathe {
+    0%, 88%, 100% { box-shadow: 0 6px 18px rgba(240, 184, 60, .34); }
+    94% { box-shadow: 0 6px 26px rgba(240, 184, 60, .6); transform: translateY(-2px); }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero--photo .hero-fallback, .hero--photo .btn--primary { animation: none; }
+}
+
+/* ==========================================================================
+   THE MARQUEE — what the university actually teaches, moving
+   KIU and King Ceasor both run a static strip of links here. A slow marquee of
+   real faculty names says the same thing and moves, and because it is built
+   from the catalogue it cannot claim a faculty the university does not have.
+   Duplicated once in the markup so the loop has no seam.
+   ========================================================================== */
+.marquee {
+  background: var(--navy); color: #fff; overflow: hidden;
+  border-top: 3px solid var(--gold); position: relative;
+}
+.marquee-track {
+  display: flex; gap: 0; width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-item {
+  display: inline-flex; align-items: center; gap: .7rem;
+  padding: .85rem 1.6rem; font-weight: 700; font-size: .93rem;
+  white-space: nowrap; color: #fff;
+}
+.marquee-item .dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex: none;
+}
+.marquee-item:nth-child(3n) .dot { background: var(--green); }
+.marquee-item:nth-child(3n+2) .dot { background: var(--terra); }
+.marquee-item span { opacity: .92; }
+.marquee-item b { color: var(--gold); font-weight: 800; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; flex-wrap: wrap; width: 100%; justify-content: center; }
+}
+
+/* ==========================================================================
+   GREEN, where it belongs
+   The crest has it and the campus has it. Used for the things that mean
+   "yes": what is included, what is confirmed, what is open.
+   ========================================================================== */
+.why { background: var(--green-soft); }
+.why-ico { background: linear-gradient(140deg, #1d6b45, var(--green)); }
+.finder-count { color: var(--green-deep, #1d6b45); font-weight: 700; }
+.fac-count { color: var(--green); }
+.mode-card:nth-child(2) .mode-ico,
+.mode-card:nth-child(4) .mode-ico { background: linear-gradient(140deg, #1d6b45, var(--green)); }
+.prog:hover { border-color: var(--green); }
+.tally strong { color: var(--navy); }
+.tally:hover { border-color: var(--green); }
+
+/* The quick strip used to lift over the bottom edge of the hero. The marquee
+   now sits between them, so that negative margin would drag the cards over a
+   moving band. It gets its own space instead. */
+.quick { margin-top: 0; padding-top: clamp(2rem, 5vw, 3.2rem); }
+
+/* The scroll cue belonged to the old full-bleed hero, where there was a metre
+   of empty photograph under the words. In the split layout it floats in the
+   seam between the panels looking like something that came loose — and the
+   marquee immediately below already tells you the page continues. */
+.hero--photo .hero-scroll { display: none; }
+
+/* Nothing about the background video should be interactive: no picture-in-
+   picture button, no pause overlay, no tab stop. It is wallpaper. */
+.hero--photo video.hero-video { pointer-events: none; }
+.hero--photo video.hero-video::-webkit-media-controls { display: none !important; }
