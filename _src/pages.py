@@ -979,3 +979,36 @@ PAGES = {
 # The six faculty pages and the full programme list are generated from the
 # university%s own catalogue, so they cannot drift from the registry.
 PAGES.update(faculties.specs())
+
+# A page for the address that does not exist. Most hosts serve /404.html for a
+# miss automatically (Apache ErrorDocument, cPanel, Netlify, GitHub Pages); on
+# nginx it needs one line: error_page 404 /404.html;
+PAGES["404.html"] = dict(
+    title="Page not found | Team University Kampala",
+    og_title="Page not found",
+    description="That page is not here. Search the programmes, or go back to the "
+                "Team University home page.",
+    body="""<section class="banner banner--plain">
+  <div class="wrap">
+    <h1>That page is not here.</h1>
+    <p>The address may have changed, or the link that brought you here may be
+       old. Nothing is lost &mdash; here is where most people were going.</p>
+  </div>
+</section>
+
+<div class="page"><div class="wrap"><div><div class="prose">
+<h2>Try one of these</h2>
+<ul>
+  <li><a href="index.html">The home page</a></li>
+  <li><a href="programmes.html">Search all 99 programmes</a></li>
+  <li><a href="admissions.html">How to apply, and the August intake</a></li>
+  <li><a href="admissions.html#scholarships">The 50% scholarship</a></li>
+  <li><a href="academics.html">Faculties and study modes</a></li>
+  <li><a href="contact.html">Contact the university</a></li>
+</ul>
+
+<p>If a link on this site brought you here, tell us where it was and it will be
+   fixed: <a href="mailto:info@teamuniversity.ac.ug">info@teamuniversity.ac.ug</a>.</p>
+</div></div></div></div>""",
+)
+

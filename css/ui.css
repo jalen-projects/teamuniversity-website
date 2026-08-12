@@ -419,3 +419,11 @@
     background: #071f33 url("../img/graduation-1-640.jpg") center / cover no-repeat;
   }
 }
+
+/* A banner with no photograph, for the 404 page. */
+.banner--plain {
+  background: linear-gradient(135deg, var(--navy-deep), var(--navy));
+  color: #fff; padding: clamp(3.5rem, 9vw, 6rem) 0 clamp(2.5rem, 6vw, 4rem);
+}
+.banner--plain h1 { color: #fff; font-size: clamp(1.9rem, 1.2rem + 3vw, 3.2rem); margin: 0 0 .7rem; }
+.banner--plain p { color: var(--on-dark); max-width: 52ch; margin: 0; }
