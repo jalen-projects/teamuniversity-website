@@ -764,3 +764,69 @@
   /* No video on a phone at all — the poster photograph is already there. */
   .hero--photo video.hero-video { display: none; }
 }
+
+/* ==========================================================================
+   THE ACCENT WORD, MOVING
+   The highlighted phrase was deep blue with a gold bar under it — a colour the
+   school could not name and an underline nobody asked for. It is now a rotating
+   phrase, each with its own colour from the university's own palette, because
+   the four study modes ARE the thing the sentence is about.
+   ========================================================================== */
+.hero--photo .h-display .accent {
+  background: none;                       /* kill the gold underline bar */
+  color: var(--blue-bright);
+  position: relative; display: inline-block;
+  min-height: 1.1em;
+}
+.rotator { display: inline-grid; vertical-align: bottom; }
+.rotator > span {
+  grid-area: 1 / 1; white-space: nowrap;
+  opacity: 0; transform: translateY(.32em);
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
+}
+.rotator > span.is-on { opacity: 1; transform: none; }
+/* One colour per phrase, all four from the campus, the gowns and the crest. */
+.rotator > span:nth-child(1) { color: var(--blue-bright); }
+.rotator > span:nth-child(2) { color: var(--terra); }
+.rotator > span:nth-child(3) { color: var(--green); }
+.rotator > span:nth-child(4) { color: var(--gold-deep); }
+/* Without motion the first phrase simply stays put and the rest are hidden. */
+@media (prefers-reduced-motion: reduce) {
+  .rotator > span { transition: none; }
+}
+
+/* ==========================================================================
+   CONTRAST — cards must not be the same colour as what they sit on
+   The five quick boxes were white on warm-white: the same colour, so the
+   boxes disappeared and only their underlined text showed. They now sit on a
+   blue tint with a real border, which is what makes a card look like a card.
+   ========================================================================== */
+.quick { background: linear-gradient(180deg, var(--blue-soft) 0%, var(--bg) 82%); }
+.quick-card {
+  background: var(--surface);
+  border: 1px solid rgba(11, 78, 162, .16);
+  box-shadow: 0 2px 4px rgba(11, 78, 162, .05), 0 12px 28px -14px rgba(11, 78, 162, .28);
+}
+.quick-card:hover { border-color: var(--navy); }
+/* Each box gets its own colour from the palette rather than five identical
+   blue gradients — yellow, blue, green and terracotta, as the school asked. */
+.quick-card:nth-child(1) .quick-ico { background: linear-gradient(140deg, var(--navy), var(--blue)); }
+.quick-card:nth-child(2) .quick-ico { background: linear-gradient(140deg, var(--terra-deep), var(--terra)); }
+.quick-card:nth-child(3) .quick-ico { background: linear-gradient(140deg, var(--gold-deep), var(--gold)); color: #3d2f05; }
+.quick-card:nth-child(4) .quick-ico { background: linear-gradient(140deg, #1d6b45, var(--green)); }
+.quick-card:nth-child(5) .quick-ico { background: linear-gradient(140deg, var(--blue), var(--blue-bright)); }
+
+/* The faculty cards were also on near-white. Give them an edge. */
+.fac-card { border-color: rgba(11, 78, 162, .14); }
+.fac-card:hover { border-color: var(--navy); }
+/* And a colour per faculty on the icon badge, so six cards are not six greys. */
+.fac-card:nth-child(1) .fac-ico { color: var(--navy); }
+.fac-card:nth-child(2) .fac-ico { color: var(--terra-deep); }
+.fac-card:nth-child(3) .fac-ico { color: var(--blue-bright); }
+.fac-card:nth-child(4) .fac-ico { color: #b4283c; }
+.fac-card:nth-child(5) .fac-ico { color: var(--green); }
+.fac-card:nth-child(6) .fac-ico { color: var(--gold-deep); }
+
+/* The programme result rows, same problem, same fix. */
+.prog { border-color: rgba(11, 78, 162, .14); }
+.prog-code { background: var(--blue-soft); color: var(--navy); }

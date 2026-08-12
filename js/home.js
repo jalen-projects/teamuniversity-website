@@ -11,6 +11,25 @@
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ------------------------------------------------------------------ *
+   * THE ROTATING PHRASE
+   * Four study modes, one at a time, in the headline. The first is already
+   * marked is-on in the HTML, so if this file never loads the sentence still
+   * reads correctly — it just stops moving.
+   * ------------------------------------------------------------------ */
+  (function rotator() {
+    var wrap = document.getElementById('rotator');
+    if (!wrap || reduced) return;
+    var items = wrap.querySelectorAll('span');
+    if (items.length < 2) return;
+    var at = 0;
+    setInterval(function () {
+      items[at].classList.remove('is-on');
+      at = (at + 1) % items.length;
+      items[at].classList.add('is-on');
+    }, 2900);
+  })();
+
+  /* ------------------------------------------------------------------ *
    * THE HERO FOOTAGE, SLOWED
    * The graduation clip is cut fast — good for a highlights reel, wrong
    * behind a headline somebody is trying to read. Half speed turns the same

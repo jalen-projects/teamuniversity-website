@@ -63,7 +63,7 @@ HERO = f"""<section class="hero hero--photo">
   <div class="wrap">
     <div class="hero-inner">
       <span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> Empower For Generations</span>
-      <h1 class="h-display">Your degree, on <span class="accent">your own schedule</span>.</h1>
+      <h1 class="h-display">Your degree, on <span class="accent"><span class="rotator" id="rotator">{{rotator}}</span></span></h1>
       <p class="hero-lede">
         {cat.count()} programmes across {len(cat.FACULTIES)} faculties &mdash; taught by day,
         in the evening, at weekends and by distance, in the middle of Kampala.
@@ -93,6 +93,13 @@ HERO = f"""<section class="hero hero--photo">
 # poster underneath it is a photograph of the same graduation, so the panel is
 # correct before a single frame has loaded and on any phone, where CSS keeps
 # the video from being fetched at all.
+ROTATE = ["your own schedule.", "evenings after work.", "weekends only.",
+          "distance, from anywhere."]
+
+HERO = HERO.replace("{rotator}", "".join(
+    f'<span{" class=\"is-on\"" if i == 0 else ""}>{phrase}</span>'
+    for i, phrase in enumerate(ROTATE)))
+
 HERO = HERO.format(photo=(
     '<video class="hero-photo hero-video" autoplay muted loop playsinline '
     'preload="metadata" poster="img/campus-group-1000.jpg" '
