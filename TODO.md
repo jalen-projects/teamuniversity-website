@@ -1,44 +1,60 @@
 # Content still needed from Team University
 
-The site is built and every page works. These items are placeholders. Nothing
-on the site invents a fact about the university: where information was not
-available, the page says so and asks the reader to contact the relevant office.
-Replace each item below before the site goes live.
+The site is built and every page works. Nothing on it invents a fact about the
+university: where information was not available, the page says so and asks the
+reader to contact the relevant office. Replace each item below before it goes
+to print anywhere.
 
 ## Must have before launch
 
 | Page | What is missing |
 |---|---|
-| `about.html` | **Leadership.** Names, titles and photographs of the office holders, plus a message from the Vice Chancellor. Currently a notice saying the section awaits content. |
-| `faculty-health.html` | **Programme list.** The School of Health Sciences has one placeholder row. Needs the real programmes, codes, awards, and which professional council registers each one. This is the least complete page. |
-| `admissions.html` | **Fees structure.** Tuition and functional fees per programme and study mode. The page currently tells applicants to request it from the finance office. Do not publish invented figures. |
+| `about.html` | **Leadership.** Names, titles and photographs of the office holders, plus a message from the Vice Chancellor. Currently a notice saying the section awaits content. This is the biggest remaining gap: every university site the reference points to leads with its VC. |
+| `admissions.html` | **Fees structure.** Tuition and functional fees per programme and study mode. The page tells applicants to request it from the finance office. Do not publish invented figures. |
+| `admissions.html` | **Which programmes carry the 50% scholarship**, and the closing date for it. The page says to ask admissions, which is honest but weaker than a list. |
 | `contact.html` | **Enquiry form destination.** The form has no `action` and cannot send. On PHP hosting point it at a small mail script; otherwise use a form service. Until then the page tells visitors to email instead. |
 | `academics.html` | **Academic almanac.** Registration, teaching, examination and recess dates for the year. |
 
 ## Should have soon
 
-- **Higher-resolution photographs.** The four photos we hold are about 1020px
-  wide, so banners look slightly soft on a large monitor. Their photographer
-  will have the originals. Same photos, bigger files, no redesign needed.
+- **Higher-resolution photographs.** Everything we hold is 550–1000px wide.
+  That is why the hero is video and the photographs are used in cards and a
+  mosaic rather than as full-width banners — they would go soft. Their
+  photographer will have the originals. Same photos, bigger files, no redesign
+  needed: drop them in `Desktop/DESIGNS/TEAM/` and re-run
+  `python _src/build_media.py`.
 - **More photography.** Classrooms, laboratories, the library, students at
-  work, staff. Every faculty page currently reuses one of four campus photos.
-- **News items** for `news.html`. It carries one real notice (the August 2026
-  intake) and is ready for more.
+  work, staff, each faculty in its own setting. Faculty pages currently share a
+  small pool of campus photographs.
+- **More video.** The graduation clip carries the hero. Anything else in
+  `Desktop/DESIGNS` is 5 MB and up and needs compressing before it goes near a
+  page — there is no ffmpeg on the build machine, so that has to be done
+  elsewhere.
+- **News items** for `news.html`. It carries three real notices now (the
+  scholarship, the August intake, the programme index) and is ready for more.
 - **Guild leadership** and the student activity calendar for `student-life.html`.
-- **Programme detail** for Social Sciences and Applied Sciences: several rows
-  say "See faculty" rather than naming each award.
 
-## Verify before launch
+## Done since the first build
 
-- Confirm the **YouTube channel URL** in the footer. It is a best guess
-  (`youtube.com/@teamuniversity`) and must be checked.
-- Confirm every **programme title and code** against the current prospectus.
-- Confirm the **entry requirements** table matches what admissions actually
-  applies. It currently states the standard national routes.
+- Six faculties, not four. Graduate Studies, Education and Vocational and
+  Technical Education were missing entirely — 59 of the 99 programmes.
+- Every programme page is generated from the university's own catalogue
+  (`_src/catalogue.py`), the same list the student system is seeded from, so
+  the site and the registry cannot drift apart.
+- A programme finder on the home page and at `programmes.html`.
+- Video hero, with the poster served instead below 700px.
+- The 50% August scholarship on the home page, the admissions page, all six
+  faculty pages and the news page.
+- `_src/check.py` — broken links, missing images, duplicate ids, dead anchors,
+  images with no alt. Run it before every deploy; it exits non-zero on failure.
 
-## Separate issue, not about this site
+## How to work on this site
 
-The existing WordPress site at teamuniversity.ac.ug is serving injected spam in
-German, Bengali, French and Turkish. That is a compromised install. Whoever
-runs it should change the WordPress and cPanel passwords regardless of whether
-this new site replaces it.
+```
+python _src/build_media.py     # photographs and video -> img/ and video/
+python _src/build.py           # _src/*.py -> the .html files in the root
+python _src/check.py           # verify before uploading
+```
+
+Only the built `.html`, `css/`, `js/`, `img/`, `video/` and `fonts/` need to go
+on the server. `_src/` is the source and does not.

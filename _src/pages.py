@@ -706,6 +706,22 @@ NEWS = page_body(
 <div class="news-list">
   <article class="news-item">
     <picture>
+      <source type="image/webp" srcset="img/graduation-2-640.webp">
+      <img src="img/graduation-2-640.jpg" alt="Graduands at Team University" width="640" height="630" loading="lazy">
+    </picture>
+    <div>
+      <p class="news-date">Scholarships &middot; August 2026 intake</p>
+      <h3>50% scholarships offered on selected programmes</h3>
+      <p>Team University is offering half-fee scholarships on selected programmes
+         for the August 2026 intake, awarded on academic merit and demonstrated
+         need. Places are limited. Which programmes are covered changes with each
+         intake, so ask the admissions office before you apply.</p>
+      <p><a href="admissions.html#scholarships">See what the scholarship covers</a></p>
+    </div>
+  </article>
+
+  <article class="news-item">
+    <picture>
       <source type="image/webp" srcset="img/grad-800.webp">
       <img src="img/grad-800.jpg" alt="Graduands in procession at Team University" width="800" height="373" loading="lazy">
     </picture>
@@ -716,11 +732,30 @@ NEWS = page_body(
       <p><a href="admissions.html">Read how to apply</a></p>
     </div>
   </article>
+
+  <article class="news-item">
+    <picture>
+      <source type="image/webp" srcset="img/campus-group-640.webp">
+      <img src="img/campus-group-640.jpg" alt="Students on the Team University campus" width="640" height="360" loading="lazy">
+    </picture>
+    <div>
+      <p class="news-date">Academics</p>
+      <h3>All 99 programmes now searchable online</h3>
+      <p>Every programme the university runs &mdash; across Graduate Studies,
+         Management and Humanities, Applied Science and Technology, Health
+         Sciences, Education, and Vocational and Technical Education &mdash; can
+         now be searched on one page, with the award, its duration and the board
+         that assesses it.</p>
+      <p><a href="programmes.html">Search the programmes</a></p>
+    </div>
+  </article>
 </div>
 
 <div class="callout">
-  <h3>This page is ready for the university's news</h3>
-  <p>Announcements, graduation notices, events and press items go here. The layout takes a date, a heading, a short summary and an optional photograph for each item.</p>
+  <h3>More news as it is published</h3>
+  <p>Graduation notices, events, research and press items go here. Each item
+     takes a date, a heading, a short summary and an optional photograph &mdash;
+     send them to the communications office and they will be added.</p>
 </div>
 """,
     related([
