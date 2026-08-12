@@ -55,16 +55,12 @@ PHOTOS = [
 # Only what is small enough to autoplay behind a hero without costing a
 # visitor their bundle. A 65 MB clip is not a background, it is a download.
 VIDEOS = [
-    # NOTHING, deliberately.
-    #
-    # A video was chosen here once by its FILENAME, because video cannot be
-    # viewed on this machine — and it turned out to show people who are not
-    # Team University's students. On a Ugandan university's home page that is
-    # not a small mistake.
-    #
-    # The rule now: nothing goes on this site that has not been looked at. The
-    # photographs can be looked at; the video cannot. If a clip is to be used,
-    # somebody who can watch it should name it here.
+    # The university's own graduation footage, restored at the school's
+    # request. It plays at half speed (see js/home.js) because the cutting is
+    # fast, and it sits in the right-hand panel of a split hero rather than
+    # full-bleed under a dark scrim — so no part of the page has to be
+    # darkened to make text readable over it.
+    (r"Graduation Video.mp4", "graduation.mp4", 6),
 ]
 
 

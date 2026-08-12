@@ -676,3 +676,91 @@
   .hero--photo .hero-scroll { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .hero-photo { animation: none; } }
+
+/* ==========================================================================
+   LIGHT — the actual reason the page read as deep
+   Changing which blue was used was never going to fix it. The page had FOUR
+   full-width dark bands: the scholarship, the statistics, the Vice Chancellor
+   and the footer. Whatever colour those are, a visitor scrolling past four
+   dark slabs reads the site as dark.
+
+   KIU and King Ceasor are both overwhelmingly white pages with a dark footer
+   and, at most, one dark feature. So: the scholarship becomes cream with ink
+   on it, the statistics become paper with blue numerals, and exactly ONE dark
+   section survives — the Vice Chancellor, which is the one that earns it.
+   ========================================================================== */
+
+/* --- The scholarship: cream, not navy ----------------------------------- */
+.scholar {
+  background: var(--gold-soft);
+  color: var(--ink);
+  border-top: 1px solid rgba(168, 118, 12, .18);
+  border-bottom: 1px solid rgba(168, 118, 12, .18);
+}
+.scholar::before {
+  background: radial-gradient(60% 80% at 88% 15%, rgba(240, 184, 60, .28), transparent 62%);
+}
+.scholar h2 { color: var(--ink); }
+.scholar h2 .big { color: var(--gold-deep); }
+.scholar p { color: var(--ink-2); }
+.scholar .pill--gold { background: rgba(240, 184, 60, .28); color: var(--gold-deep); }
+.scholar .btn--outline {
+  background: var(--surface); color: var(--navy); border-color: var(--line);
+}
+.scholar .btn--outline:hover { background: var(--blue-soft); border-color: var(--navy); color: var(--navy); }
+.scholar-ring {
+  background: conic-gradient(var(--gold) 0 50%, rgba(168, 118, 12, .16) 50% 100%);
+}
+.scholar-ring::after { background: var(--gold-soft); }
+.scholar-ring span { color: var(--gold-deep); }
+
+/* --- The statistics: paper with blue numerals --------------------------- */
+.stats {
+  background: var(--surface); color: var(--ink);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.stat-n { color: var(--navy); }
+.stat-l { color: var(--muted); }
+/* A hairline between the figures, so the row reads as one considered block
+   rather than four things that happen to be side by side. */
+@media (min-width: 720px) {
+  .stat + .stat { border-left: 1px solid var(--line); }
+  .stats .wrap { gap: 0; }
+  .stat { padding: 0 1rem; }
+}
+
+/* --- Lighter section rhythm, warm ---------------------------------------
+   White -> cream -> white -> pale blue. Nothing heavier than a tint until the
+   Vice Chancellor, and then the footer.                                     */
+.modes { background: var(--surface-2); }
+.modes .mode-card { background: var(--surface); backdrop-filter: none; }
+.why { background: var(--blue-soft); }
+.why-ico { background: linear-gradient(140deg, var(--navy), var(--blue)); }
+.quick-card:nth-child(2) .quick-ico,
+.quick-card:nth-child(5) .quick-ico {
+  background: linear-gradient(140deg, var(--terra-deep), var(--terra));
+}
+/* The texture was tinted teal from the old palette. Warm it up. */
+.quick::before, .finder::before, .why::before {
+  background-image:
+    linear-gradient(135deg, rgba(11, 78, 162, .04) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(200, 120, 60, .05) 25%, transparent 25%);
+}
+
+/* --- The video in the split hero ----------------------------------------
+   The photograph sits underneath as a real <img>, so the panel is right
+   before a frame loads and stays right on a phone, where the video is never
+   fetched. The video lies on top of it and simply is not there below 900px. */
+.hero--photo .hero-media { position: relative; }
+.hero--photo .hero-fallback { position: absolute; inset: 0; z-index: 0; }
+.hero--photo .hero-media > picture { position: absolute; inset: 0; }
+.hero--photo video.hero-video {
+  position: relative; z-index: 1;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: saturate(1.03) brightness(1.03);
+}
+.hero--photo .hero-scrim { z-index: 2; }
+@media (max-width: 900px) {
+  /* No video on a phone at all — the poster photograph is already there. */
+  .hero--photo video.hero-video { display: none; }
+}

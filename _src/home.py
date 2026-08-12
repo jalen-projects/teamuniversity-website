@@ -89,11 +89,20 @@ HERO = f"""<section class="hero hero--photo">
 # site, a clip was once chosen by its filename alone, and it showed people who
 # were not this university's students. A photograph that has been looked at
 # beats footage that has not.
-HERO = HERO.format(photo=media.picture(
-    "campus-group",
-    "Team University graduands in blue and gold academic gowns walking together "
-    "on graduation day",
-    sizes="100vw", cls="hero-photo", eager=True))
+# The university's own graduation footage, in the right-hand panel. The
+# poster underneath it is a photograph of the same graduation, so the panel is
+# correct before a single frame has loaded and on any phone, where CSS keeps
+# the video from being fetched at all.
+HERO = HERO.format(photo=(
+    '<video class="hero-photo hero-video" autoplay muted loop playsinline '
+    'preload="metadata" poster="img/campus-group-1000.jpg" '
+    'aria-hidden="true" tabindex="-1">'
+    '<source src="video/graduation.mp4" type="video/mp4"></video>'
+    + media.picture(
+        "campus-group",
+        "Team University graduands in blue and gold academic gowns walking "
+        "together on graduation day",
+        sizes="100vw", cls="hero-photo hero-fallback", eager=True)))
 
 
 # ---------------------------------------------------------------------------
