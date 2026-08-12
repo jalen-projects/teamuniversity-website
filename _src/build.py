@@ -219,11 +219,9 @@ def banner(title, lede, crumbs, image="campus", alt=""):
         trail.append(f'<a href="{href}">{label}</a>')
     trail.append('<svg><use href="#i-caret"/></svg>')
     trail.append(f'<span aria-current="page">{crumbs[-1][0]}</span>')
+    import media
     return f"""<section class="banner">
-  <picture>
-    <source type="image/webp" srcset="img/{image}-800.webp 800w, img/{image}-1020.webp 1020w" sizes="100vw">
-    <img class="banner-img" src="img/{image}-1020.jpg" alt="{alt}" width="1020" height="476" loading="eager" decoding="async">
-  </picture>
+  {media.picture(image, alt, sizes="100vw", cls="banner-img", eager=True)}
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumb">{''.join(trail)}</nav>
     <h1>{title}</h1>

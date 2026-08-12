@@ -32,14 +32,17 @@ import catalogue as cat
 from build import APPLY, PORTAL, ELEARN, ELIB
 
 
-def _picture(stem, alt, widths=(640, 1000), sizes="(max-width:800px) 100vw, 33vw",
+import media
+
+
+def _picture(stem, alt, widths=None, sizes="(max-width:800px) 100vw, 33vw",
              cls="", loading="lazy"):
-    """A responsive photograph. WebP first, JPEG behind it."""
-    web = ", ".join(f"img/{stem}-{w}.webp {w}w" for w in widths)
-    jpg = ", ".join(f"img/{stem}-{w}.jpg {w}w" for w in widths)
-    return (f'<picture><source type="image/webp" srcset="{web}" sizes="{sizes}">'
-            f'<img class="{cls}" src="img/{stem}-{widths[0]}.jpg" srcset="{jpg}" '
-            f'sizes="{sizes}" alt="{alt}" loading="{loading}" decoding="async"></picture>')
+    """A responsive photograph, built from the widths that exist on disk.
+
+    `widths` is ignored and kept only so old call sites do not break: guessing
+    widths is precisely what put thirty broken images on the site.
+    """
+    return media.picture(stem, alt, sizes=sizes, cls=cls)
 
 
 # ---------------------------------------------------------------------------
