@@ -40,10 +40,13 @@ NAV = [
 
 ACADEMICS = [
     ("academics.html", "All faculties", "Programmes, study modes and the academic year"),
-    ("faculty-business.html", "Business and Management", "Accounting, finance, procurement, administration"),
-    ("faculty-health.html", "Health Sciences", "Clinical and community health training"),
-    ("faculty-applied.html", "Applied Sciences", "Computing, IT and the applied sciences"),
-    ("faculty-social.html", "Social Sciences", "Social work, development and public administration"),
+    ("programmes.html", "Every programme", "Search all 99 across the six faculties"),
+    ("faculty-graduate.html", "Graduate Studies", "Masters and postgraduate diplomas"),
+    ("faculty-business.html", "Management and Humanities", "Business, accounting, procurement, economics"),
+    ("faculty-applied.html", "Applied Science and Technology", "Computing, IT, environment, agriculture"),
+    ("faculty-health.html", "Health Sciences", "Clinical, nursing and public health"),
+    ("faculty-education.html", "Education", "Training teachers for the new curriculum"),
+    ("faculty-tvet.html", "Vocational and Technical", "Trades, assessed by the national boards"),
 ]
 
 
@@ -95,6 +98,7 @@ SHELL = """<!DOCTYPE html>
 <link rel="preload" href="fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 {preload}<link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/pages.css">
+{styles}
 {jsonld}</head>
 <body>
 
@@ -154,7 +158,7 @@ SHELL = """<!DOCTYPE html>
             <span>Empower For Generations</span>
           </span>
         </div>
-        <p style="max-width:34ch">A Kampala university offering business, health, applied and social sciences programmes on flexible schedules.</p>
+        <p style="max-width:34ch">A Kampala university offering 99 programmes across six faculties — day, evening, weekend and distance.</p>
         <div class="socials">
           <a href="https://www.facebook.com/teamuniversitykampala" aria-label="Team University on Facebook"><svg><use href="#i-facebook"/></svg></a>
           <a href="https://twitter.com/TeamUniversityU" aria-label="Team University on X"><svg><use href="#i-x"/></svg></a>
@@ -166,6 +170,7 @@ SHELL = """<!DOCTYPE html>
         <h3>Study</h3>
         <ul>
           <li><a href="academics.html">Faculties and programmes</a></li>
+          <li><a href="programmes.html">Every programme</a></li>
           <li><a href="admissions.html">How to apply</a></li>
           <li><a href="admissions.html#requirements">Entry requirements</a></li>
           <li><a href="academics.html#modes">Study modes</a></li>
@@ -201,7 +206,7 @@ SHELL = """<!DOCTYPE html>
 </footer>
 
 <script src="js/site.js" defer></script>
-</body>
+{scripts}</body>
 </html>
 """
 
@@ -292,6 +297,8 @@ def render():
             body=spec["body"],
             preload=spec.get("preload", ""),
             jsonld=spec.get("jsonld", ""),
+            styles=spec.get("styles", ""),
+            scripts=spec.get("scripts", ""),
             apply=APPLY,
             portal=PORTAL,
             elearn=ELEARN,

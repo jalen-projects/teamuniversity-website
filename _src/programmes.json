@@ -1,0 +1,804 @@
+{
+ "faculties": {
+  "SGSR": "School of Graduate Studies and Research",
+  "FMH": "Faculty of Management and Humanities",
+  "FAST": "Faculty of Applied Science and Technology",
+  "SHS": "School of Health Sciences",
+  "FED": "Faculty of Education",
+  "TVET": "School of Vocational and Technical Education"
+ },
+ "programmes": [
+  {
+   "code": "MSW",
+   "name": "Master of Social Work and Social Administration",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MPCR",
+   "name": "Master of Peace and Conflict Resolution",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MME",
+   "name": "Master of Monitoring and Evaluation",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MIRD",
+   "name": "Master of International Relations and Diplomacy",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MPS",
+   "name": "Master of Political Science",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MEMS",
+   "name": "Master of Environmental Management and Sustainability",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MIN",
+   "name": "Master of Nutrition",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MHSM",
+   "name": "Master of Health Services Management",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MHM",
+   "name": "Master of Hospitality Management",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MCNS",
+   "name": "Master of Computer Networks and Cyber Security",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MBA",
+   "name": "Master of Business Administration",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MPAM",
+   "name": "Master of Public Administration and Management",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MSHRM",
+   "name": "Master of Science in Human Resource Management",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MSF",
+   "name": "Master of Science in Finance",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MSPLM",
+   "name": "Master of Science in Procurement and Logistics Management",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MAE",
+   "name": "Master of Arts in Economics",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MEPM",
+   "name": "Master of Educational Planning and Management",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MIT",
+   "name": "Master of Information Technology",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MDS",
+   "name": "Master of Development Studies",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MIS",
+   "name": "Master of Information Systems",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MPPM",
+   "name": "Master of Project Planning and Management",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "MSPH",
+   "name": "Master of Science in Public Health",
+   "faculty": "SGSR",
+   "level": "MASTERS",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "PGDBA",
+   "name": "Postgraduate Diploma in Business Administration",
+   "faculty": "SGSR",
+   "level": "POSTGRAD_DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "PGDPAM",
+   "name": "Postgraduate Diploma in Public Administration and Management",
+   "faculty": "SGSR",
+   "level": "POSTGRAD_DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "PGDEPM",
+   "name": "Postgraduate Diploma in Educational Planning and Management",
+   "faculty": "SGSR",
+   "level": "POSTGRAD_DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "PGDHRM",
+   "name": "Postgraduate Diploma in Human Resource Management",
+   "faculty": "SGSR",
+   "level": "POSTGRAD_DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "PGDF",
+   "name": "Postgraduate Diploma in Finance",
+   "faculty": "SGSR",
+   "level": "POSTGRAD_DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "PGDPLM",
+   "name": "Postgraduate Diploma in Procurement and Logistics Management",
+   "faculty": "SGSR",
+   "level": "POSTGRAD_DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "PGDPPM",
+   "name": "Postgraduate Diploma in Project Planning and Management",
+   "faculty": "SGSR",
+   "level": "POSTGRAD_DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "PGDME",
+   "name": "Postgraduate Diploma in Monitoring and Evaluation",
+   "faculty": "SGSR",
+   "level": "POSTGRAD_DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "PGDPH",
+   "name": "Postgraduate Diploma in Public Health",
+   "faculty": "SGSR",
+   "level": "POSTGRAD_DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "BAJM",
+   "name": "Bachelor of Arts in Journalism and Media Studies",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BIRD",
+   "name": "Bachelor of International Relations and Diplomacy",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BPAM",
+   "name": "Bachelor of Public Administration and Management",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BSWSA",
+   "name": "Bachelor of Social Work and Social Administration",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BHRM",
+   "name": "Bachelor of Human Resource Management",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BSM",
+   "name": "Bachelor of Science in Management",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BSAF",
+   "name": "Bachelor of Science in Accounting and Finance",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BPLM",
+   "name": "Bachelor of Procurement and Logistics Management",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BBA",
+   "name": "Bachelor of Business Administration",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BASP",
+   "name": "Bachelor of Administrative and Secretarial Practice",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BRMI",
+   "name": "Bachelor of Records Management and Informatics",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BAE",
+   "name": "Bachelor of Arts in Economics",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BDS",
+   "name": "Bachelor of Development Studies",
+   "faculty": "FMH",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "DPA",
+   "name": "Diploma in Public Administration and Management",
+   "faculty": "FMH",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "DSWSA",
+   "name": "Diploma in Social Work and Social Administration",
+   "faculty": "FMH",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "DAF",
+   "name": "Diploma in Accounting and Finance",
+   "faculty": "FMH",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "DBA",
+   "name": "Diploma in Business Administration",
+   "faculty": "FMH",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "DASP",
+   "name": "Diploma in Administrative and Secretarial Practice",
+   "faculty": "FMH",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "DPLM",
+   "name": "Diploma in Procurement and Logistics Management",
+   "faculty": "FMH",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "BSCS",
+   "name": "Bachelor of Science in Computer Science",
+   "faculty": "FAST",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BIT",
+   "name": "Bachelor of Information Technology",
+   "faculty": "FAST",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BES",
+   "name": "Bachelor of Environmental Science",
+   "faculty": "FAST",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BACD",
+   "name": "Bachelor of Agriculture and Community Development",
+   "faculty": "FAST",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BSE",
+   "name": "Bachelor of Software Engineering",
+   "faculty": "FAST",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "DES",
+   "name": "Diploma in Environmental Science",
+   "faculty": "FAST",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "DIT",
+   "name": "Diploma in Information Technology",
+   "faculty": "FAST",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "DACD",
+   "name": "Diploma in Agriculture and Community Development",
+   "faculty": "FAST",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "CIA",
+   "name": "Certificate in Agriculture",
+   "faculty": "FAST",
+   "level": "CERTIFICATE",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "BSPH",
+   "name": "Bachelor of Science in Public Health",
+   "faculty": "SHS",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BNS",
+   "name": "Bachelor of Nursing Science",
+   "faculty": "SHS",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 4
+  },
+  {
+   "code": "BNSE",
+   "name": "Bachelor of Nursing Science (Extension)",
+   "faculty": "SHS",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "BM",
+   "name": "Bachelor of Midwifery",
+   "faculty": "SHS",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 4
+  },
+  {
+   "code": "BME",
+   "name": "Bachelor of Midwifery (Extension)",
+   "faculty": "SHS",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "BMCT",
+   "name": "Bachelor of Medical Laboratory Technology",
+   "faculty": "SHS",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 4
+  },
+  {
+   "code": "DIPH",
+   "name": "Diploma in Public Health",
+   "faculty": "SHS",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "DIMRI",
+   "name": "Diploma in Medical Records and Informatics",
+   "faculty": "SHS",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "CIMR",
+   "name": "Certificate in Medical Records",
+   "faculty": "SHS",
+   "level": "CERTIFICATE",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "BAED",
+   "name": "Bachelor of Arts with Education (Secondary)",
+   "faculty": "FED",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BBSE",
+   "name": "Bachelor of Business Studies with Education",
+   "faculty": "FED",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BEP",
+   "name": "Bachelor of Education (Primary)",
+   "faculty": "FED",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BSCED",
+   "name": "Bachelor of Science with Education",
+   "faculty": "FED",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "BECCE",
+   "name": "Bachelor of Early Childhood Care and Education",
+   "faculty": "FED",
+   "level": "BACHELOR",
+   "board": "UNIVERSITY",
+   "years": 3
+  },
+  {
+   "code": "DEP",
+   "name": "Diploma in Education (Primary)",
+   "faculty": "FED",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "DECCE",
+   "name": "Diploma in Early Childhood Care and Education",
+   "faculty": "FED",
+   "level": "DIPLOMA",
+   "board": "UNIVERSITY",
+   "years": 2
+  },
+  {
+   "code": "CECCE",
+   "name": "Certificate in Early Childhood Education and Child Care",
+   "faculty": "FED",
+   "level": "CERTIFICATE",
+   "board": "UNIVERSITY",
+   "years": 1
+  },
+  {
+   "code": "HECH",
+   "name": "Higher Education Certificate (Humanities)",
+   "faculty": "FED",
+   "level": "CERTIFICATE",
+   "board": "HEC",
+   "years": 1
+  },
+  {
+   "code": "HECB",
+   "name": "Higher Education Certificate (Biological Sciences)",
+   "faculty": "FED",
+   "level": "CERTIFICATE",
+   "board": "HEC",
+   "years": 1
+  },
+  {
+   "code": "HECPS",
+   "name": "Higher Education Certificate (Physical Sciences)",
+   "faculty": "FED",
+   "level": "CERTIFICATE",
+   "board": "HEC",
+   "years": 1
+  },
+  {
+   "code": "HECE",
+   "name": "Higher Education Certificate (Education)",
+   "faculty": "FED",
+   "level": "CERTIFICATE",
+   "board": "HEC",
+   "years": 1
+  },
+  {
+   "code": "DCMH",
+   "name": "Diploma in Clinical Medicine and Community Health",
+   "faculty": "TVET",
+   "level": "DIPLOMA",
+   "board": "UHPAB",
+   "years": 3
+  },
+  {
+   "code": "DMLT",
+   "name": "Diploma in Medical Laboratory Technology",
+   "faculty": "TVET",
+   "level": "DIPLOMA",
+   "board": "UHPAB",
+   "years": 3
+  },
+  {
+   "code": "DIP",
+   "name": "Diploma in Pharmacy",
+   "faculty": "TVET",
+   "level": "DIPLOMA",
+   "board": "UHPAB",
+   "years": 3
+  },
+  {
+   "code": "DINW",
+   "name": "Diploma in Nursing / Midwifery",
+   "faculty": "TVET",
+   "level": "DIPLOMA",
+   "board": "UHPAB",
+   "years": 3
+  },
+  {
+   "code": "CMLT",
+   "name": "Certificate in Medical Laboratory Techniques",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UHPAB",
+   "years": 2
+  },
+  {
+   "code": "CINW",
+   "name": "Certificate in Nursing / Midwifery",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UHPAB",
+   "years": 2
+  },
+  {
+   "code": "CIPH",
+   "name": "Certificate in Pharmacy",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UHPAB",
+   "years": 2
+  },
+  {
+   "code": "DCE",
+   "name": "Diploma in Civil Engineering",
+   "faculty": "TVET",
+   "level": "DIPLOMA",
+   "board": "UVTAB",
+   "years": 2
+  },
+  {
+   "code": "DME",
+   "name": "Diploma in Mechanical Engineering",
+   "faculty": "TVET",
+   "level": "DIPLOMA",
+   "board": "UVTAB",
+   "years": 2
+  },
+  {
+   "code": "DEE",
+   "name": "Diploma in Electrical Engineering",
+   "faculty": "TVET",
+   "level": "DIPLOMA",
+   "board": "UVTAB",
+   "years": 2
+  },
+  {
+   "code": "CBC",
+   "name": "Certificate in Building and Construction",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UVTAB",
+   "years": 2
+  },
+  {
+   "code": "NCPL",
+   "name": "National Certificate in Plumbing",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UVTAB",
+   "years": 2
+  },
+  {
+   "code": "CIPIT",
+   "name": "Certificate in Information Technology",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UVTAB",
+   "years": 2
+  },
+  {
+   "code": "CEISM",
+   "name": "Certificate in Electrical Installation Systems and Maintenance",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UVTAB",
+   "years": 2
+  },
+  {
+   "code": "CSWSA",
+   "name": "Certificate in Social Work and Social Administration",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UVTAB",
+   "years": 2
+  },
+  {
+   "code": "CBA",
+   "name": "Certificate in Business Administration",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UVTAB",
+   "years": 2
+  },
+  {
+   "code": "CPAM",
+   "name": "Certificate in Public Administration and Management",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UVTAB",
+   "years": 2
+  },
+  {
+   "code": "CSIM",
+   "name": "Certificate in Secretarial and Information Management",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UVTAB",
+   "years": 2
+  },
+  {
+   "code": "CIACC",
+   "name": "Certificate in Accounting",
+   "faculty": "TVET",
+   "level": "CERTIFICATE",
+   "board": "UVTAB",
+   "years": 2
+  }
+ ]
+}

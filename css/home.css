@@ -1,0 +1,421 @@
+/* ==========================================================================
+   TEAM UNIVERSITY — HOME
+   The components the home page adds to the design system in site.css. Same
+   tokens, same shape rule (pill buttons, 16px cards), same one-accent rule:
+   navy and blue carry the brand, gold is the only accent and it is spent on
+   the two things that matter most — Apply, and the scholarship.
+   ========================================================================== */
+
+/* --- Shared bits the new sections lean on -------------------------------- */
+.section-head { max-width: 62ch; margin: 0 0 clamp(2rem, 4vw, 3rem); }
+.section-head h2 {
+  font-size: clamp(1.8rem, 1.2rem + 2.4vw, 2.9rem);
+  line-height: 1.12; letter-spacing: -.02em; margin: .5rem 0 .6rem;
+}
+.section-head p { color: var(--ink-2); margin: 0; }
+.section-head--split {
+  max-width: none; display: flex; gap: 1.5rem; align-items: end;
+  justify-content: space-between; flex-wrap: wrap;
+}
+.section-head--split h2 { margin-bottom: 0; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .35rem .85rem; border-radius: var(--r-pill);
+  font-size: .8rem; font-weight: 700; letter-spacing: .02em;
+}
+.pill svg { width: 1em; height: 1em; fill: currentColor; }
+.pill--gold { background: rgba(227, 178, 60, .18); color: var(--gold); }
+
+.btn--lg { padding: .95rem 1.7rem; font-size: 1.03rem; }
+.btn--gold { background: var(--gold); color: #241a02; box-shadow: 0 6px 18px rgba(227, 178, 60, .34); }
+.btn--gold:hover { background: #edc054; }
+.btn--glass {
+  border-color: rgba(255, 255, 255, .5); color: #fff;
+  background: rgba(255, 255, 255, .1); backdrop-filter: blur(8px);
+}
+.btn--glass:hover { background: rgba(255, 255, 255, .2); border-color: #fff; }
+.btn--outline { border-color: var(--line); color: var(--ink); background: var(--surface); }
+.btn--outline:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ==========================================================================
+   HERO — video
+   The video is decoration, so it is aria-hidden and untabbable; every word a
+   screen reader needs is in the text beside it.
+   ========================================================================== */
+.hero--video {
+  position: relative; min-height: min(88vh, 780px);
+  display: flex; align-items: center;
+  padding: clamp(5rem, 12vh, 9rem) 0 clamp(4rem, 9vh, 7rem);
+  background: var(--navy-deep); overflow: hidden;
+}
+.hero--video .hero-media { position: absolute; inset: 0; }
+.hero-video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  /* Slightly desaturated so white type stays readable over any frame. */
+  filter: saturate(.85) contrast(1.05);
+}
+.hero-scrim {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(100deg, rgba(7, 31, 51, .93) 0%, rgba(7, 31, 51, .78) 45%, rgba(7, 31, 51, .45) 100%),
+    radial-gradient(80% 60% at 20% 100%, rgba(11, 51, 80, .8), transparent 70%);
+}
+.hero--video .wrap { position: relative; z-index: 1; }
+.hero-inner { max-width: 46rem; color: #fff; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: .5rem;
+  color: var(--gold); font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; font-size: .78rem;
+}
+.hero-eyebrow svg { width: 1.15em; height: 1.15em; fill: currentColor; }
+.h-display {
+  font-size: clamp(2.3rem, 1.2rem + 4.6vw, 4.4rem);
+  line-height: 1.03; letter-spacing: -.035em; font-weight: 800;
+  margin: .8rem 0 1rem; color: #fff;
+}
+.h-display .accent { color: var(--gold); }
+.hero-lede {
+  font-size: clamp(1.05rem, 1rem + .4vw, 1.3rem);
+  color: var(--on-dark); max-width: 40rem; margin: 0 0 1.8rem;
+}
+.hero-actions { display: flex; gap: .8rem; flex-wrap: wrap; }
+.hero-note {
+  display: flex; align-items: center; gap: .55rem; flex-wrap: wrap;
+  margin: 1.8rem 0 0; color: var(--on-dark); font-size: .95rem;
+}
+.hero-note svg { width: 1.25em; height: 1.25em; fill: var(--gold); flex: none; }
+.hero-note strong { color: var(--gold); }
+
+.hero-scroll {
+  position: absolute; left: 50%; bottom: 1.6rem; translate: -50% 0;
+  width: 26px; height: 42px; border: 2px solid rgba(255, 255, 255, .45);
+  border-radius: var(--r-pill); display: grid; place-items: start center;
+  padding-top: 7px; z-index: 1;
+}
+.hero-scroll span {
+  width: 4px; height: 8px; border-radius: 4px; background: #fff;
+  animation: scrollcue 1.9s var(--ease) infinite;
+}
+@keyframes scrollcue {
+  0% { opacity: 0; transform: translateY(0); }
+  35% { opacity: 1; }
+  70%, 100% { opacity: 0; transform: translateY(13px); }
+}
+
+/* ==========================================================================
+   QUICK LINKS — lifted over the hero's bottom edge
+   ========================================================================== */
+.quick { margin-top: clamp(-4.5rem, -6vw, -3rem); position: relative; z-index: 2; }
+.quick-grid {
+  display: grid; gap: .8rem;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+.quick-card {
+  display: flex; align-items: center; gap: .8rem;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-card); padding: 1rem 1.1rem;
+  box-shadow: var(--shadow-md); color: var(--ink);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.quick-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.quick-ico {
+  flex: none; width: 44px; height: 44px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: linear-gradient(140deg, var(--navy), var(--blue)); color: #fff;
+}
+.quick-ico svg { width: 22px; height: 22px; fill: currentColor; }
+.quick-card strong { display: block; font-size: .98rem; line-height: 1.25; }
+.quick-card small { color: var(--muted); font-size: .82rem; }
+.quick-arrow {
+  width: 18px; height: 18px; fill: var(--muted); margin-left: auto; flex: none;
+  transition: transform .25s var(--ease);
+}
+.quick-card:hover .quick-arrow { transform: translateX(4px); fill: var(--blue); }
+
+/* ==========================================================================
+   SCHOLARSHIP — the loudest thing on the page, and the only place besides
+   Apply where gold is spent at this size.
+   ========================================================================== */
+.scholar {
+  margin-top: var(--section-y);
+  background: linear-gradient(135deg, var(--navy-deep), var(--navy) 55%, var(--blue) 130%);
+  color: #fff; position: relative; overflow: hidden;
+}
+.scholar::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(60% 80% at 88% 20%, rgba(227, 178, 60, .22), transparent 65%);
+}
+.scholar .wrap {
+  position: relative; display: grid; gap: 2.5rem; align-items: center;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr);
+  padding-top: clamp(3rem, 6vw, 4.5rem); padding-bottom: clamp(3rem, 6vw, 4.5rem);
+}
+.scholar h2 {
+  font-size: clamp(1.7rem, 1.1rem + 2.6vw, 3rem); line-height: 1.1;
+  letter-spacing: -.025em; margin: .8rem 0 .8rem; color: #fff;
+}
+.scholar h2 .big { color: var(--gold); }
+.scholar p { color: var(--on-dark); max-width: 52ch; margin: 0 0 1.6rem; }
+.scholar-actions { display: flex; gap: .7rem; flex-wrap: wrap; }
+.scholar .btn--outline { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .5); }
+.scholar .btn--outline:hover { background: rgba(255, 255, 255, .12); border-color: #fff; color: #fff; }
+
+.scholar-art { display: grid; place-items: center; }
+.scholar-ring {
+  width: min(15rem, 46vw); aspect-ratio: 1; border-radius: 50%;
+  display: grid; place-items: center;
+  background: conic-gradient(var(--gold) 0 50%, rgba(255, 255, 255, .14) 50% 100%);
+  position: relative;
+}
+.scholar-ring::after {
+  content: ""; position: absolute; inset: 12px; border-radius: 50%;
+  background: var(--navy-deep);
+}
+.scholar-ring span {
+  position: relative; z-index: 1; font-size: clamp(2.6rem, 7vw, 3.8rem);
+  font-weight: 800; color: var(--gold); letter-spacing: -.04em;
+}
+.scholar-ring small { font-size: .45em; }
+
+@media (max-width: 780px) {
+  .scholar .wrap { grid-template-columns: 1fr; }
+  .scholar-art { order: -1; }
+}
+
+/* ==========================================================================
+   PROGRAMME FINDER
+   ========================================================================== */
+.finder { padding: var(--section-y) 0 0; }
+.finder-controls {
+  display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 1rem;
+}
+.finder-search {
+  position: relative; flex: 1 1 22rem; min-width: 0;
+}
+.finder-search svg {
+  position: absolute; left: 1rem; top: 50%; translate: 0 -50%;
+  width: 20px; height: 20px; fill: var(--muted); pointer-events: none;
+}
+.finder-search input {
+  width: 100%; padding: .9rem 1rem .9rem 3rem;
+  border: 1px solid var(--line); border-radius: var(--r-pill);
+  background: var(--surface); color: var(--ink); font: inherit;
+}
+.finder-search input:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.finder-controls select {
+  padding: .9rem 1.1rem; border: 1px solid var(--line);
+  border-radius: var(--r-pill); background: var(--surface);
+  color: var(--ink); font: inherit; min-width: 12rem;
+}
+.chips { display: flex; gap: .45rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.chip {
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink-2);
+  border-radius: var(--r-pill); padding: .45rem 1rem; font: inherit;
+  font-size: .87rem; font-weight: 600; cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.chip:hover { border-color: var(--blue); color: var(--blue); }
+.chip.is-on { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+.finder-count { color: var(--muted); font-size: .9rem; margin: 0 0 .8rem; }
+.finder-results {
+  display: grid; gap: .7rem;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  /* Long lists scroll inside their own box so the page does not become a
+     mile of cards on a phone. */
+  max-height: 34rem; overflow-y: auto; padding-right: .3rem;
+}
+.prog {
+  display: flex; gap: .9rem; align-items: flex-start;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; padding: .85rem 1rem; color: var(--ink);
+}
+.prog:hover { border-color: var(--blue); box-shadow: var(--shadow-sm); }
+.prog-code {
+  flex: none; font-size: .7rem; font-weight: 800; letter-spacing: .04em;
+  background: var(--surface-2); color: var(--blue);
+  border-radius: 6px; padding: .3rem .45rem;
+}
+.prog b { display: block; font-size: .95rem; line-height: 1.3; font-weight: 700; }
+.prog-meta { color: var(--muted); font-size: .8rem; display: block; margin-top: .2rem; }
+.finder-empty { color: var(--muted); padding: 2rem 0; }
+.finder-more { color: var(--muted); font-size: .92rem; margin: 1rem 0 0; }
+
+/* ==========================================================================
+   FACULTIES
+   ========================================================================== */
+.faculties { padding: var(--section-y) 0; }
+.fac-grid {
+  display: grid; gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+}
+.fac-card {
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-card); color: var(--ink);
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.fac-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.fac-photo { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--surface-2); }
+.fac-photo img { width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .6s var(--ease); }
+.fac-card:hover .fac-photo img { transform: scale(1.06); }
+.fac-photo::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(7, 31, 51, .55), transparent 55%);
+}
+.fac-ico {
+  position: absolute; left: 1rem; bottom: 1rem; z-index: 1;
+  width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center;
+  background: rgba(255, 255, 255, .92); color: var(--navy);
+  backdrop-filter: blur(4px);
+}
+.fac-ico svg { width: 22px; height: 22px; fill: currentColor; }
+.fac-body { padding: 1.15rem 1.2rem 1.3rem; display: flex; flex-direction: column; flex: 1; }
+.fac-count {
+  font-size: .74rem; font-weight: 800; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--blue);
+}
+.fac-body h3 { font-size: 1.2rem; line-height: 1.25; margin: .35rem 0 .5rem; }
+.fac-body p { color: var(--ink-2); font-size: .92rem; margin: 0 0 1rem; }
+.fac-link {
+  margin-top: auto; display: inline-flex; align-items: center; gap: .4rem;
+  color: var(--blue); font-weight: 700; font-size: .9rem;
+}
+.fac-link svg { width: 16px; height: 16px; fill: currentColor; transition: transform .25s var(--ease); }
+.fac-card:hover .fac-link svg { transform: translateX(4px); }
+
+/* ==========================================================================
+   STATS
+   ========================================================================== */
+.stats { background: var(--navy); color: #fff; }
+.stats .wrap {
+  display: grid; gap: 1.5rem; text-align: center;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  padding-top: clamp(2.5rem, 5vw, 3.5rem); padding-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+.stat-n {
+  display: block; font-size: clamp(2.2rem, 1.4rem + 3vw, 3.4rem);
+  font-weight: 800; letter-spacing: -.03em; color: var(--gold); line-height: 1;
+}
+.stat-l { display: block; margin-top: .4rem; color: var(--on-dark-muted); font-size: .92rem; }
+
+/* ==========================================================================
+   STUDY MODES + WHY
+   ========================================================================== */
+.modes, .why { padding: var(--section-y) 0; }
+.why { background: var(--surface-2); }
+.mode-grid, .why-grid {
+  display: grid; gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.mode-card, .why-card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-card); padding: 1.4rem;
+}
+.mode-ico, .why-ico {
+  width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
+  background: linear-gradient(140deg, var(--navy), var(--blue)); color: #fff;
+  margin-bottom: .9rem;
+}
+.mode-ico svg, .why-ico svg { width: 23px; height: 23px; fill: currentColor; }
+.mode-card h3, .why-card h3 { font-size: 1.1rem; margin: 0 0 .4rem; }
+.mode-card p, .why-card p { color: var(--ink-2); font-size: .92rem; margin: 0; }
+
+/* ==========================================================================
+   GALLERY — a mosaic, because the photographs are modest in size and look
+   better small and sharp than stretched across a banner.
+   ========================================================================== */
+.gallery { padding: 0 0 var(--section-y); }
+.gal-grid {
+  display: grid; gap: .8rem;
+  grid-template-columns: repeat(4, 1fr); grid-auto-rows: 11rem;
+}
+.gal { margin: 0; overflow: hidden; border-radius: var(--r-card); background: var(--surface-2); }
+.gal img { width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .7s var(--ease); }
+.gal:hover img { transform: scale(1.05); }
+.gal--tall { grid-row: span 2; grid-column: span 2; }
+@media (max-width: 900px) {
+  .gal-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 9rem; }
+}
+
+/* ==========================================================================
+   MOTION — one reveal, used everywhere, and switched off for anyone who has
+   asked for less of it.
+   ========================================================================== */
+.reveal { opacity: 0; transform: translateY(18px); }
+.reveal.is-in {
+  opacity: 1; transform: none;
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.is-in { opacity: 1; transform: none; transition: none; }
+  .hero-scroll span { animation: none; }
+  .hero-video { display: none; }
+  .fac-card:hover, .quick-card:hover { transform: none; }
+  .gal:hover img, .fac-card:hover .fac-photo img { transform: none; }
+}
+
+/* ==========================================================================
+   FACULTY PAGES — the programme tables and the faculty tallies
+   ========================================================================== */
+.prog-table { width: 100%; border-collapse: collapse; font-size: .93rem; }
+.prog-table th {
+  text-align: left; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--muted); font-weight: 800; padding: .6rem .7rem; border-bottom: 2px solid var(--line);
+}
+.prog-table td { padding: .7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+.prog-table tbody tr:hover { background: var(--surface-2); }
+.prog-table code {
+  font-size: .78rem; font-weight: 700; color: var(--blue);
+  background: var(--surface-2); padding: .15rem .4rem; border-radius: 5px;
+}
+/* A wide table on a narrow phone scrolls inside its own box rather than
+   dragging the whole page sideways — the mobile-overflow rule the rest of
+   the system follows. */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 0 2rem; }
+.table-wrap::-webkit-scrollbar { height: 7px; }
+.table-wrap::-webkit-scrollbar-thumb { background: rgba(22, 96, 140, .35); border-radius: 4px; }
+
+.count-badge {
+  display: inline-block; vertical-align: middle; margin-left: .5rem;
+  font-size: .72rem; font-weight: 800; color: var(--blue);
+  background: var(--surface-2); border-radius: var(--r-pill); padding: .18rem .6rem;
+}
+
+.tallies {
+  display: grid; gap: .6rem; margin: 0 0 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+.tally {
+  display: flex; flex-direction: column; gap: .15rem; padding: .9rem 1rem;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; color: var(--ink);
+}
+.tally:hover { border-color: var(--blue); box-shadow: var(--shadow-sm); }
+.tally strong { font-size: 1.55rem; font-weight: 800; color: var(--blue); line-height: 1; }
+.tally span { font-size: .82rem; color: var(--muted); line-height: 1.35; }
+
+.callout--gold {
+  border: 1px solid rgba(227, 178, 60, .45);
+  background: linear-gradient(135deg, rgba(227, 178, 60, .14), rgba(227, 178, 60, .05));
+  border-radius: var(--r-card); padding: 1.3rem 1.4rem; margin: 1.8rem 0 2.2rem;
+}
+.callout--gold h3 { margin: 0 0 .5rem; font-size: 1.15rem; }
+.callout--gold p { margin: 0 0 .8rem; }
+.callout--gold p:last-child { margin-bottom: 0; display: flex; gap: .6rem; flex-wrap: wrap; }
+
+/* The finder on a full page of its own has room to breathe. */
+.finder-results--page { max-height: none; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+
+/* On a phone the video is replaced by its own poster frame. A 2.4 MB
+   autoplaying background is a desktop nicety and a real cost on mobile data,
+   and the still says exactly the same thing. */
+@media (max-width: 700px) {
+  .hero-video { display: none; }
+  .hero--video .hero-media {
+    background: #071f33 url("../img/graduation-1-640.jpg") center / cover no-repeat;
+  }
+}

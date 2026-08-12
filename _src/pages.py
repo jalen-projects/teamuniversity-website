@@ -9,6 +9,47 @@ university's own published information.
 
 from build import (APPLY, PORTAL, ELEARN, ELIB, CTA_BAND, banner, sidenav,
                    related, page_body, academics_side)
+import catalogue as cat
+import faculties
+import home
+
+# The faculty table is generated from the university's own catalogue, so it
+# cannot say "four faculties" while the registry holds six.
+def _faculty_rows():
+    rows = []
+    for code, page, title, _blurb, _icon, _photo, n in cat.all_faculties():
+        awards = ", ".join(label for label, _r in cat.by_level(code))
+        rows.append(
+            f"    <tr><td><a href=\"{page}\">{cat.faculty_name(code)}</a></td>"
+            f"<td>{_FIELDS[code]}</td>"
+            f"<td>{awards}</td>"
+            f"<td style=\"text-align:center\"><strong>{n}</strong></td></tr>")
+    return "\n".join(rows)
+
+
+_FIELDS = {
+    "SGSR": "Masters and postgraduate study across management, education, health and public administration",
+    "FMH": "Business, accounting, procurement, human resource, economics, social work, public administration, journalism",
+    "FAST": "Computer science, information technology, software engineering, environment, agriculture",
+    "SHS": "Clinical medicine, nursing, midwifery, public and community health",
+    "FED": "Primary and secondary teacher training, early childhood, education management",
+    "TVET": "Catering, tailoring, electrical, motor vehicle, building, plumbing and other trades",
+}
+
+FACULTY_TABLE = f"""<div class="table-scroll">
+<table class="data">
+  <caption>Every faculty, what it covers and how many programmes it runs. Confirm the exact award title and entry requirements with the faculty before paying any fees.</caption>
+  <thead>
+    <tr><th scope="col">Faculty or school</th><th scope="col">Fields covered</th><th scope="col">Awards</th><th scope="col">Programmes</th></tr>
+  </thead>
+  <tbody>
+{_faculty_rows()}
+  </tbody>
+</table>
+</div>
+
+<p><a class="btn btn--primary" href="programmes.html">Search all {cat.count()} programmes</a></p>"""
+
 
 # ==========================================================================
 # HOME
@@ -26,7 +67,7 @@ HOME_BODY = f"""<section class="hero">
     <div class="hero-inner">
       <span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> Empower For Generations</span>
       <h1 class="h-display">Study in Kampala, on <span class="accent">your own schedule</span>.</h1>
-      <p class="hero-lede">Day, evening, weekend and distance programmes across four faculties, built for students who are already building a career.</p>
+      <p class="hero-lede">Day, evening, weekend and distance programmes across six faculties, built for students who are already building a career.</p>
       <div class="hero-actions">
         <a class="btn btn--primary" href="{APPLY}">Apply now <svg><use href="#i-arrow"/></svg></a>
         <a class="btn btn--ghost" href="academics.html">Explore programmes</a>
@@ -68,7 +109,7 @@ HOME_BODY = f"""<section class="hero">
   <div class="wrap">
     <div class="faculties-head reveal">
       <p class="eyebrow">Faculties and schools</p>
-      <h2 class="h-section">Four faculties, one campus.</h2>
+      <h2 class="h-section">Six faculties, one campus.</h2>
       <p class="lede">Each faculty runs its own admissions and academic advising, so you deal with people who know your field.</p>
     </div>
 
@@ -252,43 +293,14 @@ ABOUT = page_body(
 
 ACADEMICS_PAGE = page_body(
     banner("Academics",
-           "Four faculties, four ways to study, and one academic calendar. Choose a faculty to see its programmes and entry routes.",
+           "Six faculties, four ways to study, and one academic calendar. Choose a faculty to see its programmes and entry routes.",
            [("Academics", "academics.html")], image="grad",
            alt="Team University graduands in academic gowns on graduation day"),
     academics_side("academics.html"),
     """<h2>Faculties and schools</h2>
 <p>Each faculty admits its own students, advises on programme choice and supervises teaching. If you know the field you want, start with the faculty; if you are still deciding, the admissions office will talk you through the options.</p>
 
-<div class="table-scroll">
-<table class="data">
-  <caption>Awards offered by each faculty. Confirm the exact award title and entry requirements with the faculty before paying any fees.</caption>
-  <thead>
-    <tr><th scope="col">Faculty or school</th><th scope="col">Fields covered</th><th scope="col">Awards</th></tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><a href="faculty-business.html">Business and Management</a></td>
-      <td>Accounting, finance, business administration, procurement and logistics</td>
-      <td>Certificate, diploma, bachelor, postgraduate</td>
-    </tr>
-    <tr>
-      <td><a href="faculty-health.html">Health Sciences</a></td>
-      <td>Clinical and community health</td>
-      <td>Certificate, diploma, bachelor</td>
-    </tr>
-    <tr>
-      <td><a href="faculty-applied.html">Applied Sciences</a></td>
-      <td>Computing, information technology, applied sciences</td>
-      <td>Certificate, diploma, bachelor</td>
-    </tr>
-    <tr>
-      <td><a href="faculty-social.html">Social Sciences</a></td>
-      <td>Social work, public administration, development studies</td>
-      <td>Diploma, bachelor</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+""" + FACULTY_TABLE + """
 
 <h2 id="modes">Study modes</h2>
 <p>Every faculty teaches on more than one schedule. You choose your mode when you register, and you can change it between semesters if your circumstances change.</p>
@@ -678,7 +690,7 @@ NEWS = page_body(
     <div>
       <p class="news-date">Admissions notice</p>
       <h3>August 2026 intake open for registration</h3>
-      <p>Applications are open for the August 2026 intake across all four faculties, on the day, evening, weekend and distance schedules. Applicants can apply online or collect a form at the Mengo campus.</p>
+      <p>Applications are open for the August 2026 intake across all six faculties, on the day, evening, weekend and distance schedules. Applicants can apply online or collect a form at the Mengo campus.</p>
       <p><a href="admissions.html">Read how to apply</a></p>
     </div>
   </article>
@@ -837,12 +849,14 @@ JSONLD_HOME = """<script type="application/ld+json">
 
 PAGES = {
     "index.html": dict(
-        title="Team University Kampala | Day, Evening, Weekend and Distance Programmes",
+        title="Team University Kampala | 99 Programmes, Day, Evening, Weekend and Distance",
         og_title="Team University Kampala",
-        description="Team University is a Kampala university offering business, health sciences, applied sciences and social sciences programmes on day, evening, weekend and distance schedules. The August 2026 intake is open.",
-        body=HOME_BODY,
-        preload='<link rel="preload" as="image" href="img/grad-1020.webp" type="image/webp">\n',
+        description="Team University is a Kampala university offering 99 programmes across six faculties on day, evening, weekend and distance schedules. The August 2026 intake is open, with 50% scholarships on selected programmes.",
+        body=home.body(),
+        preload='<link rel="preload" as="image" href="img/graduation-1-640.jpg">\n',
         jsonld=JSONLD_HOME,
+        styles='<link rel="stylesheet" href="css/home.css">',
+        scripts='<script src="js/home.js" defer></script>\n',
     ),
     "about.html": dict(
         title="About | Team University Kampala",
@@ -853,7 +867,7 @@ PAGES = {
     "academics.html": dict(
         title="Academics | Team University Kampala",
         og_title="Academics at Team University",
-        description="Four faculties, four study modes and the academic year at Team University Kampala. Browse programmes by faculty.",
+        description="Six faculties, 99 programmes, four study modes and the academic year at Team University Kampala. Browse programmes by faculty.",
         body=ACADEMICS_PAGE,
     ),
     "faculty-business.html": dict(
@@ -905,3 +919,7 @@ PAGES = {
         body=CONTACT,
     ),
 }
+
+# The six faculty pages and the full programme list are generated from the
+# university%s own catalogue, so they cannot drift from the registry.
+PAGES.update(faculties.specs())
