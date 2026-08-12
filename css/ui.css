@@ -830,3 +830,16 @@
 /* The programme result rows, same problem, same fix. */
 .prog { border-color: rgba(11, 78, 162, .14); }
 .prog-code { background: var(--blue-soft); color: var(--navy); }
+
+/* --- The rotator must not set the width of the page ----------------------
+   Each phrase is nowrap so it does not re-wrap mid-swap, but the widest one
+   ("distance, from anywhere.") then decided how wide the <h1> was — and on a
+   390px phone that pushed the heading past the screen. Since body has
+   overflow-x: hidden, the result was not a scrollbar but the lede silently
+   clipped: "taught by d". Phrases wrap on small screens; the grid is allowed
+   to be narrower than its widest child everywhere. */
+.rotator { max-width: 100%; }
+.rotator > span { min-width: 0; }
+@media (max-width: 720px) {
+  .rotator > span { white-space: normal; }
+}

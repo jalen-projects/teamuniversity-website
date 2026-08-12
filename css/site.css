@@ -99,24 +99,28 @@
   --ease: cubic-bezier(.16, 1, .3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #16130e;
-    --surface: #1e1a14;
-    --surface-2: #272119;
-    --ink: #f4efe6;
-    --ink-2: #d3c9ba;
-    --muted: #a29684;
-    --line: #362e23;
-    --blue-soft: #10254a;
-    --terra-soft: #33210f;
-    --gold-soft: #33280d;
-    --green-soft: #12301f;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .5);
-    --shadow-md: 0 6px 18px rgba(0, 0, 0, .5);
-    --shadow-lg: 0 12px 40px rgba(0, 0, 0, .6);
-  }
-}
+/*
+   NO AUTOMATIC DARK THEME — and this is the single most important note in the
+   stylesheet.
+
+   There was one, and it swapped the whole palette to dark brown whenever the
+   visitor's system was set to dark. Chrome on Windows is very often set to
+   dark. So the school looked at a page rendered in #16130e and reported, over
+   and over, that "the colours are too deep" — while three passes of palette
+   work were being made to a LIGHT theme they were never shown. Four rounds
+   were lost to it.
+
+   A university's public site is its prospectus. It should look the way the
+   brochure looks, the way the gowns look, the way the building looks —
+   warm blue, terracotta and gold on white — for every visitor, whatever their
+   laptop is set to. Printed matter does not have a dark mode either.
+
+   If a dark theme is ever wanted, it has to be DESIGNED — the brand colours
+   re-mixed for a dark ground and checked on a real screen — not derived by
+   flipping six tokens, which is what produced the brown.
+*/
+:root { color-scheme: light; }
+
 
 /* --- Reset --------------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
