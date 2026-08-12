@@ -54,10 +54,13 @@ PHOTOS = [
 # Only what is small enough to autoplay behind a hero without costing a
 # visitor their bundle. A 65 MB clip is not a background, it is a download.
 VIDEOS = [
-    # The hero, and the only clip the site uses. The others in the folder are
-    # 5 MB and up: shipping a video no page plays is a repository that gets
-    # heavier every time somebody adds "just one more".
-    (r"Graduation Video.mp4", "graduation.mp4", 6),
+    # The hero. Students with books in a quiet setting, which is what a
+    # university home page should be showing — the graduation reel that was
+    # here first is cut fast and reads as an advert. It is 5.2 MB, which is
+    # more than one wants; CSS keeps it off phones entirely, and if anyone
+    # ever gets ffmpeg onto a machine, re-encoding this at a lower bitrate is
+    # the single best performance win the site has left.
+    (r"students  standing with some books.mp4", "students.mp4", 8),
 ]
 
 

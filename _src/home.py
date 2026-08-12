@@ -53,9 +53,9 @@ HERO = f"""<section class="hero hero--video">
   <div class="hero-media">
     {{comment}}
     <video class="hero-video" autoplay muted loop playsinline preload="metadata"
-           poster="img/graduation-1-640.jpg"
+           poster="img/campus-study-640.jpg"
            aria-hidden="true" tabindex="-1">
-      <source src="video/graduation.mp4" type="video/mp4">
+      <source src="video/students.mp4" type="video/mp4">
     </video>
     <div class="hero-scrim"></div>
   </div>

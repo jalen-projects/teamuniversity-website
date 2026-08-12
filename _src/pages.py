@@ -910,7 +910,7 @@ PAGES = {
         og_title="Team University Kampala",
         description="Team University is a Kampala university offering 99 programmes across six faculties on day, evening, weekend and distance schedules. The August 2026 intake is open, with 50% scholarships on selected programmes.",
         body=home.body(),
-        preload='<link rel="preload" as="image" href="img/graduation-1-640.jpg">\n',
+        preload='<link rel="preload" as="image" href="img/campus-study-640.jpg">\n',
         jsonld=JSONLD_HOME,
         scripts='<script src="js/home.js" defer></script>\n',
     ),

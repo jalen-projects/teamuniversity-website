@@ -52,14 +52,27 @@
 .hero--video .hero-media { position: absolute; inset: 0; }
 .hero-video {
   width: 100%; height: 100%; object-fit: cover; display: block;
-  /* Slightly desaturated so white type stays readable over any frame. */
-  filter: saturate(.85) contrast(1.05);
+  /* A touch warmer and brighter rather than drained. The scrim does the
+     legibility work now, so the footage does not have to be dulled to death. */
+  filter: saturate(1.02) brightness(1.04);
+  /* A very slow drift, so even fast-cut footage reads as calm. Paired with
+     playbackRate in js/home.js, which is what actually slows the cutting. */
+  animation: heroDrift 40s ease-in-out infinite alternate;
 }
+@keyframes heroDrift {
+  from { transform: scale(1.06) translate3d(0, 0, 0); }
+  to   { transform: scale(1.13) translate3d(-1.2%, -1%, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .hero-video { animation: none; } }
 .hero-scrim {
   position: absolute; inset: 0;
+  /* Weighted to the left, where the words are, and thin on the right so the
+     footage is actually visible. The old scrim was 93% opaque navy across the
+     whole frame: the video may as well not have been there, and it was the
+     single biggest reason the page read as heavy. */
   background:
-    linear-gradient(100deg, rgba(7, 31, 51, .93) 0%, rgba(7, 31, 51, .78) 45%, rgba(7, 31, 51, .45) 100%),
-    radial-gradient(80% 60% at 20% 100%, rgba(11, 51, 80, .8), transparent 70%);
+    linear-gradient(95deg, rgba(2, 49, 79, .88) 0%, rgba(2, 49, 79, .62) 42%,
+                    rgba(0, 96, 120, .28) 72%, rgba(0, 120, 96, .16) 100%);
 }
 .hero--video .wrap { position: relative; z-index: 1; }
 .hero-inner { max-width: 46rem; color: #fff; }
@@ -416,7 +429,7 @@
 @media (max-width: 700px) {
   .hero-video { display: none; }
   .hero--video .hero-media {
-    background: #071f33 url("../img/graduation-1-640.jpg") center / cover no-repeat;
+    background: #02314f url("../img/campus-study-640.jpg") center / cover no-repeat;
   }
 }
 
@@ -427,3 +440,99 @@
 }
 .banner--plain h1 { color: #fff; font-size: clamp(1.9rem, 1.2rem + 3vw, 3.2rem); margin: 0 0 .7rem; }
 .banner--plain p { color: var(--on-dark); max-width: 52ch; margin: 0; }
+
+/* ==========================================================================
+   CHARACTER
+   The complaint was that it "looks like AI made it". That look has specific
+   causes, and each one has a fix:
+
+     everything centred           -> the hero and section heads sit left, and
+                                     the section heads carry a rule and a number
+     identical cards in a grid    -> the faculty grid is deliberately uneven,
+                                     the first card spanning two columns
+     gradient on gradient         -> one gradient per page region, and large
+                                     areas are flat tint instead
+     no texture anywhere          -> a fine pattern derived from the crest's own
+                                     geometry sits under the light sections
+     everything the same weight   -> a display serif-ish treatment on numerals
+                                     and much wider tracking on the eyebrows
+
+   None of it is decoration for its own sake: the numbering makes a long page
+   navigable, and the uneven grid puts the faculty most of Kampala studies in
+   at twice the size of the others.
+   ========================================================================== */
+
+/* --- Texture: the crest's own chevron, at 4% ---------------------------- */
+.quick, .finder, .modes, .why, .gallery { position: relative; }
+.quick::before, .finder::before, .why::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(135deg, rgba(0, 96, 120, .045) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(0, 120, 96, .045) 25%, transparent 25%);
+  background-size: 34px 34px;
+  /* Fades out downward so it reads as paper, not as a tiled pattern. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 62%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 62%);
+}
+.quick > .wrap, .finder > .wrap, .why > .wrap { position: relative; z-index: 1; }
+
+/* --- Numbered section heads --------------------------------------------- */
+.section-head { position: relative; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .72rem; font-weight: 800; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--blue);
+}
+.eyebrow svg { width: 1.1em; height: 1.1em; fill: currentColor; }
+.eyebrow::after {
+  content: ""; width: 2.2rem; height: 2px; background: var(--gold);
+  display: inline-block; margin-left: .3rem;
+}
+.section-head h2 { text-wrap: balance; }
+
+/* --- The uneven faculty grid -------------------------------------------- */
+@media (min-width: 900px) {
+  .fac-grid { grid-template-columns: repeat(3, 1fr); }
+  /* Management and Humanities is where most of Kampala studies. It gets the
+     room to say so instead of being one of six identical tiles. */
+  .fac-card:nth-child(2) { grid-column: span 2; }
+  .fac-card:nth-child(2) .fac-photo { aspect-ratio: 21 / 9; }
+  .fac-card:nth-child(2) .fac-body h3 { font-size: 1.5rem; }
+}
+
+/* --- Numerals, given some weight ---------------------------------------- */
+.stat-n, .tally strong, .scholar-ring span, .prog-code {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* --- Lighter section rhythm ---------------------------------------------
+   Alternating flat tints rather than one grey for everything: the page now
+   moves white -> pale teal -> white -> pale green as you scroll, which is
+   what stops a long page feeling like one slab.                            */
+.finder { background: var(--surface); }
+.faculties { background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%); }
+.modes { background: var(--tint); }
+.modes .mode-card { background: rgba(255, 255, 255, .72); backdrop-filter: blur(2px); }
+.why { background: var(--green-soft); }
+.gallery { background: var(--surface); }
+
+/* Confirmation and second-tier accents now have the crest's green to use. */
+.quick-ico { background: linear-gradient(140deg, var(--navy), var(--blue)); }
+.quick-card:nth-child(2) .quick-ico,
+.quick-card:nth-child(5) .quick-ico { background: linear-gradient(140deg, var(--green-deep), var(--green)); }
+.mode-ico { background: linear-gradient(140deg, var(--blue), var(--blue-bright)); }
+.why-ico { background: linear-gradient(140deg, var(--green-deep), var(--green)); }
+
+/* Gold is lighter now, so anything sitting on it needs darker ink. */
+.btn--primary, .btn--gold { color: #3d2f05; }
+.pill--gold { background: var(--gold-soft); color: var(--gold-deep); }
+.callout--gold { border-color: rgba(185, 147, 40, .35); background: var(--gold-soft); }
+.hero-note strong, .h-display .accent, .scholar h2 .big { color: var(--gold); }
+
+/* --- A soft edge between the hero and what follows ---------------------- */
+.hero--video::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 4.5rem;
+  background: linear-gradient(to top, var(--bg), transparent);
+  pointer-events: none; z-index: 1;
+}

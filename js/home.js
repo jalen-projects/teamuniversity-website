@@ -11,6 +11,24 @@
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ------------------------------------------------------------------ *
+   * THE HERO FOOTAGE, SLOWED
+   * The graduation clip is cut fast — good for a highlights reel, wrong
+   * behind a headline somebody is trying to read. Half speed turns the same
+   * footage into something calm without needing different footage, and the
+   * browser resamples it smoothly.
+   * ------------------------------------------------------------------ */
+  (function calmHero() {
+    var video = document.querySelector('.hero-video');
+    if (!video) return;
+    function slow() { try { video.playbackRate = 0.5; } catch (e) {} }
+    slow();
+    // Some browsers reset the rate when the source loads or the loop wraps.
+    video.addEventListener('loadedmetadata', slow);
+    video.addEventListener('play', slow);
+    video.addEventListener('seeked', slow);
+  })();
+
+  /* ------------------------------------------------------------------ *
    * PROGRAMME FINDER
    * The whole catalogue is already in the page as JSON, so searching is
    * instant and works with no network at all — which matters on a phone
