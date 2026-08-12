@@ -536,3 +536,143 @@
   background: linear-gradient(to top, var(--bg), transparent);
   pointer-events: none; z-index: 1;
 }
+
+/* ==========================================================================
+   THE VICE CHANCELLOR
+   A person, at the point where a list of programmes needs to become a place
+   somebody might actually go. Asymmetric on purpose — portrait left and
+   overlapping the panel, words right — because a centred portrait over
+   centred text is the single most template-looking thing a university site
+   can do.
+   ========================================================================== */
+.vc {
+  background:
+    linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 55%, #0a5bb8 100%);
+  color: #fff; position: relative; overflow: hidden;
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
+}
+/* A warm wash from the terracotta, so the blue does not sit alone and cold. */
+.vc::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(70% 90% at 8% 110%, rgba(200, 120, 60, .38), transparent 62%);
+}
+.vc .wrap {
+  position: relative; display: grid; gap: clamp(1.6rem, 4vw, 3.5rem);
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr); align-items: center;
+}
+.vc-portrait { margin: 0; position: relative; }
+.vc-portrait picture { display: block; }
+.vc-portrait img {
+  width: 100%; height: auto; display: block; border-radius: 20px;
+  /* A gold rule down one edge instead of a full frame — quieter, and it picks
+     up the gown facings in the hero above. */
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .38);
+  border-left: 4px solid var(--gold);
+}
+.vc-portrait figcaption {
+  position: absolute; left: 1rem; right: 1rem; bottom: -1.1rem;
+  background: var(--surface); color: var(--ink);
+  border-radius: 12px; padding: .6rem .9rem; box-shadow: var(--shadow-md);
+}
+.vc-portrait figcaption strong { display: block; font-size: .98rem; line-height: 1.2; }
+.vc-portrait figcaption span { font-size: .8rem; color: var(--terra-deep); font-weight: 700; }
+
+.vc-words .eyebrow { color: var(--gold); }
+.vc-words .eyebrow::after { background: rgba(255, 255, 255, .45); }
+.vc-words h2 {
+  font-size: clamp(1.5rem, 1rem + 2.2vw, 2.5rem); line-height: 1.18;
+  letter-spacing: -.02em; margin: .7rem 0 1rem; color: #fff; text-wrap: balance;
+}
+.vc-words p { color: var(--on-dark); margin: 0 0 .9rem; max-width: 60ch; }
+.vc-sign {
+  font-weight: 800; color: #fff; margin: 1.3rem 0 1.2rem !important;
+  padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, .22);
+}
+.vc-sign span { display: block; font-weight: 500; font-size: .85rem; color: var(--on-dark-muted); }
+.vc .btn--outline { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .5); }
+.vc .btn--outline:hover { background: rgba(255, 255, 255, .14); border-color: #fff; color: #fff; }
+
+@media (max-width: 820px) {
+  .vc .wrap { grid-template-columns: 1fr; }
+  .vc-portrait { max-width: 260px; }
+  .vc-portrait figcaption { position: static; margin-top: 1rem; }
+}
+
+/* ==========================================================================
+   HERO — split, not a dark slab over a photograph
+   The full-bleed photo under a 90%-opaque dark gradient is the single most
+   common hero on the internet and the reason a page reads as generic. It also
+   throws away the photograph: these graduands are in blue and gold gowns
+   against Kampala green, and darkening all of that to make white text legible
+   is a waste of the best asset the university has.
+
+   So the page is split instead. Words sit on warm paper on the left, at a size
+   they can actually be set at; the photograph runs full height on the right
+   and is not touched. On a phone it stacks, and only then does a scrim appear.
+   ========================================================================== */
+.hero--photo {
+  position: relative; background: var(--bg); overflow: hidden;
+  display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+  align-items: stretch; min-height: min(78vh, 700px);
+}
+.hero--photo .hero-media { position: relative; order: 2; }
+.hero-photo, .hero--photo .hero-media picture { width: 100%; height: 100%; display: block; }
+.hero-photo {
+  object-fit: cover; object-position: 60% 50%;
+  /* A very slow drift. Fourteen seconds of travel over forty is imperceptible
+     as motion and stops the photograph reading as a flat panel. */
+  animation: heroDrift 44s ease-in-out infinite alternate;
+}
+@keyframes heroDrift {
+  from { transform: scale(1.04); }
+  to   { transform: scale(1.11) translate3d(-1.5%, -.8%, 0); }
+}
+/* The seam: paper edge feathered over the photograph, plus a gold hairline
+   picked up from the gown facings in the picture itself. */
+.hero--photo .hero-scrim {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, var(--bg) 0%, rgba(253, 251, 247, .55) 7%, transparent 26%);
+  border-left: 3px solid var(--gold);
+}
+.hero--photo .wrap {
+  order: 1; position: relative; z-index: 1; width: 100%;
+  max-width: calc(var(--wrap) / 2 + 2rem); margin-left: auto; margin-right: 0;
+  display: flex; align-items: center;
+  padding-top: clamp(3rem, 8vh, 5.5rem); padding-bottom: clamp(3rem, 8vh, 5.5rem);
+}
+.hero--photo .hero-inner { color: var(--ink); max-width: 34rem; }
+.hero--photo .hero-eyebrow { color: var(--terra-deep); }
+.hero--photo .h-display { color: var(--ink); }
+.hero--photo .h-display .accent {
+  color: var(--navy);
+  /* A soft gold underline rather than a colour swap — the word stays readable
+     and the accent still lands. */
+  background: linear-gradient(transparent 62%, var(--gold) 62%, var(--gold) 88%, transparent 88%);
+}
+.hero--photo .hero-lede { color: var(--ink-2); }
+.hero--photo .hero-note { color: var(--ink-2); }
+.hero--photo .hero-note strong { color: var(--gold-deep); }
+.hero--photo .hero-note svg { fill: var(--gold-deep); }
+.hero--photo .btn--glass {
+  background: var(--surface); color: var(--navy);
+  border-color: var(--line); backdrop-filter: none;
+}
+.hero--photo .btn--glass:hover { border-color: var(--navy); background: var(--blue-soft); }
+.hero--photo .hero-scroll { border-color: rgba(11, 78, 162, .35); left: auto; right: 50%; }
+.hero--photo .hero-scroll span { background: var(--navy); }
+.hero--photo::after { display: none; }
+
+@media (max-width: 900px) {
+  .hero--photo { grid-template-columns: 1fr; min-height: 0; }
+  .hero--photo .hero-media { order: 1; height: 46vh; min-height: 260px; }
+  .hero--photo .wrap {
+    order: 2; max-width: var(--wrap); margin: 0 auto;
+    padding-top: 2.2rem; padding-bottom: 2.6rem;
+  }
+  .hero--photo .hero-scrim {
+    background: linear-gradient(to bottom, transparent 55%, var(--bg) 100%);
+    border-left: 0; border-bottom: 3px solid var(--gold);
+  }
+  .hero--photo .hero-scroll { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-photo { animation: none; } }

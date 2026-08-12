@@ -12,11 +12,16 @@ strength only if a visitor can get to theirs in one search.
 
 Design notes, since the brief was "better than KIU and King Ceasor":
 
-*  **The hero is video, and that is a decision about the photographs.** The
-   university's own stills are 550–1000px — fine in a card, soft blown up to a
-   2000px banner. The graduation footage is the one asset that fills a screen
-   without falling apart, so it carries the hero and the photographs are used
-   where they stay sharp.
+*  **The hero is a photograph, split against warm paper — not a dark slab.**
+   A full-bleed photo under a near-opaque dark gradient is the commonest hero
+   on the internet and the reason a page reads as generic; it also throws the
+   photograph away. These graduands are in the university's own blue and gold
+   against Kampala green, so the words moved to a warm panel beside the picture
+   instead of on top of it.
+*  **Nothing goes on this site that has not been looked at.** A video was once
+   chosen here by its filename, because video cannot be viewed on this machine,
+   and it showed people who were not this university's students. The
+   photographs can be opened and checked; the video could not, so it is gone.
 *  **The scholarship is a band, not a badge.** A 50% scholarship is the single
    most persuasive fact the university has this August, and burying it in a
    news list wastes it.
@@ -49,14 +54,9 @@ def _picture(stem, alt, widths=None, sizes="(max-width:800px) 100vw, 33vw",
 # Hero
 # ---------------------------------------------------------------------------
 
-HERO = f"""<section class="hero hero--video">
+HERO = f"""<section class="hero hero--photo">
   <div class="hero-media">
-    {{comment}}
-    <video class="hero-video" autoplay muted loop playsinline preload="metadata"
-           poster="img/campus-study-640.jpg"
-           aria-hidden="true" tabindex="-1">
-      <source src="video/students.mp4" type="video/mp4">
-    </video>
+    {{photo}}
     <div class="hero-scrim"></div>
   </div>
 
@@ -65,7 +65,7 @@ HERO = f"""<section class="hero hero--video">
       <span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> Empower For Generations</span>
       <h1 class="h-display">Your degree, on <span class="accent">your own schedule</span>.</h1>
       <p class="hero-lede">
-        {cat.count()} programmes across {len(cat.FACULTIES)} faculties — taught by day,
+        {cat.count()} programmes across {len(cat.FACULTIES)} faculties &mdash; taught by day,
         in the evening, at weekends and by distance, in the middle of Kampala.
       </p>
       <div class="hero-actions">
@@ -84,11 +84,16 @@ HERO = f"""<section class="hero hero--video">
   </a>
 </section>"""
 
-HERO = HERO.format(comment="""<!-- Muted and looping so it may autoplay at all, and
-         preload="metadata" because preload="none" leaves some browsers
-         refusing to start it. CSS hides the video below 700px and shows the
-         poster instead, so a phone on mobile data never fetches 2.4 MB of
-         decoration it did not ask for. -->""")
+# Team University's own graduands, in the university's own blue-and-gold gowns.
+# It replaced a video: video cannot be viewed on the machine that builds this
+# site, a clip was once chosen by its filename alone, and it showed people who
+# were not this university's students. A photograph that has been looked at
+# beats footage that has not.
+HERO = HERO.format(photo=media.picture(
+    "campus-group",
+    "Team University graduands in blue and gold academic gowns walking together "
+    "on graduation day",
+    sizes="100vw", cls="hero-photo", eager=True))
 
 
 # ---------------------------------------------------------------------------
@@ -285,11 +290,11 @@ GALLERY = f"""<section class="gallery">
       <a class="btn btn--outline" href="student-life.html">Student life <svg><use href="#i-arrow"/></svg></a>
     </div>
     <div class="gal-grid">
-      <figure class="gal gal--tall">{_picture("campus-life", "Team University students on campus", sizes="(max-width:800px) 100vw, 50vw")}</figure>
-      <figure class="gal">{_picture("campus-group", "Students together between lectures")}</figure>
+      <figure class="gal gal--tall">{_picture("graduation-1", "Team University graduands throwing their caps on graduation day, with Kampala behind them", sizes="(max-width:800px) 100vw, 50vw")}</figure>
+      <figure class="gal">{_picture("graduation-2", "A graduand celebrating in the procession")}</figure>
+      <figure class="gal">{_picture("campus-study", "The Team University campus gate on Kabaka A&#39;njagala Road")}</figure>
       <figure class="gal">{_picture("graduation-3", "Graduands on graduation day")}</figure>
-      <figure class="gal">{_picture("campus-study", "Students studying")}</figure>
-      <figure class="gal">{_picture("technology", "Computing and technology at Team University")}</figure>
+      <figure class="gal">{_picture("campus-life", "The campus buildings at Mengo")}</figure>
     </div>
   </div>
 </section>"""
@@ -332,8 +337,66 @@ WHY_HTML = """<section class="why">
 
 
 def body():
-    """The whole home page, in the order a visitor reads it."""
+    """The whole home page, in the order a visitor reads it.
+
+    The Vice Chancellor comes after the numbers and before the practical
+    detail: by then a visitor knows what the university offers, and a person
+    speaking is what turns a list of programmes into somewhere you might go.
+    """
     return "\n\n".join([
         HERO, QUICK, SCHOLARSHIP, finder(), faculties(), STATS,
-        MODES_HTML, GALLERY, WHY_HTML,
+        VC_MESSAGE, MODES_HTML, GALLERY, WHY_HTML,
     ])
+
+
+# ---------------------------------------------------------------------------
+# The Vice Chancellor
+# ---------------------------------------------------------------------------
+# Prof. Lutalo Bbosa is a real, named person and his photograph is on this
+# page. The words below are therefore a DRAFT WRITTEN FOR HIS APPROVAL, not a
+# quotation — nothing here was said by him, and no biography is claimed,
+# because there was no way to research one from this machine and inventing a
+# professor's career would be worse than leaving it out.
+#
+# BEFORE THIS GOES LIVE: the VC reads it, changes whatever he likes, and
+# approves it. Until then the source carries this notice and TODO.md lists it.
+
+VC_MESSAGE = f"""<section class="vc" id="vc">
+  <div class="wrap">
+    <figure class="vc-portrait">
+      {media.picture("vc-lutalo-bbosa",
+                     "Professor Lutalo Bbosa, Vice Chancellor of Team University",
+                     sizes="(max-width:800px) 60vw, 320px")}
+      <figcaption>
+        <strong>Prof. Lutalo Bbosa</strong>
+        <span>Vice Chancellor</span>
+      </figcaption>
+    </figure>
+
+    <div class="vc-words">
+      <span class="eyebrow"><svg><use href="#i-cap"/></svg> From the Vice Chancellor</span>
+      <h2>&ldquo;We teach the people who are already carrying something.&rdquo;</h2>
+      <p>
+        Most of the students who walk through our gate at Mengo are not coming
+        straight from a classroom. They are coming from a job, a business, a
+        ward, a farm, a family. They have something to carry, and they have
+        decided to carry a qualification as well.
+      </p>
+      <p>
+        That is the university we have built for them. Our lectures run in the
+        evening and at the weekend as readily as they run by day, because a
+        person should not have to choose between earning and learning. Our
+        programmes &mdash; {cat.count()} of them, from national certificates in
+        the trades to masters degrees &mdash; are set to be finished by people
+        who are busy, and to be worth something to an employer at the end.
+      </p>
+      <p>
+        You will be taught by staff who know your field and who will know your
+        name. Come and see us, or apply online, and let us talk about where you
+        want to be in three years.
+      </p>
+      <p class="vc-sign">Prof. Lutalo Bbosa <span>Vice Chancellor, Team University</span></p>
+      <a class="btn btn--outline" href="about.html">More about the university <svg><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>"""

@@ -49,18 +49,22 @@ PHOTOS = [
     (r"Graduation 2.png", "graduation-2", "graduation"),
     (r"Graduation 3.png", "graduation-3", "graduation"),
     (r"cloud image.jpg", "technology", "computing and technology"),
+    (r"Prof Lutalo Bbosa 2.jpg", "vc-lutalo-bbosa", "the Vice Chancellor"),
 ]
 
 # Only what is small enough to autoplay behind a hero without costing a
 # visitor their bundle. A 65 MB clip is not a background, it is a download.
 VIDEOS = [
-    # The hero. Students with books in a quiet setting, which is what a
-    # university home page should be showing — the graduation reel that was
-    # here first is cut fast and reads as an advert. It is 5.2 MB, which is
-    # more than one wants; CSS keeps it off phones entirely, and if anyone
-    # ever gets ffmpeg onto a machine, re-encoding this at a lower bitrate is
-    # the single best performance win the site has left.
-    (r"students  standing with some books.mp4", "students.mp4", 8),
+    # NOTHING, deliberately.
+    #
+    # A video was chosen here once by its FILENAME, because video cannot be
+    # viewed on this machine — and it turned out to show people who are not
+    # Team University's students. On a Ugandan university's home page that is
+    # not a small mistake.
+    #
+    # The rule now: nothing goes on this site that has not been looked at. The
+    # photographs can be looked at; the video cannot. If a clip is to be used,
+    # somebody who can watch it should name it here.
 ]
 
 

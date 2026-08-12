@@ -34,61 +34,59 @@
 
 /* --- Tokens -------------------------------------------------------------- */
 /*
-   The palette is SAMPLED FROM THE CREST, not chosen. Reading img/crest.png
-   pixel by pixel gives, in order of how much of the mark each covers:
+   SAMPLED FROM THE UNIVERSITY, not from a mood board — and not, as a previous
+   pass did, from a pixel count of the crest alone. Counting pixels in a small
+   logo said "teal and green"; looking at the place says something warmer.
 
-     #004878  17%   the deep teal-blue of the shield
-     #006078   6%   its mid tone
-     #006060   5%   teal
-     #007860   2%   green — a whole brand colour the old palette did not have
-     #f0d878   3%   a soft cream gold, much lighter than the amber we were using
-     #d8f0f0 / #c0d8d8   the pale highlights
+     the campus building   #c8783c / #d08040   warm terracotta walls
+     its trim and columns  #0030a0             a strong royal blue
+     the graduation gowns  blue with gold      the same blue, gold facings
+     the crest             #004878 shield, #f0d878 cream gold
 
-   The old tokens were a darker, browner invention: #0b3350 navy against
-   #e3b23c amber, with no green and no light tints anywhere. That is why the
-   site read as heavier than the logo it was built around.
+   So: ROYAL BLUE carries the structure, TERRACOTTA is the warm accent that
+   makes the page feel like Kampala rather than a template, and GOLD is kept
+   for the two things that must be found — Apply, and the scholarship.
 
-   Rule, unchanged: ONE accent carries a page. Gold is for Apply and the
-   scholarship; green is for confirmation and the second tier; deep teal-blue
-   carries structure. Light tints do the rest, and they do most of the work.
+   Backgrounds are warm off-white. The previous palette used a cool blue-white
+   which, against deep navy, is exactly what made the site read as cold and
+   heavy. Warm paper under warm accents is the whole difference.
 */
 :root {
-  /* Structure — from the shield */
-  --navy: #004878;
-  --navy-deep: #02314f;
-  --blue: #006078;
-  --blue-bright: #0a7fa0;
+  /* Structure — the building's blue */
+  --navy: #0b4ea2;
+  --navy-deep: #073a7d;
+  --blue: #1462c4;
+  --blue-bright: #2a80e6;
+  --blue-soft: #e8f0fc;
 
-  /* The green the crest has and the site never used */
-  --green: #007860;
-  --green-deep: #005a48;
-  --green-soft: #e2f3ee;
+  /* Warmth — the building's walls. This is the colour that makes it Ugandan. */
+  --terra: #c8783c;
+  --terra-deep: #a45c28;
+  --terra-soft: #fdf0e4;
 
-  /* Gold, at the crest's own weight — cream, not amber */
-  --gold: #f0d878;
-  --gold-deep: #b99328;
-  --gold-soft: #fdf6e0;
+  /* Gold — the gown facings. For Apply and the scholarship, nothing else. */
+  --gold: #f0b83c;
+  --gold-deep: #a8760c;
+  --gold-soft: #fdf4e0;
 
-  /* Air. The site had no light tints at all; these carry the lightness. */
-  --tint: #d8f0f0;
-  --tint-2: #c0d8d8;
+  --green: #2f7d54;          /* tertiary only: confirmation, ticks */
+  --green-soft: #e8f5ee;
 
-  --bg: #f7fbfb;
+  /* Warm paper, not cool glass */
+  --bg: #fdfbf7;
   --surface: #ffffff;
-  --surface-2: #eef6f7;
-  --ink: #0d2530;
-  --ink-2: #3a5560;
-  --muted: #63808a;
-  --line: #dbe9ec;
+  --surface-2: #f6f1e9;
+  --ink: #201a12;
+  --ink-2: #4d4437;
+  --muted: #7a7062;
+  --line: #e9e1d5;
 
-  --on-dark: #e8f4f6;
-  --on-dark-muted: #a7c6cf;
+  --on-dark: #f2f6fd;
+  --on-dark-muted: #b8cbe8;
 
-  /* Shadows tinted with the brand rather than neutral grey — the difference
-     between a card that sits on the page and one that floats above it. */
-  --shadow-sm: 0 1px 2px rgba(0, 72, 120, .05), 0 2px 8px rgba(0, 72, 120, .05);
-  --shadow-md: 0 4px 12px rgba(0, 72, 120, .07), 0 12px 32px rgba(0, 72, 120, .08);
-  --shadow-lg: 0 8px 24px rgba(0, 72, 120, .09), 0 24px 60px rgba(0, 72, 120, .12);
+  --shadow-sm: 0 1px 2px rgba(32, 26, 18, .05), 0 2px 8px rgba(32, 26, 18, .05);
+  --shadow-md: 0 4px 12px rgba(32, 26, 18, .07), 0 12px 32px rgba(11, 78, 162, .08);
+  --shadow-lg: 0 8px 24px rgba(32, 26, 18, .08), 0 24px 60px rgba(11, 78, 162, .14);
 
   --r-card: 16px;
   --r-pill: 999px;
@@ -103,18 +101,20 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #061a22;
-    --surface: #0b2731;
-    --surface-2: #103240;
-    --ink: #e6f3f6;
-    --ink-2: #b5d0d8;
-    --muted: #89a9b3;
-    --line: #1b3f4d;
-    --green-soft: #0d3a31;
-    --gold-soft: #3a3117;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
-    --shadow-md: 0 6px 18px rgba(0, 0, 0, .45);
-    --shadow-lg: 0 12px 40px rgba(0, 0, 0, .55);
+    --bg: #16130e;
+    --surface: #1e1a14;
+    --surface-2: #272119;
+    --ink: #f4efe6;
+    --ink-2: #d3c9ba;
+    --muted: #a29684;
+    --line: #362e23;
+    --blue-soft: #10254a;
+    --terra-soft: #33210f;
+    --gold-soft: #33280d;
+    --green-soft: #12301f;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .5);
+    --shadow-md: 0 6px 18px rgba(0, 0, 0, .5);
+    --shadow-lg: 0 12px 40px rgba(0, 0, 0, .6);
   }
 }
 

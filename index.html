@@ -128,18 +128,9 @@
 </header>
 
 <main id="main">
-<section class="hero hero--video">
+<section class="hero hero--photo">
   <div class="hero-media">
-    <!-- Muted and looping so it may autoplay at all, and
-         preload="metadata" because preload="none" leaves some browsers
-         refusing to start it. CSS hides the video below 700px and shows the
-         poster instead, so a phone on mobile data never fetches 2.4 MB of
-         decoration it did not ask for. -->
-    <video class="hero-video" autoplay muted loop playsinline preload="metadata"
-           poster="img/campus-study-640.jpg"
-           aria-hidden="true" tabindex="-1">
-      <source src="video/students.mp4" type="video/mp4">
-    </video>
+    <picture><source type="image/webp" srcset="img/campus-group-640.webp 640w, img/campus-group-1000.webp 1000w" sizes="100vw"><img class="hero-photo" src="img/campus-group-640.jpg" srcset="img/campus-group-640.jpg 640w, img/campus-group-1000.jpg 1000w" sizes="100vw" alt="Team University graduands in blue and gold academic gowns walking together on graduation day" loading="eager" fetchpriority="high" decoding="async"></picture>
     <div class="hero-scrim"></div>
   </div>
 
@@ -148,7 +139,7 @@
       <span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> Empower For Generations</span>
       <h1 class="h-display">Your degree, on <span class="accent">your own schedule</span>.</h1>
       <p class="hero-lede">
-        99 programmes across 6 faculties — taught by day,
+        99 programmes across 6 faculties &mdash; taught by day,
         in the evening, at weekends and by distance, in the middle of Kampala.
       </p>
       <div class="hero-actions">
@@ -322,6 +313,44 @@
   </div>
 </section>
 
+<section class="vc" id="vc">
+  <div class="wrap">
+    <figure class="vc-portrait">
+      <picture><source type="image/webp" srcset="img/vc-lutalo-bbosa-640.webp 640w" sizes="(max-width:800px) 60vw, 320px"><img src="img/vc-lutalo-bbosa-640.jpg" srcset="img/vc-lutalo-bbosa-640.jpg 640w" sizes="(max-width:800px) 60vw, 320px" alt="Professor Lutalo Bbosa, Vice Chancellor of Team University" loading="lazy" decoding="async"></picture>
+      <figcaption>
+        <strong>Prof. Lutalo Bbosa</strong>
+        <span>Vice Chancellor</span>
+      </figcaption>
+    </figure>
+
+    <div class="vc-words">
+      <span class="eyebrow"><svg><use href="#i-cap"/></svg> From the Vice Chancellor</span>
+      <h2>&ldquo;We teach the people who are already carrying something.&rdquo;</h2>
+      <p>
+        Most of the students who walk through our gate at Mengo are not coming
+        straight from a classroom. They are coming from a job, a business, a
+        ward, a farm, a family. They have something to carry, and they have
+        decided to carry a qualification as well.
+      </p>
+      <p>
+        That is the university we have built for them. Our lectures run in the
+        evening and at the weekend as readily as they run by day, because a
+        person should not have to choose between earning and learning. Our
+        programmes &mdash; 99 of them, from national certificates in
+        the trades to masters degrees &mdash; are set to be finished by people
+        who are busy, and to be worth something to an employer at the end.
+      </p>
+      <p>
+        You will be taught by staff who know your field and who will know your
+        name. Come and see us, or apply online, and let us talk about where you
+        want to be in three years.
+      </p>
+      <p class="vc-sign">Prof. Lutalo Bbosa <span>Vice Chancellor, Team University</span></p>
+      <a class="btn btn--outline" href="about.html">More about the university <svg><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+
 <section class="modes" id="modes">
   <div class="wrap">
     <div class="section-head">
@@ -349,11 +378,11 @@
       <a class="btn btn--outline" href="student-life.html">Student life <svg><use href="#i-arrow"/></svg></a>
     </div>
     <div class="gal-grid">
-      <figure class="gal gal--tall"><picture><source type="image/webp" srcset="img/campus-life-640.webp 640w, img/campus-life-1000.webp 1000w" sizes="(max-width:800px) 100vw, 50vw"><img src="img/campus-life-640.jpg" srcset="img/campus-life-640.jpg 640w, img/campus-life-1000.jpg 1000w" sizes="(max-width:800px) 100vw, 50vw" alt="Team University students on campus" loading="lazy" decoding="async"></picture></figure>
-      <figure class="gal"><picture><source type="image/webp" srcset="img/campus-group-640.webp 640w, img/campus-group-1000.webp 1000w" sizes="(max-width:800px) 100vw, 33vw"><img src="img/campus-group-640.jpg" srcset="img/campus-group-640.jpg 640w, img/campus-group-1000.jpg 1000w" sizes="(max-width:800px) 100vw, 33vw" alt="Students together between lectures" loading="lazy" decoding="async"></picture></figure>
+      <figure class="gal gal--tall"><picture><source type="image/webp" srcset="img/graduation-1-640.webp 640w" sizes="(max-width:800px) 100vw, 50vw"><img src="img/graduation-1-640.jpg" srcset="img/graduation-1-640.jpg 640w" sizes="(max-width:800px) 100vw, 50vw" alt="Team University graduands throwing their caps on graduation day, with Kampala behind them" loading="lazy" decoding="async"></picture></figure>
+      <figure class="gal"><picture><source type="image/webp" srcset="img/graduation-2-640.webp 640w" sizes="(max-width:800px) 100vw, 33vw"><img src="img/graduation-2-640.jpg" srcset="img/graduation-2-640.jpg 640w" sizes="(max-width:800px) 100vw, 33vw" alt="A graduand celebrating in the procession" loading="lazy" decoding="async"></picture></figure>
+      <figure class="gal"><picture><source type="image/webp" srcset="img/campus-study-640.webp 640w, img/campus-study-1000.webp 1000w" sizes="(max-width:800px) 100vw, 33vw"><img src="img/campus-study-640.jpg" srcset="img/campus-study-640.jpg 640w, img/campus-study-1000.jpg 1000w" sizes="(max-width:800px) 100vw, 33vw" alt="The Team University campus gate on Kabaka A&#39;njagala Road" loading="lazy" decoding="async"></picture></figure>
       <figure class="gal"><picture><source type="image/webp" srcset="img/graduation-3-640.webp 640w" sizes="(max-width:800px) 100vw, 33vw"><img src="img/graduation-3-640.jpg" srcset="img/graduation-3-640.jpg 640w" sizes="(max-width:800px) 100vw, 33vw" alt="Graduands on graduation day" loading="lazy" decoding="async"></picture></figure>
-      <figure class="gal"><picture><source type="image/webp" srcset="img/campus-study-640.webp 640w, img/campus-study-1000.webp 1000w" sizes="(max-width:800px) 100vw, 33vw"><img src="img/campus-study-640.jpg" srcset="img/campus-study-640.jpg 640w, img/campus-study-1000.jpg 1000w" sizes="(max-width:800px) 100vw, 33vw" alt="Students studying" loading="lazy" decoding="async"></picture></figure>
-      <figure class="gal"><picture><source type="image/webp" srcset="img/technology-640.webp 640w, img/technology-1000.webp 1000w" sizes="(max-width:800px) 100vw, 33vw"><img src="img/technology-640.jpg" srcset="img/technology-640.jpg 640w, img/technology-1000.jpg 1000w" sizes="(max-width:800px) 100vw, 33vw" alt="Computing and technology at Team University" loading="lazy" decoding="async"></picture></figure>
+      <figure class="gal"><picture><source type="image/webp" srcset="img/campus-life-640.webp 640w, img/campus-life-1000.webp 1000w" sizes="(max-width:800px) 100vw, 33vw"><img src="img/campus-life-640.jpg" srcset="img/campus-life-640.jpg 640w, img/campus-life-1000.jpg 1000w" sizes="(max-width:800px) 100vw, 33vw" alt="The campus buildings at Mengo" loading="lazy" decoding="async"></picture></figure>
     </div>
   </div>
 </section>
