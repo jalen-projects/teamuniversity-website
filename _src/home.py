@@ -58,6 +58,7 @@ HERO = f"""<section class="hero hero--photo">
   <div class="hero-media">
     {{photo}}
     <div class="hero-scrim"></div>
+    <div class="hero-dots" id="heroDots" role="tablist" aria-label="Choose a picture"></div>
   </div>
 
   <div class="wrap">
@@ -89,10 +90,6 @@ HERO = f"""<section class="hero hero--photo">
 # site, a clip was once chosen by its filename alone, and it showed people who
 # were not this university's students. A photograph that has been looked at
 # beats footage that has not.
-# The university's own graduation footage, in the right-hand panel. The
-# poster underneath it is a photograph of the same graduation, so the panel is
-# correct before a single frame has loaded and on any phone, where CSS keeps
-# the video from being fetched at all.
 ROTATE = ["your own schedule.", "evenings after work.", "weekends only.",
           "distance, from anywhere."]
 
@@ -100,17 +97,34 @@ HERO = HERO.replace("{rotator}", "".join(
     f'<span{" class=\"is-on\"" if i == 0 else ""}>{phrase}</span>'
     for i, phrase in enumerate(ROTATE)))
 
-HERO = HERO.format(photo=(
-    '<video class="hero-photo hero-video" autoplay muted loop playsinline '
-    'preload="metadata" poster="img/campus-group-1000.jpg" '
-    'disablepictureinpicture disableremoteplayback '
-    'aria-hidden="true" tabindex="-1">'
-    '<source src="video/graduation.mp4" type="video/mp4"></video>'
-    + media.picture(
-        "campus-group",
-        "Team University graduands in blue and gold academic gowns walking "
-        "together on graduation day",
-        sizes="100vw", cls="hero-photo hero-fallback", eager=True)))
+# THE UNIVERSITY'S OWN PHOTOGRAPHS, in a slow crossfade.
+#
+# This replaced a video. The footage was not of Team University's students and
+# the school said so; these are. Every one comes out of the university's own
+# TEAM folder — its graduands in its own blue-and-gold gowns, and the campus
+# at Mengo with the sign on the wall.
+#
+# Each slide holds and drifts while it is on screen, so the panel reads as
+# film rather than as a slideshow clicking over. The first slide is marked
+# is-on in the markup, so with no JavaScript at all the hero is still a
+# correct, sharp photograph.
+SLIDES = [
+    ("campus-group",
+     "Team University graduands in blue and gold academic gowns walking "
+     "together on graduation day"),
+    ("campus-study",
+     "The Team University campus at Mengo, seen from Kabaka A'njagala Road"),
+    ("campus-walk",
+     "The Team University building and gate on a clear morning"),
+    ("campus-life",
+     "The Team University campus buildings in Mengo, Kampala"),
+]
+
+HERO = HERO.format(photo="".join(
+    f'<div class="slide{" is-on" if i == 0 else ""}">'
+    + media.picture(stem, alt, sizes="60vw", cls="hero-photo", eager=(i == 0))
+    + "</div>"
+    for i, (stem, alt) in enumerate(SLIDES)))
 
 
 # ---------------------------------------------------------------------------

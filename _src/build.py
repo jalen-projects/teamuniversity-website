@@ -95,6 +95,11 @@ SHELL = """<!DOCTYPE html>
 
 <link rel="icon" href="img/crest.png" type="image/png">
 <link rel="apple-touch-icon" href="img/crest.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Team University">
 <link rel="preload" href="fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 {preload}<link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/pages.css">
@@ -206,6 +211,7 @@ SHELL = """<!DOCTYPE html>
   </div>
 </footer>
 
+{tabbar}
 <script src="js/site.js" defer></script>
 {scripts}</body>
 </html>
@@ -281,6 +287,27 @@ CTA_BAND = f"""<section class="cta">
 </section>"""
 
 
+# The phone's tab bar. Four destinations, and it is the same four on every
+# page so a thumb learns where they are. Rendered for every page rather than
+# only the home page, because an app-like bar that disappears on the second
+# screen is worse than none at all.
+TABBAR = """<nav class="tabbar" aria-label="Quick navigation">
+  <a href="index.html"{home}><svg><use href="#i-buildings"/></svg>Home</a>
+  <a href="programmes.html"{prog}><svg><use href="#i-search"/></svg>Programmes</a>
+  <a class="tab-apply" href="{apply}"><svg><use href="#i-cap"/></svg>Apply</a>
+  <a href="contact.html"{contact}><svg><use href="#i-phone"/></svg>Contact</a>
+</nav>"""
+
+
+def tabbar_html(current):
+    mark = ' class="is-on"'
+    return TABBAR.format(
+        home=mark if current == "index.html" else "",
+        prog=mark if current == "programmes.html" else "",
+        contact=mark if current == "contact.html" else "",
+        apply=APPLY)
+
+
 def render():
     import pages
     written = []
@@ -296,6 +323,7 @@ def render():
             body=spec["body"],
             preload=spec.get("preload", ""),
             jsonld=spec.get("jsonld", ""),
+            tabbar=tabbar_html(name),
             styles=spec.get("styles", ""),
             scripts=spec.get("scripts", ""),
             apply=APPLY,

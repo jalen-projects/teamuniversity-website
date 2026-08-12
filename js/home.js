@@ -30,21 +30,60 @@
   })();
 
   /* ------------------------------------------------------------------ *
-   * THE HERO FOOTAGE, SLOWED
-   * The graduation clip is cut fast — good for a highlights reel, wrong
-   * behind a headline somebody is trying to read. Half speed turns the same
-   * footage into something calm without needing different footage, and the
-   * browser resamples it smoothly.
+   * THE HERO SLIDESHOW
+   * Four of the university's own photographs, crossfading. Seven seconds a
+   * slide, which is long: the complaint about the video it replaced was that
+   * it moved too fast. The first slide is already visible from the markup, so
+   * if this never runs the hero is a correct still photograph rather than an
+   * empty panel.
    * ------------------------------------------------------------------ */
-  (function calmHero() {
-    var video = document.querySelector('.hero-video');
-    if (!video) return;
-    function slow() { try { video.playbackRate = 0.5; } catch (e) {} }
-    slow();
-    // Some browsers reset the rate when the source loads or the loop wraps.
-    video.addEventListener('loadedmetadata', slow);
-    video.addEventListener('play', slow);
-    video.addEventListener('seeked', slow);
+  (function slideshow() {
+    var slides = document.querySelectorAll('.hero-media .slide');
+    var dots = document.getElementById('heroDots');
+    if (slides.length < 2) return;
+
+    var at = 0, timer = null;
+
+    function show(next) {
+      slides[at].classList.remove('is-on');
+      at = (next + slides.length) % slides.length;
+      slides[at].classList.add('is-on');
+      if (dots) {
+        var buttons = dots.querySelectorAll('button');
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].classList.toggle('is-on', i === at);
+          buttons[i].setAttribute('aria-selected', i === at ? 'true' : 'false');
+        }
+      }
+    }
+
+    function start() {
+      if (reduced) return;                 // one photograph, held, is fine
+      stop();
+      timer = setInterval(function () { show(at + 1); }, 7000);
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+    if (dots) {
+      for (var i = 0; i < slides.length; i++) {
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.setAttribute('role', 'tab');
+        dot.setAttribute('aria-label', 'Picture ' + (i + 1));
+        if (i === 0) { dot.className = 'is-on'; dot.setAttribute('aria-selected', 'true'); }
+        (function (index) {
+          dot.addEventListener('click', function () { show(index); start(); });
+        })(i);
+        dots.appendChild(dot);
+      }
+    }
+
+    // Nothing runs while the tab is in the background: a slideshow ticking
+    // over in a tab nobody is looking at is battery spent for no reason.
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { stop(); } else { start(); }
+    });
+    start();
   })();
 
   /* ------------------------------------------------------------------ *

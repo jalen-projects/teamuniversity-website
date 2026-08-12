@@ -19,6 +19,11 @@
 
 <link rel="icon" href="img/crest.png" type="image/png">
 <link rel="apple-touch-icon" href="img/crest.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Team University">
 <link rel="preload" href="fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="img/campus-study-640.jpg">
 <link rel="stylesheet" href="css/site.css">
@@ -130,8 +135,9 @@
 <main id="main">
 <section class="hero hero--photo">
   <div class="hero-media">
-    <video class="hero-photo hero-video" autoplay muted loop playsinline preload="metadata" poster="img/campus-group-1000.jpg" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"><source src="video/graduation.mp4" type="video/mp4"></video><picture><source type="image/webp" srcset="img/campus-group-640.webp 640w, img/campus-group-1000.webp 1000w" sizes="100vw"><img class="hero-photo hero-fallback" src="img/campus-group-640.jpg" srcset="img/campus-group-640.jpg 640w, img/campus-group-1000.jpg 1000w" sizes="100vw" alt="Team University graduands in blue and gold academic gowns walking together on graduation day" loading="eager" fetchpriority="high" decoding="async"></picture>
+    <div class="slide is-on"><picture><source type="image/webp" srcset="img/campus-group-640.webp 640w, img/campus-group-1000.webp 1000w" sizes="60vw"><img class="hero-photo" src="img/campus-group-640.jpg" srcset="img/campus-group-640.jpg 640w, img/campus-group-1000.jpg 1000w" sizes="60vw" alt="Team University graduands in blue and gold academic gowns walking together on graduation day" loading="eager" fetchpriority="high" decoding="async"></picture></div><div class="slide"><picture><source type="image/webp" srcset="img/campus-study-640.webp 640w, img/campus-study-1000.webp 1000w" sizes="60vw"><img class="hero-photo" src="img/campus-study-640.jpg" srcset="img/campus-study-640.jpg 640w, img/campus-study-1000.jpg 1000w" sizes="60vw" alt="The Team University campus at Mengo, seen from Kabaka A'njagala Road" loading="lazy" decoding="async"></picture></div><div class="slide"><picture><source type="image/webp" srcset="img/campus-walk-640.webp 640w" sizes="60vw"><img class="hero-photo" src="img/campus-walk-640.jpg" srcset="img/campus-walk-640.jpg 640w" sizes="60vw" alt="The Team University building and gate on a clear morning" loading="lazy" decoding="async"></picture></div><div class="slide"><picture><source type="image/webp" srcset="img/campus-life-640.webp 640w, img/campus-life-1000.webp 1000w" sizes="60vw"><img class="hero-photo" src="img/campus-life-640.jpg" srcset="img/campus-life-640.jpg 640w, img/campus-life-1000.jpg 1000w" sizes="60vw" alt="The Team University campus buildings in Mengo, Kampala" loading="lazy" decoding="async"></picture></div>
     <div class="hero-scrim"></div>
+    <div class="hero-dots" id="heroDots" role="tablist" aria-label="Choose a picture"></div>
   </div>
 
   <div class="wrap">
@@ -465,6 +471,12 @@
   </div>
 </footer>
 
+<nav class="tabbar" aria-label="Quick navigation">
+  <a href="index.html" class="is-on"><svg><use href="#i-buildings"/></svg>Home</a>
+  <a href="programmes.html"><svg><use href="#i-search"/></svg>Programmes</a>
+  <a class="tab-apply" href="https://team.campusnect.com/apply/"><svg><use href="#i-cap"/></svg>Apply</a>
+  <a href="contact.html"><svg><use href="#i-phone"/></svg>Contact</a>
+</nav>
 <script src="js/site.js" defer></script>
 <script src="js/home.js" defer></script>
 </body>
