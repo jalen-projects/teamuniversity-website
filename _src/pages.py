@@ -547,6 +547,22 @@ ADMISSIONS = page_body(
 </ul>
 <p>Scans or clear photographs are accepted for the application itself. Originals are verified when you report to campus, and an admission stays provisional until the university has seen them.</p>
 
+<h2 id="scholarships">Scholarships</h2>
+<div class="callout callout--gold">
+  <h3>50% scholarships &mdash; August 2026 intake</h3>
+  <p>Team University is offering <strong>half-fee scholarships on selected
+     programmes</strong> for the August 2026 intake. Places are limited, and
+     awards are made on academic merit and demonstrated need.</p>
+  <p>Which programmes are covered changes with each intake, so ask the
+     admissions office before you apply &mdash; they will tell you whether the
+     programme you want is on this round's list and what your application needs
+     to show. Applying for a scholarship does not delay your admission: you
+     apply for the programme in the normal way and raise the scholarship with
+     admissions at the same time.</p>
+  <p><a class="btn btn--primary" href="%APPLY%">Apply now</a>
+     <a class="btn btn--line" href="contact.html">Ask about the scholarship</a></p>
+</div>
+
 <h2 id="fees">Fees</h2>
 <!-- TODO: Replace with the current fees structure per programme and study mode
      once the bursar confirms the figures. Do not publish invented amounts. -->
@@ -558,7 +574,13 @@ ADMISSIONS = page_body(
 <p>Once you are registered, your fee statement, payments and outstanding balance are visible any time in the <a href="%PORTAL%">student portal</a>. You do not need to visit the finance office for a statement.</p>
 
 <h2 id="intakes">Intakes</h2>
-<p>The <strong>August 2026 intake is open for registration now</strong>. Team University runs more than one intake each year across its programmes, so if you miss this one, ask the admissions office when the next intake for your programme opens.</p>
+<p>The <strong>August 2026 intake is open for registration now</strong>, and it
+   is the intake carrying the 50% scholarships above.</p>
+<p>Team University admits students <strong>three times a year</strong> &mdash; in
+   February, in May and in August. Not every programme takes students at every
+   intake, so if the one you want is not admitting this round, ask the
+   admissions office which intake it next opens for rather than waiting a
+   whole year on an assumption.</p>
 
 <h2 id="faq">Common questions</h2>
 <div class="faq">
@@ -855,7 +877,6 @@ PAGES = {
         body=home.body(),
         preload='<link rel="preload" as="image" href="img/graduation-1-640.jpg">\n',
         jsonld=JSONLD_HOME,
-        styles='<link rel="stylesheet" href="css/home.css">',
         scripts='<script src="js/home.js" defer></script>\n',
     ),
     "about.html": dict(

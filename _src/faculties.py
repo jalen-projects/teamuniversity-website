@@ -168,8 +168,7 @@ def specs():
             description=f"{blurb} {cat.count(code)} programmes at Team University, "
                         f"Kampala — day, evening, weekend and distance.",
             body=faculty_page(code),
-            styles='<link rel="stylesheet" href="css/home.css">',
-        )
+            )
     # The old Social Sciences page keeps its address rather than 404ing —
     # anything already linking to it (a Facebook post, a printed flyer) still
     # lands somewhere useful. Its programmes are now inside Management and
@@ -203,7 +202,6 @@ programmes</a></p>""",
                      ("programmes.html", "Every programme"),
                      ("admissions.html", "How to apply")]),
         ) + "\n\n" + CTA_BAND,
-        styles='<link rel="stylesheet" href="css/home.css">',
     )
     out["programmes.html"] = dict(
         title=f"All {cat.count()} programmes | Team University Kampala",
@@ -212,7 +210,6 @@ programmes</a></p>""",
                     f"{len(cat.FACULTIES)} faculties — masters, bachelors, diplomas "
                     f"and national certificates.",
         body=all_programmes_page(),
-        styles='<link rel="stylesheet" href="css/home.css">',
         scripts='<script src="js/home.js" defer></script>\n',
     )
     return out

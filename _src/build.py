@@ -98,6 +98,7 @@ SHELL = """<!DOCTYPE html>
 <link rel="preload" href="fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 {preload}<link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/ui.css">
 {styles}
 {jsonld}</head>
 <body>
