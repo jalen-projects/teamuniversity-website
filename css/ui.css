@@ -1005,6 +1005,11 @@
    a bar of destinations within reach of the thumb, targets big enough to hit,
    respect for the notch, and no blue flash on every tap.
    ========================================================================== */
+/* The bar belongs to the phone and to nothing else. Without this it is a plain
+   block on a desktop, and because an <svg><use> with no size falls back to
+   300x150, it lands below the footer as four enormous icons down the page. */
+.tabbar { display: none; }
+
 @media (max-width: 900px) {
   /* --- The tab bar ------------------------------------------------------ */
   .tabbar {
