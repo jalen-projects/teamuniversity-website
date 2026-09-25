@@ -51,24 +51,101 @@ def _picture(stem, alt, widths=None, sizes="(max-width:800px) 100vw, 33vw",
 
 
 # ---------------------------------------------------------------------------
-# Hero
+# Hero — THE STAGE
 # ---------------------------------------------------------------------------
+# WHY THIS REPLACED THE SPLIT HERO, and it is a technical reason before it is
+# a taste one.
+#
+# Every photograph this university has is about 1020 x 476 — a wide, short
+# frame, 2.14:1. The split hero put that frame into a tall panel roughly as
+# high as it was wide, which meant throwing away more than half the width and
+# then enlarging what was left about twice. That is why the picture looked
+# soft and why the graduands were sliced down both edges: the FOUR of them
+# walking together became one woman and two half-people.
+#
+# A full-bleed band at close to the photograph's own shape crops almost
+# nothing and enlarges about 1.4x instead of 2x. So the carousel the director
+# asked for is also the correct way to show these particular pictures.
+#
+# INSTITUTIONAL, NOT A DARK SLAB. The commonest hero on the internet is a
+# photograph under a near-opaque black gradient, and it is the reason so many
+# university pages read as interchangeable — it also throws the photograph
+# away a second time. Here the picture stays a picture, and the words sit on a
+# warm paper PLAQUE over one corner of it, with a gold rule that doubles as
+# the timer for the slide. A plaque is what a university puts words on.
+#
+# THE WORDS MOVE WITH THE PICTURE. Each view carries its own eyebrow, headline
+# and line, and they change together — which is what makes it read as a
+# sequence about the university rather than one sentence over a slideshow.
+# What does NOT move is the Apply button: a call to action that slides away
+# under the cursor is a call to action nobody presses.
 
-HERO = f"""<section class="hero hero--photo">
-  <div class="hero-media">
-    {{photo}}
-    <div class="hero-scrim"></div>
-    <div class="hero-dots" id="heroDots" role="tablist" aria-label="Choose a picture"></div>
+# Four photographs, every one of them looked at before it was used — a video
+# was once chosen here by its filename alone and showed people who were not
+# this university's students. Each is 1020px and native 2.14:1, so the band
+# shows them nearly uncropped.
+STAGE = [
+    ("grad",
+     "Four Team University graduands in blue and gold gowns walking together "
+     "on graduation day",
+     "Empower For Generations",
+     "Your degree, on your own schedule.",
+     f"{cat.count()} programmes across {len(cat.FACULTIES)} faculties — taught by day, "
+     "in the evening, at weekends and by distance."),
+    ("campus",
+     "The Team University campus at Mengo in early morning light",
+     "Mengo, Kampala",
+     "A university in the middle of the city.",
+     "On Kabaka A&rsquo;njagala Road, a short walk from the centre of Kampala "
+     "— and open from the morning until late in the evening."),
+    ("gate",
+     "The Team University building and main gate on Kabaka A'njagala Road",
+     f"{len(cat.FACULTIES)} faculties",
+     "From certificate to doctorate.",
+     "Certificates, diplomas, bachelor&rsquo;s degrees, postgraduate diplomas, "
+     "master&rsquo;s degrees and doctorates — on one campus."),
+    ("street",
+     "The Team University campus street, with its terracotta and blue "
+     "buildings and students between classes",
+     "August intake",
+     "Fifty per cent scholarships.",
+     "On selected programmes this intake. Applications are open now."),
+]
+
+_shots = "".join(
+    f'<div class="stage-shot{" is-on" if i == 0 else ""}" data-i="{i}">'
+    + media.picture(stem, alt, sizes="100vw", cls="stage-img", eager=(i == 0))
+    + "</div>"
+    for i, (stem, alt, _e, _h, _l) in enumerate(STAGE))
+
+# All four sets of words occupy the SAME grid cell, so the plaque is as tall
+# as the longest of them and nothing jumps as they change.
+_words = "".join(
+    f'<article class="words{" is-on" if i == 0 else ""}" data-i="{i}"'
+    f'{"" if i == 0 else " aria-hidden=\"true\""}>'
+    f'<span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> {eyebrow}</span>'
+    f'<h1 class="h-display">{head}</h1>'
+    f'<p class="hero-lede">{lede}</p>'
+    "</article>"
+    for i, (_s, _a, eyebrow, head, lede) in enumerate(STAGE))
+
+_rail = "".join(
+    f'<button type="button" role="tab" class="rail{" is-on" if i == 0 else ""}"'
+    f' data-i="{i}" aria-selected="{"true" if i == 0 else "false"}">'
+    f'<span class="rail-n">{i + 1:02d}</span>'
+    f'<span class="rail-t">{eyebrow}</span></button>'
+    for i, (_s, _a, eyebrow, _h, _l) in enumerate(STAGE))
+
+HERO = f"""<section class="hero hero--stage" id="hero" aria-label="Team University">
+  <div class="stage" id="stage">
+    {_shots}
+    <div class="stage-wash" aria-hidden="true"></div>
   </div>
 
-  <div class="wrap">
-    <div class="hero-inner">
-      <span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> Empower For Generations</span>
-      <h1 class="h-display">Your degree, on <span class="accent"><span class="rotator" id="rotator">{{rotator}}</span></span></h1>
-      <p class="hero-lede">
-        {cat.count()} programmes across {len(cat.FACULTIES)} faculties &mdash; taught by day,
-        in the evening, at weekends and by distance, in the middle of Kampala.
-      </p>
+  <div class="wrap stage-front">
+    <div class="plaque">
+      <span class="plaque-rule" aria-hidden="true"><i id="stageBar"></i></span>
+      <div class="plaque-words" id="stageWords">{_words}</div>
       <div class="hero-actions">
         <a class="btn btn--primary btn--lg" href="{APPLY}">Apply for August <svg><use href="#i-arrow"/></svg></a>
         <a class="btn btn--glass btn--lg" href="#finder">Find your programme</a>
@@ -80,51 +157,8 @@ HERO = f"""<section class="hero hero--photo">
     </div>
   </div>
 
-  <a class="hero-scroll" href="#quick" aria-label="Scroll to the next section">
-    <span></span>
-  </a>
+  <div class="stage-rail" id="stageRail" role="tablist" aria-label="Choose a view">{_rail}</div>
 </section>"""
-
-# Team University's own graduands, in the university's own blue-and-gold gowns.
-# It replaced a video: video cannot be viewed on the machine that builds this
-# site, a clip was once chosen by its filename alone, and it showed people who
-# were not this university's students. A photograph that has been looked at
-# beats footage that has not.
-ROTATE = ["your own schedule.", "evenings after work.", "weekends only.",
-          "distance, from anywhere."]
-
-HERO = HERO.replace("{rotator}", "".join(
-    f'<span{" class=\"is-on\"" if i == 0 else ""}>{phrase}</span>'
-    for i, phrase in enumerate(ROTATE)))
-
-# THE UNIVERSITY'S OWN PHOTOGRAPHS, in a slow crossfade.
-#
-# This replaced a video. The footage was not of Team University's students and
-# the school said so; these are. Every one comes out of the university's own
-# TEAM folder — its graduands in its own blue-and-gold gowns, and the campus
-# at Mengo with the sign on the wall.
-#
-# Each slide holds and drifts while it is on screen, so the panel reads as
-# film rather than as a slideshow clicking over. The first slide is marked
-# is-on in the markup, so with no JavaScript at all the hero is still a
-# correct, sharp photograph.
-SLIDES = [
-    ("campus-group",
-     "Team University graduands in blue and gold academic gowns walking "
-     "together on graduation day"),
-    ("campus-study",
-     "The Team University campus at Mengo, seen from Kabaka A'njagala Road"),
-    ("campus-walk",
-     "The Team University building and gate on a clear morning"),
-    ("campus-life",
-     "The Team University campus buildings in Mengo, Kampala"),
-]
-
-HERO = HERO.format(photo="".join(
-    f'<div class="slide{" is-on" if i == 0 else ""}">'
-    + media.picture(stem, alt, sizes="60vw", cls="hero-photo", eager=(i == 0))
-    + "</div>"
-    for i, (stem, alt) in enumerate(SLIDES)))
 
 
 # ---------------------------------------------------------------------------

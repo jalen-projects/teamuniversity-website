@@ -610,72 +610,214 @@
    they can actually be set at; the photograph runs full height on the right
    and is not touched. On a phone it stacks, and only then does a scrim appear.
    ========================================================================== */
-.hero--photo {
-  position: relative; background: var(--bg); overflow: hidden;
-  display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
-  align-items: stretch; min-height: min(78vh, 700px);
+/* ==========================================================================
+   THE STAGE — the home hero
+   ==========================================================================
+   WHY A BAND AND NOT A TALL SPLIT. Every photograph this university owns is
+   about 1020 x 476 — a wide, short frame at 2.14:1. The split hero put that
+   into a panel roughly as tall as it was wide, which threw away more than
+   half the width and then enlarged what was left about twice: the picture
+   went soft and the four graduands walking together became one woman and two
+   half-people sliced down the edges.
+
+   This band is close to the photograph's own shape, so it crops almost
+   nothing and enlarges about 1.4x. The carousel is the RIGHT way to show
+   these particular pictures, not only the one that was asked for.
+
+   AND IT IS NOT A DARK SLAB. A photograph under a near-opaque black gradient
+   is the commonest hero on the internet and the reason university pages read
+   as interchangeable. Here the picture stays a picture and the words sit on a
+   warm paper plaque over one corner — which is what a university puts words
+   on. The only wash is a soft one at the foot, to seam the band into the page.
+   ========================================================================== */
+
+/* `.hero` carries a heavy navy scrim on ::after for the old dark hero. The
+   split hero that preceded this one switched it off, and it MUST stay off:
+   left on, it paints over the plaque and the words go dark ink on dark grey.
+   This is exactly how it broke the first time this was built. */
+.hero--stage::after { display: none; }
+
+.hero--stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--navy-deep);
+  min-height: clamp(29rem, 62vh, 39rem);
+  display: grid;
+  align-items: end;
 }
-.hero--photo .hero-media { position: relative; order: 2; }
-.hero-photo, .hero--photo .hero-media picture { width: 100%; height: 100%; display: block; }
-.hero-photo {
-  object-fit: cover; object-position: 60% 50%;
-  /* A very slow drift. Fourteen seconds of travel over forty is imperceptible
-     as motion and stops the photograph reading as a flat panel. */
-  animation: heroDrift 44s ease-in-out infinite alternate;
+
+/* --- the pictures -------------------------------------------------------- */
+.stage { position: absolute; inset: 0; z-index: 0; }
+.stage-shot {
+  position: absolute; inset: 0;
+  opacity: 0; transition: opacity 1.5s ease;
 }
-@keyframes heroDrift {
-  from { transform: scale(1.04); }
-  to   { transform: scale(1.11) translate3d(-1.5%, -.8%, 0); }
+.stage-shot.is-on { opacity: 1; }
+.stage-img, .stage-shot picture { width: 100%; height: 100%; display: block; }
+.stage-img {
+  object-fit: cover;
+  /* UPPER THIRD. A tall crop of a wide photograph otherwise shows waists and
+     legs — a bug that recurred three times on this site. */
+  object-position: center 38%;
 }
-/* The seam: paper edge feathered over the photograph, plus a gold hairline
-   picked up from the gown facings in the picture itself. */
-.hero--photo .hero-scrim {
+/* The drift runs only on the picture that is showing, so all four are not
+   animating behind the scenes for nothing. */
+.stage-shot.is-on .stage-img { animation: stageDrift 17s ease-out both; }
+@keyframes stageDrift {
+  from { transform: scale(1.035); }
+  to   { transform: scale(1.1) translate3d(-1.2%, -1%, 0); }
+}
+
+/* A foot wash only: enough to seat the band on the page and hold the rail,
+   never enough to flatten the photograph. */
+.stage-wash {
   position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(90deg, var(--bg) 0%, rgba(253, 251, 247, .55) 7%, transparent 26%);
-  border-left: 3px solid var(--gold);
+  background:
+    linear-gradient(to top, rgba(4, 26, 58, .68) 0, rgba(4, 26, 58, .18) 22%, transparent 42%),
+    linear-gradient(105deg, rgba(4, 26, 58, .30) 0, transparent 46%);
 }
-.hero--photo .wrap {
-  order: 1; position: relative; z-index: 1; width: 100%;
-  max-width: calc(var(--wrap) / 2 + 2rem); margin-left: auto; margin-right: 0;
-  display: flex; align-items: center;
-  padding-top: clamp(3rem, 8vh, 5.5rem); padding-bottom: clamp(3rem, 8vh, 5.5rem);
+
+/* --- the plaque ---------------------------------------------------------- */
+/* `.hero .wrap` sets a 520px minimum height and centres its children for the
+   old full-screen hero. Inherited here it padded the plaque out with dead
+   space above the eyebrow and below the line — most visible on a phone. */
+.hero--stage .wrap { min-height: 0; display: block; padding-block: 0; }
+
+.stage-front {
+  position: relative; z-index: 1; width: 100%;
+  padding-top: clamp(3rem, 9vh, 6rem);
+  padding-bottom: clamp(4.5rem, 10vh, 6.5rem);
 }
-.hero--photo .hero-inner { color: var(--ink); max-width: 34rem; }
-.hero--photo .hero-eyebrow { color: var(--terra-deep); }
-.hero--photo .h-display { color: var(--ink); }
-.hero--photo .h-display .accent {
-  color: var(--navy);
-  /* A soft gold underline rather than a colour swap — the word stays readable
-     and the accent still lands. */
-  background: linear-gradient(transparent 62%, var(--gold) 62%, var(--gold) 88%, transparent 88%);
+.plaque {
+  max-width: 34rem;
+  background: var(--bg);
+  border-radius: 4px 4px 4px 4px;
+  padding: clamp(1.4rem, 2.4vw, 2.1rem) clamp(1.4rem, 2.4vw, 2.2rem) clamp(1.3rem, 2vw, 1.7rem);
+  box-shadow: 0 30px 70px -32px rgba(4, 26, 58, .65);
+  position: relative;
 }
-.hero--photo .hero-lede { color: var(--ink-2); }
-.hero--photo .hero-note { color: var(--ink-2); }
-.hero--photo .hero-note strong { color: var(--gold-deep); }
-.hero--photo .hero-note svg { fill: var(--gold-deep); }
-.hero--photo .btn--glass {
-  background: var(--surface); color: var(--navy);
+/* The gold rule along the top of the plaque IS the timer for the slide —
+   institutional rather than a row of blinking dots. */
+.plaque-rule {
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: rgba(168, 118, 12, .20);
+  border-radius: 4px 4px 0 0; overflow: hidden;
+}
+.plaque-rule i {
+  display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--gold), var(--terra));
+}
+.plaque-rule i.is-running { animation: stageBar 7s linear forwards; }
+@keyframes stageBar { from { width: 0 } to { width: 100% } }
+
+/* --- the words, which change with the picture ---------------------------- */
+/* All four sets share ONE grid cell, so the plaque is as tall as the longest
+   of them and nothing jumps as they change. */
+.plaque-words { display: grid; }
+.plaque-words .words {
+  grid-area: 1 / 1;
+  opacity: 0; visibility: hidden;
+  transition: opacity .5s ease, visibility .5s;
+}
+.plaque-words .words.is-on { opacity: 1; visibility: visible; }
+/* Staggered entrance: the eyebrow, then the headline, then the line. Small
+   distances — a hero that throws its words around is a hero nobody reads. */
+.plaque-words .words > * {
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform .55s cubic-bezier(.22, .61, .36, 1), opacity .55s ease;
+}
+.plaque-words .words.is-on > * { transform: none; opacity: 1; }
+.plaque-words .words.is-on > :nth-child(1) { transition-delay: .06s; }
+.plaque-words .words.is-on > :nth-child(2) { transition-delay: .14s; }
+.plaque-words .words.is-on > :nth-child(3) { transition-delay: .22s; }
+
+.hero--stage .hero-eyebrow { color: var(--terra-deep); }
+.hero--stage .h-display {
+  color: var(--ink); margin-top: .7rem;
+  font-size: clamp(1.95rem, 1.2rem + 2.6vw, 3.1rem); line-height: 1.04;
+}
+.hero--stage .hero-lede {
+  color: var(--ink-2); margin-top: .9rem; max-width: 30rem;
+  font-size: clamp(1rem, .96rem + .28vw, 1.1rem);
+}
+.hero--stage .hero-actions { margin-top: 1.5rem; }
+.hero--stage .hero-note {
+  display: block; margin-top: 1.1rem; color: var(--ink-2);
+  font-size: .95rem; line-height: 1.5;
+}
+.hero--stage .hero-note svg {
+  display: inline-block; vertical-align: -.18em; margin-right: .35rem;
+}
+.hero--stage .hero-note strong { color: var(--gold-deep); }
+.hero--stage .hero-note svg { fill: var(--gold-deep); }
+.hero--stage .btn--glass {
+  background: transparent; color: var(--navy);
   border-color: var(--line); backdrop-filter: none;
 }
-.hero--photo .btn--glass:hover { border-color: var(--navy); background: var(--blue-soft); }
-.hero--photo .hero-scroll { border-color: rgba(11, 78, 162, .35); left: auto; right: 50%; }
-.hero--photo .hero-scroll span { background: var(--navy); }
-.hero--photo::after { display: none; }
+.hero--stage .btn--glass:hover { border-color: var(--navy); background: var(--blue-soft); }
 
-@media (max-width: 900px) {
-  .hero--photo { grid-template-columns: 1fr; min-height: 0; }
-  .hero--photo .hero-media { order: 1; height: 46vh; min-height: 260px; }
-  .hero--photo .wrap {
-    order: 2; max-width: var(--wrap); margin: 0 auto;
-    padding-top: 2.2rem; padding-bottom: 2.6rem;
-  }
-  .hero--photo .hero-scrim {
-    background: linear-gradient(to bottom, transparent 55%, var(--bg) 100%);
-    border-left: 0; border-bottom: 3px solid var(--gold);
-  }
-  .hero--photo .hero-scroll { display: none; }
+/* --- the rail: numbered, labelled, on the picture ------------------------ */
+.stage-rail {
+  position: absolute; z-index: 2; right: max(1.5rem, 4vw); bottom: 1.5rem;
+  display: flex; gap: .4rem; flex-wrap: wrap; justify-content: flex-end;
 }
-@media (prefers-reduced-motion: reduce) { .hero-photo { animation: none; } }
+.stage-rail .rail {
+  display: flex; align-items: baseline; gap: .5rem;
+  background: rgba(4, 26, 58, .34);
+  border: 1px solid rgba(255, 255, 255, .22);
+  color: #fff; border-radius: 3px;
+  padding: .5rem .8rem; cursor: pointer;
+  font: inherit; font-size: .82rem;
+  backdrop-filter: blur(6px);
+  transition: background .18s ease, border-color .18s ease;
+  min-height: 44px;                      /* a real tap target on a phone */
+}
+.stage-rail .rail:hover { background: rgba(4, 26, 58, .55); }
+.stage-rail .rail.is-on { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+.stage-rail .rail-n { font-weight: 800; letter-spacing: .04em; opacity: .85; }
+.stage-rail .rail-t { font-weight: 600; }
+
+/* --- the phone ----------------------------------------------------------- */
+/* The band becomes a picture at its OWN aspect ratio with the plaque beneath
+   it on paper, so on a phone the photograph is not cropped at all. */
+@media (max-width: 900px) {
+  .hero--stage {
+    min-height: 0; display: block; background: var(--bg);
+  }
+  .stage {
+    position: relative; inset: auto;
+    aspect-ratio: 1020 / 476; width: 100%;
+    border-bottom: 3px solid var(--gold);
+  }
+  .stage-wash {
+    background: linear-gradient(to top, rgba(4, 26, 58, .42) 0, transparent 38%);
+  }
+  /* padding-block ONLY. A `padding` shorthand here zeroes the horizontal
+     padding `.wrap` supplies and every word lands flush against the edge of
+     the phone. */
+  .stage-front { padding-block: 1.6rem 2.2rem; }
+  .plaque {
+    max-width: none; box-shadow: none; padding: 0;
+    background: transparent;
+  }
+  .plaque-rule { display: none; }
+  .stage-rail {
+    right: .75rem; bottom: .75rem; gap: .3rem;
+  }
+  .stage-rail .rail { padding: .35rem .5rem; min-height: 36px; font-size: .72rem; }
+  .stage-rail .rail-t { display: none; }   /* numbers only, on a small screen */
+}
+
+/* --- motion off ---------------------------------------------------------- */
+/* One photograph, held, with its words, is a perfectly good hero. */
+@media (prefers-reduced-motion: reduce) {
+  .stage-shot.is-on .stage-img { animation: none; }
+  .plaque-rule i.is-running { animation: none; width: 100%; }
+  .plaque-words .words > * { transform: none; transition: none; }
+  .stage-shot { transition: none; }
+}
 
 /* ==========================================================================
    LIGHT — the actual reason the page read as deep

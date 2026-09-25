@@ -11,78 +11,89 @@
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ------------------------------------------------------------------ *
-   * THE ROTATING PHRASE
-   * Four study modes, one at a time, in the headline. The first is already
-   * marked is-on in the HTML, so if this file never loads the sentence still
-   * reads correctly — it just stops moving.
+   * THE STAGE
+   * Four photographs of the university, and four sets of words that change
+   * WITH them — which is what makes it read as a sequence about the place
+   * rather than one sentence sitting over a slideshow.
+   *
+   * The first picture and the first set of words are already marked is-on in
+   * the HTML, so if this file never loads the hero is a correct, sharp
+   * photograph with a headline on it. Nothing here is load-bearing.
+   *
+   * Seven seconds a view. The complaint about the video this replaced was
+   * that it moved too fast, so it is deliberately slow, and the gold rule
+   * along the top of the plaque shows how long is left rather than leaving
+   * the visitor guessing.
    * ------------------------------------------------------------------ */
-  (function rotator() {
-    var wrap = document.getElementById('rotator');
-    if (!wrap || reduced) return;
-    var items = wrap.querySelectorAll('span');
-    if (items.length < 2) return;
-    var at = 0;
-    setInterval(function () {
-      items[at].classList.remove('is-on');
-      at = (at + 1) % items.length;
-      items[at].classList.add('is-on');
-    }, 2900);
-  })();
+  (function stage() {
+    var shots = document.querySelectorAll('#stage .stage-shot');
+    var words = document.querySelectorAll('#stageWords .words');
+    var rails = document.querySelectorAll('#stageRail .rail');
+    var bar = document.getElementById('stageBar');
+    if (shots.length < 2) return;
 
-  /* ------------------------------------------------------------------ *
-   * THE HERO SLIDESHOW
-   * Four of the university's own photographs, crossfading. Seven seconds a
-   * slide, which is long: the complaint about the video it replaced was that
-   * it moved too fast. The first slide is already visible from the markup, so
-   * if this never runs the hero is a correct still photograph rather than an
-   * empty panel.
-   * ------------------------------------------------------------------ */
-  (function slideshow() {
-    var slides = document.querySelectorAll('.hero-media .slide');
-    var dots = document.getElementById('heroDots');
-    if (slides.length < 2) return;
-
+    var HOLD = 7000;
     var at = 0, timer = null;
 
     function show(next) {
-      slides[at].classList.remove('is-on');
-      at = (next + slides.length) % slides.length;
-      slides[at].classList.add('is-on');
-      if (dots) {
-        var buttons = dots.querySelectorAll('button');
-        for (var i = 0; i < buttons.length; i++) {
-          buttons[i].classList.toggle('is-on', i === at);
-          buttons[i].setAttribute('aria-selected', i === at ? 'true' : 'false');
-        }
+      var to = (next + shots.length) % shots.length;
+      if (to === at) return;
+      shots[at].classList.remove('is-on');
+      shots[to].classList.add('is-on');
+      if (words[at]) {
+        words[at].classList.remove('is-on');
+        words[at].setAttribute('aria-hidden', 'true');
       }
+      if (words[to]) {
+        words[to].classList.add('is-on');
+        words[to].removeAttribute('aria-hidden');
+      }
+      for (var i = 0; i < rails.length; i++) {
+        rails[i].classList.toggle('is-on', i === to);
+        rails[i].setAttribute('aria-selected', i === to ? 'true' : 'false');
+      }
+      at = to;
+      runBar();
+    }
+
+    /* Restarting a CSS animation needs the class off, a forced reflow, then
+       the class on again — without the reflow the browser coalesces the two
+       changes and the bar never replays. */
+    function runBar() {
+      if (!bar || reduced) return;
+      bar.classList.remove('is-running');
+      void bar.offsetWidth;
+      bar.classList.add('is-running');
     }
 
     function start() {
-      if (reduced) return;                 // one photograph, held, is fine
+      if (reduced) return;          /* one view, held, is a fine hero */
       stop();
-      timer = setInterval(function () { show(at + 1); }, 7000);
+      runBar();
+      timer = setInterval(function () { show(at + 1); }, HOLD);
     }
     function stop() { if (timer) { clearInterval(timer); timer = null; } }
 
-    if (dots) {
-      for (var i = 0; i < slides.length; i++) {
-        var dot = document.createElement('button');
-        dot.type = 'button';
-        dot.setAttribute('role', 'tab');
-        dot.setAttribute('aria-label', 'Picture ' + (i + 1));
-        if (i === 0) { dot.className = 'is-on'; dot.setAttribute('aria-selected', 'true'); }
-        (function (index) {
-          dot.addEventListener('click', function () { show(index); start(); });
-        })(i);
-        dots.appendChild(dot);
-      }
+    for (var i = 0; i < rails.length; i++) {
+      (function (index) {
+        rails[index].addEventListener('click', function () {
+          show(index);
+          start();
+        });
+      })(i);
     }
 
-    // Nothing runs while the tab is in the background: a slideshow ticking
-    // over in a tab nobody is looking at is battery spent for no reason.
+    /* Nothing ticks over in a tab nobody is looking at, and nothing moves
+       under the cursor while somebody is reading the plaque. */
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) { stop(); } else { start(); }
     });
+    var plaque = document.querySelector('.hero--stage .plaque');
+    if (plaque) {
+      plaque.addEventListener('mouseenter', stop);
+      plaque.addEventListener('mouseleave', start);
+    }
+
     start();
   })();
 

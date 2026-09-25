@@ -133,21 +133,16 @@
 </header>
 
 <main id="main">
-<section class="hero hero--photo">
-  <div class="hero-media">
-    <div class="slide is-on"><picture><source type="image/webp" srcset="img/campus-group-640.webp 640w, img/campus-group-1000.webp 1000w" sizes="60vw"><img class="hero-photo" src="img/campus-group-640.jpg" srcset="img/campus-group-640.jpg 640w, img/campus-group-1000.jpg 1000w" sizes="60vw" alt="Team University graduands in blue and gold academic gowns walking together on graduation day" loading="eager" fetchpriority="high" decoding="async"></picture></div><div class="slide"><picture><source type="image/webp" srcset="img/campus-study-640.webp 640w, img/campus-study-1000.webp 1000w" sizes="60vw"><img class="hero-photo" src="img/campus-study-640.jpg" srcset="img/campus-study-640.jpg 640w, img/campus-study-1000.jpg 1000w" sizes="60vw" alt="The Team University campus at Mengo, seen from Kabaka A'njagala Road" loading="lazy" decoding="async"></picture></div><div class="slide"><picture><source type="image/webp" srcset="img/campus-walk-640.webp 640w" sizes="60vw"><img class="hero-photo" src="img/campus-walk-640.jpg" srcset="img/campus-walk-640.jpg 640w" sizes="60vw" alt="The Team University building and gate on a clear morning" loading="lazy" decoding="async"></picture></div><div class="slide"><picture><source type="image/webp" srcset="img/campus-life-640.webp 640w, img/campus-life-1000.webp 1000w" sizes="60vw"><img class="hero-photo" src="img/campus-life-640.jpg" srcset="img/campus-life-640.jpg 640w, img/campus-life-1000.jpg 1000w" sizes="60vw" alt="The Team University campus buildings in Mengo, Kampala" loading="lazy" decoding="async"></picture></div>
-    <div class="hero-scrim"></div>
-    <div class="hero-dots" id="heroDots" role="tablist" aria-label="Choose a picture"></div>
+<section class="hero hero--stage" id="hero" aria-label="Team University">
+  <div class="stage" id="stage">
+    <div class="stage-shot is-on" data-i="0"><picture><source type="image/webp" srcset="img/grad-800.webp 800w, img/grad-1020.webp 1020w" sizes="100vw"><img class="stage-img" src="img/grad-800.jpg" srcset="img/grad-800.jpg 800w, img/grad-1020.jpg 1020w" sizes="100vw" alt="Four Team University graduands in blue and gold gowns walking together on graduation day" loading="eager" fetchpriority="high" decoding="async"></picture></div><div class="stage-shot" data-i="1"><picture><source type="image/webp" srcset="img/campus-800.webp 800w, img/campus-998.webp 998w, img/campus-1020.webp 1020w" sizes="100vw"><img class="stage-img" src="img/campus-800.jpg" srcset="img/campus-800.jpg 800w, img/campus-998.jpg 998w, img/campus-1020.jpg 1020w" sizes="100vw" alt="The Team University campus at Mengo in early morning light" loading="lazy" decoding="async"></picture></div><div class="stage-shot" data-i="2"><picture><source type="image/webp" srcset="img/gate-800.webp 800w, img/gate-1020.webp 1020w" sizes="100vw"><img class="stage-img" src="img/gate-800.jpg" srcset="img/gate-800.jpg 800w, img/gate-1020.jpg 1020w" sizes="100vw" alt="The Team University building and main gate on Kabaka A'njagala Road" loading="lazy" decoding="async"></picture></div><div class="stage-shot" data-i="3"><picture><source type="image/webp" srcset="img/street-800.webp 800w, img/street-1020.webp 1020w" sizes="100vw"><img class="stage-img" src="img/street-800.jpg" srcset="img/street-800.jpg 800w, img/street-1020.jpg 1020w" sizes="100vw" alt="The Team University campus street, with its terracotta and blue buildings and students between classes" loading="lazy" decoding="async"></picture></div>
+    <div class="stage-wash" aria-hidden="true"></div>
   </div>
 
-  <div class="wrap">
-    <div class="hero-inner">
-      <span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> Empower For Generations</span>
-      <h1 class="h-display">Your degree, on <span class="accent"><span class="rotator" id="rotator"><span class="is-on">your own schedule.</span><span>evenings after work.</span><span>weekends only.</span><span>distance, from anywhere.</span></span></span></h1>
-      <p class="hero-lede">
-        99 programmes across 6 faculties &mdash; taught by day,
-        in the evening, at weekends and by distance, in the middle of Kampala.
-      </p>
+  <div class="wrap stage-front">
+    <div class="plaque">
+      <span class="plaque-rule" aria-hidden="true"><i id="stageBar"></i></span>
+      <div class="plaque-words" id="stageWords"><article class="words is-on" data-i="0"><span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> Empower For Generations</span><h1 class="h-display">Your degree, on your own schedule.</h1><p class="hero-lede">99 programmes across 6 faculties — taught by day, in the evening, at weekends and by distance.</p></article><article class="words" data-i="1" aria-hidden="true"><span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> Mengo, Kampala</span><h1 class="h-display">A university in the middle of the city.</h1><p class="hero-lede">On Kabaka A&rsquo;njagala Road, a short walk from the centre of Kampala — and open from the morning until late in the evening.</p></article><article class="words" data-i="2" aria-hidden="true"><span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> 6 faculties</span><h1 class="h-display">From certificate to doctorate.</h1><p class="hero-lede">Certificates, diplomas, bachelor&rsquo;s degrees, postgraduate diplomas, master&rsquo;s degrees and doctorates — on one campus.</p></article><article class="words" data-i="3" aria-hidden="true"><span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> August intake</span><h1 class="h-display">Fifty per cent scholarships.</h1><p class="hero-lede">On selected programmes this intake. Applications are open now.</p></article></div>
       <div class="hero-actions">
         <a class="btn btn--primary btn--lg" href="https://team.campusnect.com/apply/">Apply for August <svg><use href="#i-arrow"/></svg></a>
         <a class="btn btn--glass btn--lg" href="#finder">Find your programme</a>
@@ -159,9 +154,7 @@
     </div>
   </div>
 
-  <a class="hero-scroll" href="#quick" aria-label="Scroll to the next section">
-    <span></span>
-  </a>
+  <div class="stage-rail" id="stageRail" role="tablist" aria-label="Choose a view"><button type="button" role="tab" class="rail is-on" data-i="0" aria-selected="true"><span class="rail-n">01</span><span class="rail-t">Empower For Generations</span></button><button type="button" role="tab" class="rail" data-i="1" aria-selected="false"><span class="rail-n">02</span><span class="rail-t">Mengo, Kampala</span></button><button type="button" role="tab" class="rail" data-i="2" aria-selected="false"><span class="rail-n">03</span><span class="rail-t">6 faculties</span></button><button type="button" role="tab" class="rail" data-i="3" aria-selected="false"><span class="rail-n">04</span><span class="rail-t">August intake</span></button></div>
 </section>
 
 <div class="marquee" aria-label="Faculties and how many programmes each runs">
