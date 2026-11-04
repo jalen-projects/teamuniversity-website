@@ -1,484 +1,377 @@
 """
-THE HOME PAGE
-=============
-Rebuilt to carry the whole university rather than a quarter of it.
+THE HOME PAGE (Nov 2026 redesign)
+=================================
+Built in the order Ugandan university home pages are read — the order the
+university's own staff pointed to on kab.ac.ug:
 
-What a Ugandan applicant actually does on a university home page, in order:
-work out whether the course they want is taught here, work out what it costs
-and when the intake closes, and then find the button that starts an
-application. Everything above the fold serves those three, and the programme
-finder is deliberately the first thing after the hero — 99 programmes is a
-strength only if a visitor can get to theirs in one search.
+  1. photo slider with a caption plate        (what is happening at TEAM now)
+  2. programme finder  +  notice board        (the two things visitors come for)
+  3. faculties band                           (what can I study)
+  4. what makes TEAM unique + figures         (why here)
+  5. university news                          (proof of life)
+  6. upcoming events                          (what is next)
+  7. study modes                              (how — day / evening / weekend / ODeL)
+  8. gallery                                  (campus life)
+  9. regulators and partners                  (trust)
 
-Design notes, since the brief was "better than KIU and King Ceasor":
+EVERY FACT HERE HAS A SOURCE. Notices, news and events come from the
+university's own material: the 15th graduation book (Nov 2025), the
+convocation and conference pages of teamuniversity.ac.ug (2026), and the
+registry catalogue. The live site the university replaced carried invented
+stories (a Lancet paper, a hackathon, a hospital partnership); none of those
+are repeated here. Keep it that way — a notice board that lies is worse than
+an empty one.
 
-*  **The hero is a photograph, split against warm paper — not a dark slab.**
-   A full-bleed photo under a near-opaque dark gradient is the commonest hero
-   on the internet and the reason a page reads as generic; it also throws the
-   photograph away. These graduands are in the university's own blue and gold
-   against Kampala green, so the words moved to a warm panel beside the picture
-   instead of on top of it.
-*  **Nothing goes on this site that has not been looked at.** A video was once
-   chosen here by its filename, because video cannot be viewed on this machine,
-   and it showed people who were not this university's students. The
-   photographs can be opened and checked; the video could not, so it is gone.
-*  **The scholarship is a band, not a badge.** A 50% scholarship is the single
-   most persuasive fact the university has this August, and burying it in a
-   news list wastes it.
-*  **Counts are real or absent.** 99 programmes, 6 faculties, 3 intakes, 4
-   study modes — every one of those is checkable against the registry. No
-   invented student numbers, no invented founding year, no testimonials from
-   students who never said anything.
+All photographs are the university's own, from the teamuniversity.ac.ug media
+library (2560px originals; see build_media.py).
 """
 
 import json
 
 import catalogue as cat
-from build import APPLY, PORTAL, ELEARN, ELIB
-
-
 import media
+from shell import APPLY, PORTAL, ELEARN, ELIB
 
 
-def _picture(stem, alt, widths=None, sizes="(max-width:800px) 100vw, 33vw",
-             cls="", loading="lazy"):
-    """A responsive photograph, built from the widths that exist on disk.
-
-    `widths` is ignored and kept only so old call sites do not break: guessing
-    widths is precisely what put thirty broken images on the site.
-    """
-    return media.picture(stem, alt, sizes=sizes, cls=cls)
+def pic(stem, alt, sizes="100vw", eager=False):
+    return media.picture(stem, alt, sizes=sizes, eager=eager)
 
 
-# ---------------------------------------------------------------------------
-# Hero — THE STAGE
-# ---------------------------------------------------------------------------
-# WHY THIS REPLACED THE SPLIT HERO, and it is a technical reason before it is
-# a taste one.
-#
-# Every photograph this university has is about 1020 x 476 — a wide, short
-# frame, 2.14:1. The split hero put that frame into a tall panel roughly as
-# high as it was wide, which meant throwing away more than half the width and
-# then enlarging what was left about twice. That is why the picture looked
-# soft and why the graduands were sliced down both edges: the FOUR of them
-# walking together became one woman and two half-people.
-#
-# A full-bleed band at close to the photograph's own shape crops almost
-# nothing and enlarges about 1.4x instead of 2x. So the carousel the director
-# asked for is also the correct way to show these particular pictures.
-#
-# INSTITUTIONAL, NOT A DARK SLAB. The commonest hero on the internet is a
-# photograph under a near-opaque black gradient, and it is the reason so many
-# university pages read as interchangeable — it also throws the photograph
-# away a second time. Here the picture stays a picture, and the words sit on a
-# warm paper PLAQUE over one corner of it, with a gold rule that doubles as
-# the timer for the slide. A plaque is what a university puts words on.
-#
-# THE WORDS MOVE WITH THE PICTURE. Each view carries its own eyebrow, headline
-# and line, and they change together — which is what makes it read as a
-# sequence about the university rather than one sentence over a slideshow.
-# What does NOT move is the Apply button: a call to action that slides away
-# under the cursor is a call to action nobody presses.
-
-# Four photographs, every one of them looked at before it was used — a video
-# was once chosen here by its filename alone and showed people who were not
-# this university's students. Each is 1020px and native 2.14:1, so the band
-# shows them nearly uncropped.
-STAGE = [
-    ("grad",
-     "Four Team University graduands in blue and gold gowns walking together "
-     "on graduation day",
-     "Empower For Generations",
-     "Your degree, on your own schedule.",
-     f"{cat.count()} programmes across {len(cat.FACULTIES)} faculties — taught by day, "
-     "in the evening, at weekends and by distance."),
-    ("campus",
-     "The Team University campus at Mengo in early morning light",
-     "Mengo, Kampala",
-     "A university in the middle of the city.",
-     "On Kabaka A&rsquo;njagala Road, a short walk from the centre of Kampala "
-     "— and open from the morning until late in the evening."),
-    ("gate",
-     "The Team University building and main gate on Kabaka A'njagala Road",
-     f"{len(cat.FACULTIES)} faculties",
-     "From certificate to doctorate.",
-     "Certificates, diplomas, bachelor&rsquo;s degrees, postgraduate diplomas, "
-     "master&rsquo;s degrees and doctorates — on one campus."),
-    ("street",
-     "The Team University campus street, with its terracotta and blue "
-     "buildings and students between classes",
-     "August intake",
-     "Fifty per cent scholarships.",
-     "On selected programmes this intake. Applications are open now."),
+# ---------------------------------------------------------------- 1. HERO --
+SLIDES = [
+    ("hero-graduands", "Team University graduands celebrating on graduation day",
+     "Congratulations to our graduands &mdash; the 16th Graduation Ceremony, held under the theme "
+     "&ldquo;Competency-Based Education and Training for Transformative Education.&rdquo;",
+     "news.html#graduation-16", "Read more"),
+    ("building-sky", "The Team University building at Wood House, Mengo, under a blue sky",
+     "Our campus at Wood House, Mengo &mdash; on Kabaka A&rsquo;njagala Road, a short ride from Kampala city centre.",
+     "contact.html#find", "Find us"),
+    ("ceremony-mace", "The university mace carried in the graduation procession",
+     "Applications are open for the February 2027 intake &mdash; study by day, in the evening, at weekends or by distance.",
+     APPLY, "Apply Online"),
+    ("grads-walk", "Four Team University graduates walking together in their gowns",
+     "Twenty-five years of TEAM &mdash; the Silver Jubilee and the launch of the Team University Alumni Association.",
+     "news.html#jubilee", "Read the story"),
+    ("procession", "Guests and academic staff in procession at a Team University ceremony",
+     "International Conference on AI and the Transformation of Education Systems &mdash; 10 and 11 December 2026.",
+     "research.html#conference", "Conference details"),
 ]
 
-_shots = "".join(
-    f'<div class="stage-shot{" is-on" if i == 0 else ""}" data-i="{i}">'
-    + media.picture(stem, alt, sizes="100vw", cls="stage-img", eager=(i == 0))
-    + "</div>"
-    for i, (stem, alt, _e, _h, _l) in enumerate(STAGE))
 
-# All four sets of words occupy the SAME grid cell, so the plaque is as tall
-# as the longest of them and nothing jumps as they change.
-_words = "".join(
-    f'<article class="words{" is-on" if i == 0 else ""}" data-i="{i}"'
-    f'{"" if i == 0 else " aria-hidden=\"true\""}>'
-    f'<span class="hero-eyebrow"><svg><use href="#i-cap"/></svg> {eyebrow}</span>'
-    f'<h1 class="h-display">{head}</h1>'
-    f'<p class="hero-lede">{lede}</p>'
-    "</article>"
-    for i, (_s, _a, eyebrow, head, lede) in enumerate(STAGE))
-
-_rail = "".join(
-    f'<button type="button" role="tab" class="rail{" is-on" if i == 0 else ""}"'
-    f' data-i="{i}" aria-selected="{"true" if i == 0 else "false"}">'
-    f'<span class="rail-n">{i + 1:02d}</span>'
-    f'<span class="rail-t">{eyebrow}</span></button>'
-    for i, (_s, _a, eyebrow, _h, _l) in enumerate(STAGE))
-
-HERO = f"""<section class="hero hero--stage" id="hero" aria-label="Team University">
-  <div class="stage" id="stage">
-    {_shots}
-    <div class="stage-wash" aria-hidden="true"></div>
-  </div>
-
-  <div class="wrap stage-front">
-    <div class="plaque">
-      <span class="plaque-rule" aria-hidden="true"><i id="stageBar"></i></span>
-      <div class="plaque-words" id="stageWords">{_words}</div>
-      <div class="hero-actions">
-        <a class="btn btn--primary btn--lg" href="{APPLY}">Apply for August <svg><use href="#i-arrow"/></svg></a>
-        <a class="btn btn--glass btn--lg" href="#finder">Find your programme</a>
-      </div>
-      <p class="hero-note">
-        <svg><use href="#i-spark"/></svg>
-        <strong>50% scholarships</strong> available on selected programmes this August intake.
-      </p>
-    </div>
-  </div>
-
-  <div class="stage-rail" id="stageRail" role="tablist" aria-label="Choose a view">{_rail}</div>
-</section>"""
-
-
-# ---------------------------------------------------------------------------
-# The marquee
-# ---------------------------------------------------------------------------
-# Built from the catalogue, so it cannot advertise a faculty the university
-# does not have. The list is written twice into the markup because a marquee
-# that translates -50% needs two identical halves or the loop shows a gap.
-
-def marquee():
-    items = "".join(
-        f'<a class="marquee-item" href="{page}">'
-        f'<span class="dot"></span><span>{title}</span> <b>{n}</b></a>'
-        for _c, page, title, _b, _i, _ph, n in cat.all_faculties())
-    return f"""<div class="marquee" aria-label="Faculties and how many programmes each runs">
-  <div class="marquee-track">{items}{items}</div>
-</div>"""
-
-
-# ---------------------------------------------------------------------------
-# Quick links — the five things people come here to do
-# ---------------------------------------------------------------------------
-
-QUICK_ITEMS = [
-    ("i-cap", "Apply online", "August intake open", APPLY),
-    ("i-search", "Programme finder", f"All {cat.count()} programmes", "#finder"),
-    ("i-money", "Fees and funding", "Scholarships and payment", "admissions.html#fees"),
-    ("i-laptop", "Student portal", "Results, registration", PORTAL),
-    ("i-books", "E-Library", "Journals and books", ELIB),
-]
-
-QUICK = """<section class="quick" id="quick">
-  <div class="wrap">
-    <div class="quick-grid">
-      {items}
-    </div>
-  </div>
-</section>""".format(items="\n      ".join(
-    f'<a class="quick-card" href="{href}">'
-    f'<span class="quick-ico"><svg><use href="#{icon}"/></svg></span>'
-    f'<span><strong>{title}</strong><small>{note}</small></span>'
-    f'<svg class="quick-arrow"><use href="#i-arrow"/></svg></a>'
-    for icon, title, note, href in QUICK_ITEMS))
-
-
-# ---------------------------------------------------------------------------
-# The scholarship campaign
-# ---------------------------------------------------------------------------
-
-SCHOLARSHIP = f"""<section class="scholar">
-  <div class="wrap">
-    <div class="scholar-body">
-      <span class="pill pill--gold"><svg><use href="#i-spark"/></svg> August 2026 intake</span>
-      <h2>Up to <span class="big">50%</span> scholarship on selected programmes.</h2>
-      <p>
-        Team University is offering half-fee scholarships on selected programmes for
-        the August 2026 intake. Places are limited and awarded on academic merit and
-        need. Talk to the admissions office about which programmes are covered and
-        what your application needs to show.
-      </p>
-      <div class="scholar-actions">
-        <a class="btn btn--gold btn--lg" href="{APPLY}">Start an application</a>
-        <a class="btn btn--outline" href="contact.html">Ask about the scholarship</a>
-      </div>
-    </div>
-    <div class="scholar-art" aria-hidden="true">
-      <div class="scholar-ring"><span>50<small>%</small></span></div>
-    </div>
-  </div>
-</section>"""
-
-
-# ---------------------------------------------------------------------------
-# Programme finder — the whole catalogue, searchable
-# ---------------------------------------------------------------------------
-
-def finder():
-    index = json.dumps(cat.search_index(), separators=(",", ":"), ensure_ascii=False)
-    levels = "".join(
-        f'<button type="button" class="chip" data-level="{label}">{label}</button>'
-        for _code, label in cat.LEVELS)
-    faculties = "".join(
-        f'<option value="{title}">{title}</option>'
-        for _c, _p, title, _b, _i, _ph, _n in cat.all_faculties())
-    return f"""<section class="finder" id="finder">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow"><svg><use href="#i-search"/></svg> Programme finder</span>
-      <h2>Every one of our {cat.count()} programmes, in one search.</h2>
-      <p>Type a subject — accounting, nursing, software, tailoring — or filter by
-         the award you want. Results are the university's own catalogue.</p>
-    </div>
-
-    <div class="finder-controls">
-      <div class="finder-search">
-        <svg><use href="#i-search"/></svg>
-        <input type="search" id="progSearch" placeholder="Search programmes…"
-               autocomplete="off" aria-label="Search programmes">
-      </div>
-      <select id="progFaculty" aria-label="Filter by faculty">
-        <option value="">All faculties</option>
-        {faculties}
-      </select>
-    </div>
-
-    <div class="chips" id="progLevels" role="group" aria-label="Filter by award">
-      <button type="button" class="chip is-on" data-level="">All awards</button>
-      {levels}
-    </div>
-
-    <p class="finder-count" id="progCount" aria-live="polite"></p>
-    <div class="finder-results" id="progResults"></div>
-    <p class="finder-more">
-      Not sure which to choose? <a href="contact.html">Talk to an admissions officer</a>
-      — they will match your grades and your schedule to a programme.
-    </p>
-  </div>
+def hero():
+    slides = "".join(
+        f'<div class="slide{" is-on" if i == 0 else ""}">{pic(stem, alt, eager=(i == 0))}</div>'
+        for i, (stem, alt, *_r) in enumerate(SLIDES))
+    caps = "".join(
+        f'<p class="cap{" is-on" if i == 0 else ""}">{text} <a href="{href}">{link}</a></p>'
+        for i, (_s, _a, text, href, link) in enumerate(SLIDES))
+    dots = "".join(
+        f'<button type="button" aria-label="Show slide {i + 1}"{" class=\"is-on\"" if i == 0 else ""}></button>'
+        for i in range(len(SLIDES)))
+    return f"""<section class="hero" id="hero" aria-roledescription="carousel" aria-label="Team University highlights">
+  <div class="hero-track">{slides}</div>
+  <button class="hero-arrow hero-arrow--prev" type="button" aria-label="Previous slide"><svg><use href="#i-chevron"/></svg></button>
+  <button class="hero-arrow hero-arrow--next" type="button" aria-label="Next slide"><svg><use href="#i-chevron"/></svg></button>
+  <div class="hero-dots">{dots}</div>
+  <div class="hero-cap" aria-live="polite">{caps}</div>
 </section>
-
-<script id="progData" type="application/json">{index}</script>"""
-
-
-# ---------------------------------------------------------------------------
-# Faculties
-# ---------------------------------------------------------------------------
-
-def faculties():
-    cards = []
-    for _code, page, title, blurb, icon, photo, n in cat.all_faculties():
-        cards.append(f"""<a class="fac-card" href="{page}">
-        <div class="fac-photo">{_picture(photo, "", cls="", loading="lazy")}
-          <span class="fac-ico"><svg><use href="#{icon}"/></svg></span>
-        </div>
-        <div class="fac-body">
-          <span class="fac-count">{n} programmes</span>
-          <h3>{title}</h3>
-          <p>{blurb}</p>
-          <span class="fac-link">Explore the faculty <svg><use href="#i-arrow"/></svg></span>
-        </div>
-      </a>""")
-    return f"""<section class="faculties" id="faculties">
-  <div class="wrap">
-    <div class="section-head section-head--split">
-      <div>
-        <span class="eyebrow"><svg><use href="#i-buildings"/></svg> Faculties</span>
-        <h2>Six faculties. One campus in Mengo.</h2>
-      </div>
-      <a class="btn btn--outline" href="academics.html">All academics <svg><use href="#i-arrow"/></svg></a>
-    </div>
-    <div class="fac-grid">
-      {"".join(cards)}
-    </div>
-  </div>
-</section>"""
+<div class="ribbon"></div>"""
 
 
-# ---------------------------------------------------------------------------
-# The numbers — every one checkable
-# ---------------------------------------------------------------------------
-
-STATS = f"""<section class="stats">
-  <div class="wrap">
-    <div class="stat"><span class="stat-n" data-count="{cat.count()}">0</span><span class="stat-l">Programmes on offer</span></div>
-    <div class="stat"><span class="stat-n" data-count="{len(cat.FACULTIES)}">0</span><span class="stat-l">Faculties and schools</span></div>
-    <div class="stat"><span class="stat-n" data-count="4">0</span><span class="stat-l">Study modes</span></div>
-    <div class="stat"><span class="stat-n" data-count="3">0</span><span class="stat-l">Intakes a year</span></div>
-  </div>
-</section>"""
-
-
-# ---------------------------------------------------------------------------
-# Study modes
-# ---------------------------------------------------------------------------
-
-MODES = [
-    ("i-clock", "Day", "Weekday classes for full-time students straight from A-level or a diploma."),
-    ("i-buildings", "Evening", "After-work classes in town, for people holding down a job."),
-    ("i-calendar", "Weekend", "Friday to Sunday, so a working week stays intact."),
-    ("i-globe", "Distance", "Study from anywhere in Uganda, with materials and support online."),
+# ------------------------------------------------ 2. FINDER + NOTICE BOARD --
+NOTICES = [
+    # (day, month, open?, category, new?, title, href, audience)
+    ("OPEN", "", True, "Admissions", True,
+     "Applications are open for the February 2027 intake",
+     "admissions.html#intakes", "Prospective students &bull; Parents and guardians"),
+    ("01", "Oct 26", False, "Call for papers", False,
+     "International Conference on AI and the Transformation of Education Systems, 10&ndash;11 December 2026",
+     "research.html#conference", "Researchers &bull; Academic staff &bull; Graduate students"),
+    ("30", "May 26", False, "Graduation", False,
+     "The 16th Graduation Ceremony of Team University",
+     "news.html#graduation-16", "Graduands &bull; Parents and guardians"),
+    ("21", "Nov 25", False, "Alumni", False,
+     "Silver Jubilee: launch of the Team University Alumni Association",
+     "news.html#jubilee", "Alumni &bull; Convocation"),
 ]
 
-MODES_HTML = """<section class="modes" id="modes">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow"><svg><use href="#i-clock"/></svg> Study modes</span>
-      <h2>Built for people who are already busy.</h2>
-      <p>Most of our students are working, raising families, or both. Every faculty
-         runs more than one schedule so that a job is not a reason to stop studying.</p>
-    </div>
-    <div class="mode-grid">
-      {items}
-    </div>
-  </div>
-</section>""".format(items="\n      ".join(
-    f'<div class="mode-card"><span class="mode-ico"><svg><use href="#{icon}"/></svg></span>'
-    f'<h3>{title}</h3><p>{text}</p></div>'
-    for icon, title, text in MODES))
+
+def notice_board():
+    rows = []
+    for day, mon, is_open, catg, new, title, href, who in NOTICES:
+        date = (f'<div class="date date--open"><b>{day}</b><span>now</span></div>' if is_open
+                else f'<div class="date"><b>{day}</b><span>{mon}</span></div>')
+        tag = ' <span class="tag">New</span>' if new else ""
+        rows.append(f"""<article class="notice">
+        {date}
+        <div>
+          <div class="n-cat">{catg}{tag}</div>
+          <h3><a href="{href}">{title}</a></h3>
+          <p class="n-for"><svg><use href="#i-users"/></svg><b>For:</b> {who}</p>
+          <a class="n-read" href="{href}">Read notice <svg><use href="#i-arrow"/></svg></a>
+        </div>
+      </article>""")
+    return "\n      ".join(rows)
 
 
-# ---------------------------------------------------------------------------
-# Campus life — the photographs, where they stay sharp
-# ---------------------------------------------------------------------------
-
-GALLERY = f"""<section class="gallery">
-  <div class="wrap">
-    <div class="section-head section-head--split">
-      <div>
-        <span class="eyebrow"><svg><use href="#i-buildings"/></svg> Campus life</span>
-        <h2>Mengo, Kampala — five minutes from the city.</h2>
+def finder_and_board():
+    levels = "".join(f'<option value="{label}">{label}</option>' for _c, label in cat.LEVELS)
+    quick = [
+        ("i-cap", "Apply online", "Start your application", APPLY),
+        ("i-laptop", "Student portal", "Results, fees, registration", PORTAL),
+        ("i-books", "E-Library", "Journals and past papers", ELIB),
+        ("i-globe", "E-Learning", "Course materials online", ELEARN),
+        ("i-money", "Fees structure", "Ask for the current fees", "admissions.html#fees"),
+        ("i-calendar", "Academic calendar", "Semesters and intakes", "academics.html#calendar"),
+    ]
+    tiles = "".join(
+        f'<a href="{h}"><svg><use href="#{i}"/></svg><span>{t}<br><small>{d}</small></span></a>'
+        for i, t, d, h in quick)
+    return f"""<section class="sec">
+  <div class="wrap fn">
+    <div>
+      <div class="finder">
+        <h2>Course and programme finder</h2>
+        <div class="finder-grid">
+          <div>
+            <h3>Programmes by pathway</h3>
+            <ul>
+              <li><a href="faculty-graduate.html">Masters and Postgraduate Diplomas</a></li>
+              <li><a href="faculty-tvet.html">UVTAB Vocational Programmes</a></li>
+              <li><a href="faculty-health.html">Health Sciences Programmes</a></li>
+              <li><a href="academics.html#modes">Open Distance and e-Learning (ODeL)</a></li>
+              <li><a href="admissions.html#scholarships">Scholarships and bursaries</a></li>
+            </ul>
+          </div>
+          <form action="programmes.html" method="get" role="search">
+            <label class="sr" for="fLevel">Study level</label>
+            <select id="fLevel" name="level">
+              <option value="">- Study Level -</option>
+              {levels}
+            </select>
+            <label class="sr" for="fQ">Programme title or keyword</label>
+            <input id="fQ" name="q" type="search" placeholder="Enter Programme title or Keyword">
+            <button type="submit">Search</button>
+          </form>
+        </div>
       </div>
-      <a class="btn btn--outline" href="student-life.html">Student life <svg><use href="#i-arrow"/></svg></a>
+      <div class="quick">{tiles}</div>
     </div>
-    <div class="gal-grid">
-      <figure class="gal gal--tall">{_picture("graduation-1", "Team University graduands throwing their caps on graduation day, with Kampala behind them", sizes="(max-width:800px) 100vw, 50vw")}</figure>
-      <figure class="gal">{_picture("graduation-2", "A graduand celebrating in the procession")}</figure>
-      <figure class="gal">{_picture("campus-study", "The Team University campus gate on Kabaka A&#39;njagala Road")}</figure>
-      <figure class="gal">{_picture("graduation-3", "Graduands on graduation day")}</figure>
-      <figure class="gal">{_picture("campus-life", "The campus buildings at Mengo")}</figure>
+
+    <div>
+      <div class="kicker">Latest updates</div>
+      <div class="nb-head">
+        <div>
+          <h2 class="title">University Notice Board</h2>
+          <p>Official announcements, opportunities and academic updates from Team University.</p>
+        </div>
+        <a class="btn-out" href="news.html">View All Notices <svg><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="board">
+      {notice_board()}
+      </div>
     </div>
   </div>
 </section>"""
 
 
-# ---------------------------------------------------------------------------
-# Why Team
-# ---------------------------------------------------------------------------
-
-WHY = [
-    ("i-check", "Recognised awards",
-     "Degrees and diplomas awarded by Team University, and vocational awards "
-     "assessed by the national boards — so what you earn is registered where "
-     "it counts."),
-    ("i-laptop", "A student portal that works",
-     "Registration, results, transcripts and fees statements online, with your "
-     "own login from the day you are admitted."),
-    ("i-clock", "A schedule that fits your job",
-     "Day, evening, weekend and distance — and you can ask to change mode "
-     "between semesters if your work changes."),
-    ("i-pin", "In the middle of Kampala",
-     "Wood House Mengo, on Kabaka A'njagala Road — reachable from anywhere in "
-     "the city, and close to where our students already live and work."),
-]
-
-WHY_HTML = """<section class="why">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow"><svg><use href="#i-spark"/></svg> Why Team</span>
-      <h2>What you get, beyond the certificate.</h2>
-    </div>
-    <div class="why-grid">
-      {items}
+# ------------------------------------------------------ 3. FACULTIES BAND --
+def faculties_band():
+    links = "".join(
+        f'<li><a href="{page}">{title}</a></li>'
+        for _c, page, title, _b, _i, _ph, _n in cat.all_faculties())
+    return f"""<section class="areas">
+  <div class="areas-text">
+    {pic("fss-tent", "", sizes="50vw")}
+    <div class="areas-inner">
+      <h2>Six Faculties and Schools to Explore Your Interests</h2>
+      <ul class="area-links">{links}</ul>
+      <div class="btns">
+        <a class="btn btn--gold" href="programmes.html">Our Programmes</a>
+        <a class="btn btn--green" href="faculty-graduate.html">Graduate Studies</a>
+      </div>
     </div>
   </div>
-</section>""".format(items="\n      ".join(
-    f'<div class="why-card"><span class="why-ico"><svg><use href="#{icon}"/></svg></span>'
-    f'<h3>{title}</h3><p>{text}</p></div>'
-    for icon, title, text in WHY))
+  <div class="areas-photo">{pic("building-front", "The terracotta-and-gold Team University building and its lawn", sizes="(max-width: 960px) 100vw, 50vw")}</div>
+</section>"""
+
+
+# -------------------------------------------------------------- 4. UNIQUE --
+def unique():
+    ticks = "".join(
+        f'<li><svg><use href="#i-check"/></svg>{t}</li>'
+        for t in ["Masters Degrees", "Bachelors Degrees", "Postgraduate Diplomas",
+                  "Diplomas", "Certificates", "Vocational Awards"])
+    return f"""<section class="sec unique">
+  <div class="wrap">
+    <div>
+      <div class="u-card">{pic("graduand-carpet", "A Team University graduand on the red carpet at graduation", sizes="260px")}</div>
+      <a class="link-arrow" href="programmes.html">View all programmes <svg><use href="#i-arrow"/></svg></a>
+    </div>
+    <div class="u-tall">{pic("student-speaker", "A Team University student addressing guests from the lectern", sizes="(max-width: 640px) 100vw, 380px")}</div>
+    <div class="u-text">
+      <h2>What makes TEAM Unique?</h2>
+      <div class="bar bar--left"></div>
+      <p>Twenty-five years of professional education in the heart of Kampala &mdash; from Team
+         Business College to a university licensed by the National Council for Higher
+         Education. We teach the way working people can study: by day, in the evening, at
+         weekends and by distance.</p>
+      <ul class="ticks">{ticks}</ul>
+      <div class="counts">
+        <div><strong data-count="{cat.count()}">{cat.count()}</strong><span>Programmes</span></div>
+        <div><strong data-count="25">25</strong><span>Years of TEAM</span></div>
+      </div>
+      <a class="btn btn--gold" href="{APPLY}">Apply Online</a>
+    </div>
+  </div>
+</section>"""
+
+
+# ---------------------------------------------------------------- 5. NEWS --
+NEWS = [
+    ("graduands-smile", "Two Team University graduates smiling in their gowns",
+     "Team University holds its 16th Graduation Ceremony under the theme of competency-based education",
+     "30 May 2026", "news.html#graduation-16"),
+    ("conf-ai", "Call for papers poster for the AI in Education conference",
+     "Call for papers: International Conference on AI and the Transformation of Education Systems",
+     "1 October 2026", "research.html#conference"),
+    ("grads-walk", "Graduates walking together at Team University",
+     "Twenty-five years of TEAM, and the launch of the university's first Alumni Association",
+     "21 November 2025", "news.html#jubilee"),
+    ("students-building", "Students gathered outside the Team University building",
+     "Studying with Team University in South Sudan, through Destiny University College, Juba",
+     "Partnerships", "news.html#juba"),
+    ("students-audience", "Students listening during an event at Team University",
+     "Applications open for the February 2027 intake across all six faculties",
+     "November 2026", "news.html#intake"),
+]
+
+
+def news():
+    stem, alt, title, when, href = NEWS[0]
+    minis = "".join(
+        f"""<a class="mini" href="{h}">{pic(s, a, sizes="(max-width: 640px) 120px, 280px")}
+        <div><h3>{t}</h3><time>{w}</time></div></a>"""
+        for s, a, t, w, h in NEWS[1:])
+    return f"""<section class="sec sec--sky">
+  <div class="wrap">
+    <h2 class="title title--center" style="color:var(--ink)">University News</h2>
+    <p class="sub">Stories about people, research and life across the University</p>
+    <div class="bar"></div>
+    <div class="news-grid">
+      <a class="feature" href="{href}">{pic(stem, alt, sizes="(max-width: 960px) 100vw, 600px")}
+        <div class="feature-body"><h3>{title}</h3><time>{when}</time></div></a>
+      <div class="minis">{minis}</div>
+    </div>
+    <div class="more"><a class="btn btn--gold" href="news.html">More University News</a></div>
+  </div>
+</section>"""
+
+
+# -------------------------------------------------------------- 6. EVENTS --
+EVENTS = [
+    ("International Conference on AI and the Transformation of Education Systems",
+     "Two days of research, practice and policy on how AI is reshaping teaching, learning and the governance of education. Hybrid; papers in English or French.",
+     "10&ndash;11 December 2026", "Two days", "Team University, Kampala &middot; and online",
+     "research.html#conference"),
+    ("Campus visits for applicants",
+     "Thinking of joining in February? Come and see the campus, meet the admissions office and talk through programmes, entry requirements and fees.",
+     "Monday to Friday", "Office hours", "Admissions Office, Wood House Mengo",
+     "contact.html"),
+    ("17th Graduation Ceremony",
+     "Graduation notices, clearance deadlines and the graduation list will be published on the notice board as soon as the date is confirmed.",
+     "Date to be announced", "", "Team University, Kampala",
+     "news.html"),
+]
+
+
+def events():
+    cards = "".join(f"""<article class="ev">
+        <h3>{t}</h3>
+        <p>{d}</p>
+        <div class="ev-meta"><span><svg><use href="#i-calendar"/></svg>{when}</span>{('<span><svg><use href="#i-clock"/></svg>' + time + '</span>') if time else ''}</div>
+        <div class="ev-where"><svg><use href="#i-pin"/></svg>{where}</div>
+        <a class="btn btn--blue" href="{href}">Learn More</a>
+      </article>""" for t, d, when, time, where, href in EVENTS)
+    return f"""<section class="events">
+  {pic("academic-procession", "", sizes="100vw")}
+  <div class="wrap">
+    <h2 class="title">Upcoming Events</h2>
+    <p class="sub">Opportunities to engage with people, ideas and education across the University.</p>
+    <div class="ev-grid">{cards}</div>
+  </div>
+</section>"""
+
+
+# --------------------------------------------------------------- 7. MODES --
+def modes():
+    items = [
+        ("i-sun", "Day", "Monday to Friday", "Full-time study on the Mengo campus, for school leavers and anyone free in the day."),
+        ("i-moon", "Evening", "After work", "Keep your job and study in the evening on the same programmes and the same campus."),
+        ("i-calendar", "Weekend", "Saturday and Sunday", "Popular with working professionals and students travelling in from outside Kampala."),
+        ("i-globe", "ODeL", "Open Distance and e-Learning", "Study from anywhere, with materials and assessment online through the e-Learning platform."),
+    ]
+    cards = "".join(
+        f'<div class="mode"><div class="mode-ico"><svg><use href="#{i}"/></svg></div>'
+        f'<h3>{t}</h3><em>{s}</em><p>{d}</p></div>' for i, t, s, d in items)
+    return f"""<section class="sec">
+  <div class="wrap">
+    <h2 class="title title--center">Study Your Way</h2>
+    <p class="sub">Four ways to study at TEAM &mdash; choose the one that fits your life.</p>
+    <div class="bar"></div>
+    <div class="modes">{cards}</div>
+  </div>
+</section>"""
+
+
+# ------------------------------------------------------------- 8. GALLERY --
+def gallery():
+    shots = [
+        ("graduates-line", "Graduates and staff lined up in their gowns", "Graduation"),
+        ("library-study", "Students studying together in the library", "Library"),
+        ("student-speaker", "A student speaking at a university event", "Student voice"),
+        ("fbm-tent", "Graduands of the Faculty of Business and Management", "Faculties"),
+        ("dignitaries", "Guests of honour and university leaders at a ceremony", "Ceremonies"),
+    ]
+    tiles = "".join(
+        f'<a href="student-life.html">{pic(s, a, sizes="(max-width: 640px) 50vw, 33vw")}<span>{l}</span></a>'
+        for s, a, l in shots)
+    return f"""<section class="sec sec--sky">
+  <div class="wrap">
+    <h2 class="title title--center">Life at TEAM</h2>
+    <p class="sub">Graduations, lectures, the library and the people who make the university.</p>
+    <div class="bar"></div>
+    <div class="gallery">{tiles}</div>
+    <div class="more"><a class="btn btn--blue" href="https://www.youtube.com/@teamuniversity" rel="noopener"><svg><use href="#i-play"/></svg> Watch on YouTube</a></div>
+  </div>
+</section>"""
+
+
+# ------------------------------------------------------------ 9. PARTNERS --
+def partners():
+    items = [
+        ("NCHE", "National Council for Higher Education &mdash; university licence", "https://unche.or.ug"),
+        ("UVTAB", "Uganda Vocational and Technical Assessment Board", "faculty-tvet.html"),
+        ("UHPAB", "Health professions assessment, Uganda", "faculty-health.html"),
+        ("CEDIMES", "Paris &mdash; partner, AI in Education Conference 2026", "research.html#conference"),
+        ("DUC", "Destiny University College, Juba &mdash; collaboration", "news.html#juba"),
+        ("+", "Partner with Team University", "contact.html"),
+    ]
+    tiles = "".join(
+        f'<a class="partner" href="{h}"><span><b>{n}</b><small>{d}</small></span></a>' for n, d, h in items)
+    return f"""<section class="sec">
+  <div class="wrap">
+    <h2 class="title title--center">Regulators, Partners and Collaborators</h2>
+    <p class="sub">The bodies that license and examine our programmes, and the institutions we work with.</p>
+    <div class="bar"></div>
+    <div class="partners">{tiles}</div>
+  </div>
+</section>"""
 
 
 def body():
-    """The whole home page, in the order a visitor reads it.
-
-    The Vice Chancellor comes after the numbers and before the practical
-    detail: by then a visitor knows what the university offers, and a person
-    speaking is what turns a list of programmes into somewhere you might go.
-    """
+    from build import CTA_BAND
     return "\n\n".join([
-        HERO, marquee(), QUICK, SCHOLARSHIP, finder(), faculties(), STATS,
-        VC_MESSAGE, MODES_HTML, GALLERY, WHY_HTML,
+        hero(), finder_and_board(), faculties_band(), unique(), news(),
+        events(), modes(), gallery(), partners(), CTA_BAND,
     ])
-
-
-# ---------------------------------------------------------------------------
-# The Vice Chancellor
-# ---------------------------------------------------------------------------
-# Prof. Lutalo Bbosa is a real, named person and his photograph is on this
-# page. The words below are therefore a DRAFT WRITTEN FOR HIS APPROVAL, not a
-# quotation — nothing here was said by him, and no biography is claimed,
-# because there was no way to research one from this machine and inventing a
-# professor's career would be worse than leaving it out.
-#
-# BEFORE THIS GOES LIVE: the VC reads it, changes whatever he likes, and
-# approves it. Until then the source carries this notice and TODO.md lists it.
-
-VC_MESSAGE = f"""<section class="vc" id="vc">
-  <div class="wrap">
-    <figure class="vc-portrait">
-      {media.picture("vc-lutalo-bbosa",
-                     "Professor Lutalo Bbosa, Vice Chancellor of Team University",
-                     sizes="(max-width:800px) 60vw, 320px")}
-      <figcaption>
-        <strong>Prof. Lutalo Bbosa</strong>
-        <span>Vice Chancellor</span>
-      </figcaption>
-    </figure>
-
-    <div class="vc-words">
-      <span class="eyebrow"><svg><use href="#i-cap"/></svg> From the Vice Chancellor</span>
-      <h2>&ldquo;We teach the people who are already carrying something.&rdquo;</h2>
-      <p>
-        Most of the students who walk through our gate at Mengo are not coming
-        straight from a classroom. They are coming from a job, a business, a
-        ward, a farm, a family. They have something to carry, and they have
-        decided to carry a qualification as well.
-      </p>
-      <p>
-        That is the university we have built for them. Our lectures run in the
-        evening and at the weekend as readily as they run by day, because a
-        person should not have to choose between earning and learning. Our
-        programmes &mdash; {cat.count()} of them, from national certificates in
-        the trades to masters degrees &mdash; are set to be finished by people
-        who are busy, and to be worth something to an employer at the end.
-      </p>
-      <p>
-        You will be taught by staff who know your field and who will know your
-        name. Come and see us, or apply online, and let us talk about where you
-        want to be in three years.
-      </p>
-      <p class="vc-sign">Prof. Lutalo Bbosa <span>Vice Chancellor, Team University</span></p>
-      <a class="btn btn--outline" href="about.html">More about the university <svg><use href="#i-arrow"/></svg></a>
-    </div>
-  </div>
-</section>"""

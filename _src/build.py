@@ -18,25 +18,13 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 SITE = "https://teamuniversity.ac.ug"
-PORTAL = "https://team.campusnect.com/portal/login/"
-APPLY = "https://team.campusnect.com/apply/"
-ELEARN = "https://elearning.teamuniversity.ac.ug"
-ELIB = "https://libraris.teamuniversity.ac.ug"
+import shell
+from shell import PORTAL, APPLY, ELEARN, ELIB
 
 # --------------------------------------------------------------------------
 # Icon sprite (Phosphor Icons, MIT). Inlined so pages make no outside request.
 # --------------------------------------------------------------------------
 SPRITE = (ROOT / "_src" / "sprite.svg").read_text(encoding="utf-8")
-
-NAV = [
-    ("index.html", "Home"),
-    ("about.html", "About"),
-    ("__academics__", "Academics"),
-    ("admissions.html", "Admissions"),
-    ("student-life.html", "Student Life"),
-    ("news.html", "News"),
-    ("contact.html", "Contact"),
-]
 
 ACADEMICS = [
     ("academics.html", "All faculties", "Programmes, study modes and the academic year"),
@@ -50,30 +38,6 @@ ACADEMICS = [
 ]
 
 
-def nav_html(current):
-    out = []
-    for href, label in NAV:
-        if href == "__academics__":
-            # Marks the section as current WITHOUT opening the menu on load.
-            here = " is-section" if current in [p for p, _, _ in ACADEMICS] else ""
-            items = "".join(
-                f'<a href="{h}"{" aria-current=\"page\"" if h == current else ""}>{t}'
-                f"<small>{d}</small></a>"
-                for h, t, d in ACADEMICS
-            )
-            out.append(
-                f'<div class="nav-item{here}" data-dropdown>'
-                f'<button type="button" aria-expanded="false">Academics'
-                f'<svg><use href="#i-caret"/></svg></button>'
-                f'<div class="submenu">{items}</div></div>'
-            )
-        else:
-            cur = ' aria-current="page"' if href == current else ""
-            out.append(f'<a href="{href}"{cur}>{label}</a>')
-    out.append(f'<a class="btn btn--primary" href="{APPLY}">Apply now</a>')
-    return "\n      ".join(out)
-
-
 SHELL = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,28 +46,27 @@ SHELL = """<!DOCTYPE html>
 <title>{title}</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{site}/{page}">
-<meta name="theme-color" content="#0b3350">
+<meta name="theme-color" content="#0b55a6">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Team University">
 <meta property="og:title" content="{og_title}">
 <meta property="og:description" content="{description}">
-<meta property="og:image" content="{site}/img/grad-1020.jpg">
+<meta property="og:image" content="{site}/img/hero-graduands-1400.jpg">
 <meta property="og:url" content="{site}/{page}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@TeamUniversityU">
 
-<link rel="icon" href="img/crest.png" type="image/png">
-<link rel="apple-touch-icon" href="img/crest.png">
+<link rel="icon" href="img/crest-160.png" type="image/png">
+<link rel="apple-touch-icon" href="img/crest-320.png">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Team University">
-<link rel="preload" href="fonts/outfit-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-{preload}<link rel="stylesheet" href="css/site.css">
-<link rel="stylesheet" href="css/pages.css">
-<link rel="stylesheet" href="css/ui.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto+Condensed:wght@400;500;700&display=swap">
+{preload}<link rel="stylesheet" href="css/main.css">
 {styles}
 {jsonld}</head>
 <body>
@@ -112,104 +75,15 @@ SHELL = """<!DOCTYPE html>
 
 {sprite}
 
-<div class="utility">
-  <div class="wrap">
-    <div class="utility-contacts">
-      <span><svg><use href="#i-phone"/></svg> +256 782 752226</span>
-      <span><svg><use href="#i-mail"/></svg> info@teamuniversity.ac.ug</span>
-    </div>
-    <nav class="utility-links" aria-label="Quick links">
-      <a href="{elib}">E-Library</a>
-      <a href="{elearn}">E-Learning</a>
-      <a href="{portal}">Student Portal</a>
-    </nav>
-  </div>
-</div>
+{topbar}
 
-<header class="masthead" id="masthead">
-  <div class="wrap">
-    <a class="brand" href="index.html">
-      <img src="img/crest-96.png" alt="Team University crest" width="42" height="42">
-      <span>
-        <span class="brand-name">Team University</span>
-        <span class="brand-sub">Kampala, Uganda</span>
-      </span>
-    </a>
-
-    <nav class="nav" id="nav" aria-label="Main">
-      {nav}
-    </nav>
-
-    <div class="masthead-actions">
-      <a class="btn btn--primary" href="{apply}">Apply now</a>
-      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="nav" aria-label="Open menu">
-        <svg id="navIcon"><use href="#i-menu"/></svg>
-      </button>
-    </div>
-  </div>
-</header>
+{masthead}
 
 <main id="main">
 {body}
 </main>
 
-<footer class="foot" id="contact-footer">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <div class="foot-brand">
-          <img src="img/crest-96.png" alt="" width="48" height="48">
-          <span>
-            <strong>Team University</strong>
-            <span>Empower For Generations</span>
-          </span>
-        </div>
-        <p style="max-width:34ch">A Kampala university offering 99 programmes across six faculties — day, evening, weekend and distance.</p>
-        <div class="socials">
-          <a href="https://www.facebook.com/teamuniversitykampala" aria-label="Team University on Facebook"><svg><use href="#i-facebook"/></svg></a>
-          <a href="https://twitter.com/TeamUniversityU" aria-label="Team University on X"><svg><use href="#i-x"/></svg></a>
-          <a href="https://www.youtube.com/@teamuniversity" aria-label="Team University on YouTube"><svg><use href="#i-youtube"/></svg></a>
-        </div>
-      </div>
-
-      <div>
-        <h3>Study</h3>
-        <ul>
-          <li><a href="academics.html">Faculties and programmes</a></li>
-          <li><a href="programmes.html">Every programme</a></li>
-          <li><a href="admissions.html">How to apply</a></li>
-          <li><a href="admissions.html#requirements">Entry requirements</a></li>
-          <li><a href="academics.html#modes">Study modes</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h3>Campus</h3>
-        <ul>
-          <li><a href="{portal}">Student Portal</a></li>
-          <li><a href="{elearn}">E-Learning</a></li>
-          <li><a href="{elib}">E-Library</a></li>
-          <li><a href="student-life.html">Student life</a></li>
-          <li><a href="news.html">News and events</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h3>Contact</h3>
-        <ul class="foot-contact">
-          <li><svg><use href="#i-pin"/></svg><span>Wood House Mengo, Plot 446<br>Kabaka A'njagala Road<br>Mengo-Rubaga, Kampala</span></li>
-          <li><svg><use href="#i-phone"/></svg><span><a href="tel:+256782752226">+256 782 752226</a><br><a href="tel:+256704310224">+256 704 310224</a></span></li>
-          <li><svg><use href="#i-mail"/></svg><a href="mailto:info@teamuniversity.ac.ug">info@teamuniversity.ac.ug</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="foot-base">
-      <span>&copy; <span id="year">2026</span> Team University, Kampala. All rights reserved.</span>
-      <span>Student system powered by CampusNect</span>
-    </div>
-  </div>
-</footer>
+{footer}
 
 {tabbar}
 <script src="js/site.js" defer></script>
@@ -222,9 +96,9 @@ def banner(title, lede, crumbs, image="campus", alt=""):
     """Inner-page header: photograph, breadcrumb, title, one line of context."""
     trail = ['<a href="index.html">Home</a>']
     for label, href in crumbs[:-1]:
-        trail.append('<svg><use href="#i-caret"/></svg>')
+        trail.append('<svg><use href="#i-chevron"/></svg>')
         trail.append(f'<a href="{href}">{label}</a>')
-    trail.append('<svg><use href="#i-caret"/></svg>')
+    trail.append('<svg><use href="#i-chevron"/></svg>')
     trail.append(f'<span aria-current="page">{crumbs[-1][0]}</span>')
     import media
     return f"""<section class="banner">
@@ -276,7 +150,7 @@ def academics_side(current):
 CTA_BAND = f"""<section class="cta">
   <div class="wrap">
     <div>
-      <h2>The August 2026 intake is open.</h2>
+      <h2>Applications are open for the February 2027 intake.</h2>
       <p>Apply online, or collect an application form at the Mengo campus. Our admissions office will walk you through entry requirements, fees and your study schedule.</p>
     </div>
     <div class="cta-actions">
@@ -319,17 +193,15 @@ def render():
             page="" if name == "index.html" else name,
             site=SITE,
             sprite=SPRITE.strip(),
-            nav=nav_html(name),
+            topbar=shell.topbar(),
+            masthead=shell.masthead(name),
+            footer=shell.footer(),
             body=spec["body"],
             preload=spec.get("preload", ""),
             jsonld=spec.get("jsonld", ""),
             tabbar=tabbar_html(name),
             styles=spec.get("styles", ""),
             scripts=spec.get("scripts", ""),
-            apply=APPLY,
-            portal=PORTAL,
-            elearn=ELEARN,
-            elib=ELIB,
         )
         (ROOT / name).write_text(html, encoding="utf-8")
         written.append((name, len(html)))

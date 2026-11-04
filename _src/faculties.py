@@ -55,10 +55,10 @@ at weekends, and by distance — so that a job, a business or a family does not
 have to be given up to study.</p>
 
 <div class="callout callout--gold">
-  <h3>50% scholarships, August 2026 intake</h3>
-  <p>Selected programmes in this faculty carry a half-fee scholarship for the
-     August intake, awarded on merit and need. Ask the admissions office which
-     of the programmes below are covered before you apply.</p>
+  <h3>Applications open: February 2027 intake</h3>
+  <p>Team University admits students in February, May and August. Ask the
+     admissions office which of the programmes below are admitting for February,
+     and whether any scholarship applies to the one you want.</p>
   <p><a class="btn btn--primary" href="{APPLY}">Apply now</a>
      <a class="btn btn--line" href="contact.html">Ask about scholarships</a></p>
 </div>
@@ -148,7 +148,7 @@ award you are after.</p>
         banner("Every programme",
                f"All {cat.count()} programmes across {len(cat.FACULTIES)} faculties.",
                [("Academics", "academics.html"), ("Every programme",)],
-               image="campus-group", alt="Team University students on campus"),
+               image="library-study", alt="Team University students studying in the library"),
         sidenav("Academics", [(p, t, p == "programmes.html") for p, t, _d in _academics_nav()]),
         body,
         related([("admissions.html", "How to apply"),
@@ -183,7 +183,7 @@ def specs():
             banner("Social sciences at Team",
                    "Social work, development studies and public administration.",
                    [("Academics", "academics.html"), ("Social sciences",)],
-                   image="campus-group", alt="Team University students on campus"),
+                   image="students-audience", alt="Team University students at a university event"),
             sidenav("Academics", [(p, t, False) for p, t, _d in _academics_nav()]),
             """<p class="lede">These programmes are taught in the
 <a href="faculty-business.html">Faculty of Management and Humanities</a>.</p>

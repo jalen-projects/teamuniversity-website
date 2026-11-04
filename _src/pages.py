@@ -10,6 +10,7 @@ university's own published information.
 from build import (APPLY, PORTAL, ELEARN, ELIB, CTA_BAND, banner, sidenav,
                    related, page_body, academics_side)
 import catalogue as cat
+import media
 import faculties
 import home
 
@@ -229,7 +230,7 @@ HOME_BODY = f"""<section class="hero">
 ABOUT = page_body(
     banner("About Team University",
            "A Kampala university built around working students, professional practice and the qualifications employers in the region actually ask for.",
-           [("About", "about.html")], image="campus",
+           [("About", "about.html")], image="building-sky",
            alt="The Team University campus building in Mengo, Kampala"),
     sidenav("On this page", [
         ("#who", "Who we are", True),
@@ -314,7 +315,7 @@ officers are published in the University's graduation programme.</p>
 ACADEMICS_PAGE = page_body(
     banner("Academics",
            "Six faculties, four ways to study, and one academic calendar. Choose a faculty to see its programmes and entry routes.",
-           [("Academics", "academics.html")], image="grad",
+           [("Academics", "academics.html")], image="graduates-line",
            alt="Team University graduands in academic gowns on graduation day"),
     academics_side("academics.html"),
     """<h2>Faculties and schools</h2>
@@ -505,8 +506,8 @@ SOCIAL = faculty_page(
 
 ADMISSIONS = page_body(
     banner("Admissions",
-           "The August 2026 intake is open. Here is what you need, what it costs you in time, and exactly how to apply.",
-           [("Admissions", "admissions.html")], image="grad",
+           "Applications are open for the February 2027 intake. Here is what you need, what it costs you in time, and exactly how to apply.",
+           [("Admissions", "admissions.html")], image="hero-graduands",
            alt="Team University graduands celebrating on graduation day"),
     sidenav("On this page", [
         ("#how", "How to apply", True),
@@ -569,10 +570,10 @@ ADMISSIONS = page_body(
 
 <h2 id="scholarships">Scholarships</h2>
 <div class="callout callout--gold">
-  <h3>50% scholarships &mdash; August 2026 intake</h3>
-  <p>Team University is offering <strong>half-fee scholarships on selected
-     programmes</strong> for the August 2026 intake. Places are limited, and
-     awards are made on academic merit and demonstrated need.</p>
+  <h3>Scholarships and bursaries</h3>
+  <p>Team University has offered <strong>half-fee scholarships on selected
+     programmes</strong> &mdash; most recently for the August 2026 intake. Places
+     are limited, and awards are made on academic merit and demonstrated need.</p>
   <p>Which programmes are covered changes with each intake, so ask the
      admissions office before you apply &mdash; they will tell you whether the
      programme you want is on this round's list and what your application needs
@@ -594,8 +595,7 @@ ADMISSIONS = page_body(
 <p>Once you are registered, your fee statement, payments and outstanding balance are visible any time in the <a href="%PORTAL%">student portal</a>. You do not need to visit the finance office for a statement.</p>
 
 <h2 id="intakes">Intakes</h2>
-<p>The <strong>August 2026 intake is open for registration now</strong>, and it
-   is the intake carrying the 50% scholarships above.</p>
+<p>Applications are <strong>open now for the February 2027 intake</strong>.</p>
 <p>Team University admits students <strong>three times a year</strong> &mdash; in
    February, in May and in August. Not every programme takes students at every
    intake, so if the one you want is not admitting this round, ask the
@@ -645,7 +645,7 @@ ADMISSIONS = page_body(
 STUDENT_LIFE = page_body(
     banner("Student life",
            "A city campus, a student body that mostly works, and the support services that make studying alongside a job possible.",
-           [("Student Life", "student-life.html")], image="street",
+           [("Student Life", "student-life.html")], image="students-building",
            alt="The street outside Team University in Mengo, Kampala"),
     sidenav("On this page", [
         ("#campus", "The campus", True),
@@ -711,7 +711,7 @@ STUDENT_LIFE = page_body(
 NEWS = page_body(
     banner("News and events",
            "Announcements from the university, intake notices and events from around the campus.",
-           [("News", "news.html")], image="grad",
+           [("News", "news.html")], image="procession",
            alt="Graduation day at Team University"),
     sidenav("News", [
         ("news.html", "All news", True),
@@ -725,7 +725,35 @@ NEWS = page_body(
      launch and of the Juba campus are still to be supplied. -->
 
 <div class="news-list">
-  <article class="news-item">
+  <article class="news-item" id="graduation-16">
+    {GRAD_PIC}
+    <div>
+      <p class="news-date">Graduation &middot; 30 May 2026</p>
+      <h3>The 16th Graduation Ceremony</h3>
+      <p>Team University held its 16th Graduation Ceremony on 30 May 2026 under the
+         theme &ldquo;Competency-Based Education and Training (CBET) for Transformative
+         Education.&rdquo; The Chief Guest was CPA Richard Byaruhanga, Executive
+         Director of Finance at the Bank of Uganda.</p>
+      <p>Congratulations to every graduand, and to the families, sponsors and staff
+         who saw them through. Graduation photographs are on the university&rsquo;s
+         <a href="https://www.facebook.com/teamuniversitykampala">Facebook page</a>.</p>
+    </div>
+  </article>
+
+  <article class="news-item" id="conference">
+    {CONF_PIC}
+    <div>
+      <p class="news-date">Call for papers &middot; 1 October 2026</p>
+      <h3>International Conference on AI and the Transformation of Education Systems</h3>
+      <p>Team University, with CEDIMES (Paris), is hosting a hybrid international
+         conference on 10 and 11 December 2026, bringing together researchers,
+         educators, policymakers and practitioners to examine how artificial
+         intelligence is reshaping teaching, learning, research and the governance of
+         education systems. Papers may be presented in English or French.</p>
+      <p><a href="research.html#conference">Themes, key dates and how to take part</a></p>
+    </div>
+  </article>
+  <article class="news-item" id="jubilee">
     <picture>
       <source type="image/webp" srcset="img/graduation-1-640.webp">
       <img src="img/graduation-1-640.jpg" alt="Graduands at Team University" width="640" height="683" loading="lazy">
@@ -750,7 +778,7 @@ NEWS = page_body(
     </div>
   </article>
 
-  <article class="news-item">
+  <article class="news-item" id="juba">
     <picture>
       <source type="image/webp" srcset="img/campus-group-640.webp">
       <img src="img/campus-group-640.jpg" alt="Graduands at Team University" width="640" height="360" loading="lazy">
@@ -770,7 +798,7 @@ NEWS = page_body(
          or <a href="contact.html">contact the Kampala campus</a>.</p>
     </div>
   </article>
-  <article class="news-item">
+  <article class="news-item" id="scholarship">
     <picture>
       <source type="image/webp" srcset="img/graduation-2-640.webp">
       <img src="img/graduation-2-640.jpg" alt="Graduands at Team University" width="640" height="630" loading="lazy">
@@ -786,20 +814,20 @@ NEWS = page_body(
     </div>
   </article>
 
-  <article class="news-item">
+  <article class="news-item" id="intake">
     <picture>
       <source type="image/webp" srcset="img/grad-800.webp">
       <img src="img/grad-800.jpg" alt="Graduands in procession at Team University" width="800" height="373" loading="lazy">
     </picture>
     <div>
       <p class="news-date">Admissions notice</p>
-      <h3>August 2026 intake open for registration</h3>
-      <p>Applications are open for the August 2026 intake across all six faculties, on the day, evening, weekend and distance schedules. Applicants can apply online or collect a form at the Mengo campus.</p>
+      <h3>Applications open for the February 2027 intake</h3>
+      <p>Applications are open for the February 2027 intake across all six faculties, on the day, evening, weekend and distance schedules. Applicants can apply online or collect a form at the Mengo campus.</p>
       <p><a href="admissions.html">Read how to apply</a></p>
     </div>
   </article>
 
-  <article class="news-item">
+  <article class="news-item" id="programmes-online">
     <picture>
       <source type="image/webp" srcset="img/campus-group-640.webp">
       <img src="img/campus-group-640.jpg" alt="Students on the Team University campus" width="640" height="360" loading="lazy">
@@ -823,7 +851,7 @@ NEWS = page_body(
      takes a date, a heading, a short summary and an optional photograph &mdash;
      send them to the communications office and they will be added.</p>
 </div>
-""",
+""".replace("{GRAD_PIC}", media.picture("graduands-smile", "Two Team University graduates smiling in their gowns", sizes="260px")).replace("{CONF_PIC}", media.picture("conf-ai", "Call for papers poster for the AI in Education conference", sizes="260px")),
     related([
         ("admissions.html", "Admissions"),
         ("about.html", "About the university"),
@@ -839,7 +867,7 @@ NEWS = page_body(
 CONTACT = page_body(
     banner("Contact us",
            "Find the campus, reach the right office, or send a question and someone will come back to you.",
-           [("Contact", "contact.html")], image="gate",
+           [("Contact", "contact.html")], image="building-front",
            alt="The main gate of Team University on Kabaka A'njagala Road"),
     sidenav("On this page", [
         ("#reach", "How to reach us", True),
@@ -970,15 +998,118 @@ JSONLD_HOME = """<script type="application/ld+json">
 </script>
 """
 
+# ==========================================================================
+# RESEARCH  (content from the university's own research and conference pages,
+# teamuniversity.ac.ug, Oct 2026 — nothing added)
+# ==========================================================================
+
+RESEARCH = page_body(
+    banner("Research at Team University",
+           "Research and scholarship across our faculties and schools, from undergraduate projects to postgraduate theses and staff publications.",
+           [("Research", "research.html")], image="dignitaries",
+           alt="University leaders and guests at a Team University ceremony"),
+    sidenav("Research", [
+        ("research.html#faculties", "Research in the faculties", False),
+        ("research.html#conference", "AI in Education Conference 2026", False),
+        ("research.html#repository", "Institutional repository", False),
+        ("faculty-graduate.html", "Graduate studies", False),
+        ("research.html#enquiries", "Research enquiries", False),
+    ]),
+    """<p class="lede">Team University advances research and scholarship across its
+faculties and schools &mdash; from undergraduate projects to postgraduate theses
+and staff publications &mdash; and shares that work through its institutional
+repository.</p>
+
+<h2 id="faculties">Research in the faculties</h2>
+<p>Research at Team is carried out within the faculties and schools, and the
+repository is organised along the same lines so that work can be browsed by
+discipline:</p>
+<ul class="bullets">
+  <li><a href="faculty-business.html">Faculty of Management and Humanities</a></li>
+  <li><a href="faculty-education.html">Faculty of Education</a></li>
+  <li><a href="faculty-applied.html">Faculty of Applied Science and Technology</a></li>
+  <li><a href="faculty-health.html">School of Health Sciences</a></li>
+  <li><a href="faculty-graduate.html">School of Graduate Studies and Research</a></li>
+</ul>
+
+<h2 id="conference">International Conference on AI and the Transformation of Education Systems</h2>
+%s
+<dl class="facts">
+  <div><dt>Dates</dt><dd>10 &amp; 11 December 2026</dd></div>
+  <div><dt>Host</dt><dd>Team University, Kampala</dd></div>
+  <div><dt>Format</dt><dd>Hybrid</dd></div>
+  <div><dt>Languages</dt><dd>English or French</dd></div>
+</dl>
+<p>A two-day conference bringing together researchers, educators, policymakers and
+practitioners to examine how artificial intelligence is reshaping teaching,
+learning, research and the governance of education systems, across the East
+African region and beyond. Team University hosts it with CEDIMES (Paris).
+Contributions are welcomed from academics, early-career researchers, graduate
+students, education leaders and development partners.</p>
+
+<h3>Conference themes</h3>
+<ul class="bullets">
+  <li>AI in Teaching, Learning and Curriculum Design</li>
+  <li>AI in Research, Data Science and Innovation</li>
+  <li>Ethics, Governance and Responsible AI in Education</li>
+  <li>Building AI Literacy and Institutional Readiness</li>
+  <li>AI, Access, Equity and Inclusion in Education</li>
+  <li>AI for Sustainable Development and Community Impact</li>
+  <li>Student and Early-Career Researcher Showcase</li>
+</ul>
+
+<h3>Key dates</h3>
+<div class="table-wrap"><table>
+  <thead><tr><th>Date</th><th>What</th></tr></thead>
+  <tbody>
+    <tr><td>1 November 2026</td><td>Abstract submission deadline (closed)</td></tr>
+    <tr><td>To be announced</td><td>Notification of acceptance</td></tr>
+    <tr><td>To be announced</td><td>Full paper and registration</td></tr>
+    <tr><td>10&ndash;11 December 2026</td><td>The conference</td></tr>
+  </tbody>
+</table></div>
+
+<div class="callout">
+  <h3>Abstract format</h3>
+  <p>No more than 300 words, structured under Background, Objective, Methods,
+     Results, Conclusion and Recommendation; one thematic area and one submission
+     category; Word or PDF up to 2 MB. Keynote speakers, the two-day programme and
+     registration fees will be published here as they are confirmed.</p>
+</div>
+
+<h2 id="repository">The institutional repository</h2>
+<p>The Team University Institutional Repository is the university&rsquo;s
+open-access archive: theses, dissertations, articles, conference papers and
+other scholarly work are deposited there, preserved, and made freely available
+online, organised by faculty and school. It is built and maintained by the
+Directorate of ICT Support. Staff and postgraduate students are encouraged to
+deposit their theses, dissertations and publications so that the university&rsquo;s
+research is preserved and discoverable.</p>
+<p><a class="btn btn--blue" href="%%ELIB%%">Open the E-Library</a>
+   <a class="btn btn--line" href="faculty-graduate.html">Explore graduate studies</a></p>
+
+<h2 id="enquiries">Research and library enquiries</h2>
+<div class="contact-block">
+  <div class="contact-row"><svg><use href="#i-mail"/></svg><div><h3>Email</h3><p><a href="mailto:library@teamuniversity.ac.ug">library@teamuniversity.ac.ug</a></p></div></div>
+  <div class="contact-row"><svg><use href="#i-phone"/></svg><div><h3>Telephone</h3><p><a href="tel:+256704310224">+256 704 310224</a></p></div></div>
+</div>
+""".replace("%%ELIB%%", ELIB).replace("%s", media.picture("conf-ai", "Call for papers: Artificial Intelligence and the Transformation of Education Systems, 10 and 11 December 2026", sizes="(max-width: 960px) 100vw, 860px"), 1),
+    related([
+        ("faculty-graduate.html", "Graduate Studies and Research"),
+        ("news.html", "News and events"),
+        ("contact.html", "Contact the university"),
+    ]),
+)
+
+
 PAGES = {
     "index.html": dict(
         title="Team University Kampala | 99 Programmes, Day, Evening, Weekend and Distance",
         og_title="Team University Kampala",
-        description="Team University is a Kampala university offering 99 programmes across six faculties on day, evening, weekend and distance schedules. The August 2026 intake is open, with 50% scholarships on selected programmes.",
+        description="Team University is a Kampala university offering 99 programmes across six faculties on day, evening, weekend and distance schedules. Applications are open for the February 2027 intake.",
         body=home.body(),
-        preload='<link rel="preload" as="image" href="img/campus-study-640.jpg">\n',
+        preload='<link rel="preload" as="image" href="img/hero-graduands-1400.webp">\n',
         jsonld=JSONLD_HOME,
-        scripts='<script src="js/home.js" defer></script>\n',
     ),
     "about.html": dict(
         title="About | Team University Kampala",
@@ -1019,7 +1150,7 @@ PAGES = {
     "admissions.html": dict(
         title="Admissions | Team University Kampala",
         og_title="Admissions at Team University",
-        description="How to apply to Team University Kampala, entry requirements, the documents you need and the August 2026 intake.",
+        description="How to apply to Team University Kampala, entry requirements, the documents you need and the February 2027 intake.",
         body=ADMISSIONS,
     ),
     "student-life.html": dict(
@@ -1033,6 +1164,12 @@ PAGES = {
         og_title="News and events",
         description="Announcements, intake notices and events from Team University Kampala.",
         body=NEWS,
+    ),
+    "research.html": dict(
+        title="Research | Team University Kampala",
+        og_title="Research at Team University",
+        description="Research at Team University Kampala: faculty research, the institutional repository and the International Conference on AI and the Transformation of Education Systems, 10-11 December 2026.",
+        body=RESEARCH,
     ),
     "contact.html": dict(
         title="Contact us | Team University Kampala",
@@ -1067,7 +1204,7 @@ PAGES["404.html"] = dict(
 <ul>
   <li><a href="index.html">The home page</a></li>
   <li><a href="programmes.html">Search all 99 programmes</a></li>
-  <li><a href="admissions.html">How to apply, and the August intake</a></li>
+  <li><a href="admissions.html">How to apply, and the February intake</a></li>
   <li><a href="admissions.html#scholarships">The 50% scholarship</a></li>
   <li><a href="academics.html">Faculties and study modes</a></li>
   <li><a href="contact.html">Contact the university</a></li>

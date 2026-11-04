@@ -165,6 +165,19 @@
       clearTimeout(timer);
       timer = setTimeout(draw, 120);
     });
+    // Arriving from the home-page finder: programmes.html?level=Diploma&q=nurs
+    try {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('q')) box.value = params.get('q');
+      var wanted = params.get('level');
+      if (wanted && levelWrap) {
+        level = wanted;
+        Array.prototype.forEach.call(levelWrap.querySelectorAll('.chip'), function (one) {
+          one.classList.toggle('is-on', (one.getAttribute('data-level') || '') === wanted);
+        });
+      }
+    } catch (e) { /* very old browser: just show everything */ }
+
     if (facultySelect) facultySelect.addEventListener('change', draw);
     if (levelWrap) {
       levelWrap.addEventListener('click', function (event) {

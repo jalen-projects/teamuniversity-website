@@ -22,27 +22,27 @@ FACULTIES = {
     "SGSR": ("faculty-graduate.html", "Graduate Studies and Research",
              "Masters and postgraduate diplomas for people already working, "
              "taught in the evening and at weekends.",
-             "i-cap", "graduation-2"),
+             "i-cap", "graduands-seated"),
     "FMH": ("faculty-business.html", "Management and Humanities",
             "Business, accounting, procurement, human resource, economics and "
             "the humanities — the faculty most of Kampala studies in.",
-            "i-briefcase", "campus-group"),
+            "i-briefcase", "fbm-tent"),
     "FAST": ("faculty-applied.html", "Applied Science and Technology",
              "Computer science, information technology, software engineering, "
              "environmental science and agriculture.",
-             "i-cpu", "technology"),
+             "i-cpu", "library-study"),
     "SHS": ("faculty-health.html", "Health Sciences",
             "Clinical, nursing and public-health training for Uganda's health "
             "service.",
-            "i-heart", "campus-study"),
+            "i-heart", "students-line"),
     "FED": ("faculty-education.html", "Education",
             "Training the teachers of the new lower-secondary curriculum, in "
             "arts, sciences and early childhood.",
-            "i-book", "campus-life"),
+            "i-book", "students-audience"),
     "TVET": ("faculty-tvet.html", "Vocational and Technical Education",
              "Hands-on certificates and diplomas that put a trade in your "
              "hands — catering, tailoring, electrical, motor vehicle and more.",
-             "i-wrench", "campus-walk"),
+             "i-wrench", "building-sky"),
 }
 
 LEVELS = [
