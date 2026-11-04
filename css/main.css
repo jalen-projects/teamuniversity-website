@@ -28,6 +28,8 @@
   --wrap: 1200px;
   --shadow: 0 10px 30px rgba(6, 40, 90, .10);
   --radius: 4px;
+  --stripes: repeating-linear-gradient(-55deg,
+    var(--blue) 0 6px, #fff 6px 9px, var(--gold) 9px 15px, #fff 15px 18px, var(--green) 18px 24px, #fff 24px 27px);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -80,11 +82,7 @@ button, input, select, textarea { font: inherit; }
 .link-arrow:hover svg { transform: translateX(4px); }
 
 /* ---------- The ribbon (diagonal stripe in crest colours) ---------- */
-.ribbon {
-  height: 18px;
-  background: repeating-linear-gradient(-55deg,
-    var(--blue) 0 6px, #fff 6px 9px, var(--gold) 9px 15px, #fff 15px 18px, var(--green) 18px 24px, #fff 24px 27px);
-}
+.ribbon { height: 18px; background: var(--stripes); }
 .ribbon--thin { height: 8px; }
 
 /* ==========================================================================
@@ -154,6 +152,26 @@ button, input, select, textarea { font: inherit; }
 .seal-ring text { font: 700 15.5px var(--head); letter-spacing: 2.6px; fill: var(--blue); text-transform: uppercase; }
 .seal-ring .lo { font-size: 10.5px; letter-spacing: 1.6px; fill: var(--green); }
 .seal img { width: 74px; height: auto; position: relative; top: -2px; }
+/* Two gold comets chase round the seal, just outside its border. */
+.seal::before, .seal::after {
+  content: ""; position: absolute; inset: -15px; border-radius: 50%; pointer-events: none;
+  animation: sealSpin 5s linear infinite;
+}
+.seal::before {
+  background: conic-gradient(from 0deg,
+    rgba(255,205,79,.22) 0deg, rgba(255,205,79,.22) 30deg, rgba(246,192,33,.7) 110deg, var(--gold) 160deg, #fff6cf 178deg, rgba(255,205,79,.22) 180deg,
+    rgba(255,205,79,.22) 210deg, rgba(246,192,33,.7) 290deg, var(--gold) 340deg, #fff6cf 358deg, rgba(255,205,79,.22) 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6.5px));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6.5px));
+  filter: drop-shadow(0 0 5px rgba(255, 214, 90, .9));
+}
+.seal::after { /* the bright heads of the two comets */
+  background:
+    radial-gradient(circle at 50% 3.5px, #fff 0 3.5px, rgba(255,226,120,.95) 5px, rgba(255,205,79,0) 13px),
+    radial-gradient(circle at 50% calc(100% - 3.5px), #fff 0 3.5px, rgba(255,226,120,.95) 5px, rgba(255,205,79,0) 13px);
+}
+.seal:hover::before, .seal:hover::after { animation-duration: 2s; }
+@keyframes sealSpin { to { transform: rotate(360deg); } }
 
 .nav-toggle { display: none; }
 
@@ -164,37 +182,95 @@ button, input, select, textarea { font: inherit; }
    HERO SLIDER
    ========================================================================== */
 .hero { position: relative; background: var(--navy); overflow: hidden; }
-.hero-track { position: relative; height: clamp(420px, 44vw, 640px); }
-.slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.1s ease; }
+.hero-track { position: relative; height: clamp(420px, 44vw, 640px); overflow: hidden; }
+.slide { position: absolute; inset: 0; opacity: 0; }
 .slide.is-on { opacity: 1; z-index: 1; }
+.slide.is-in { opacity: 1; z-index: 5; }
 .slide picture, .slide img { width: 100%; height: 100%; object-fit: cover; }
-.slide img { transform: scale(1.04); transition: transform 8s ease-out; }
-.slide.is-on img { transform: scale(1); }
+.slide img { transform: scale(1.06); transition: transform 9s ease-out; }
+.slide.is-on img, .slide.is-in img { transform: scale(1); }
+
+/* The change of photo. Three bands in the crest colours sweep across at the
+   ribbon's own angle, and the new photograph follows the last of them in.
+   Every band uses the same clip-path keyframes as the photo, only earlier,
+   so the edges stay exactly parallel all the way across. */
+.hero-wipe { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.hero-wipe i { position: absolute; inset: 0; background: var(--blue); clip-path: polygon(-40% 0, 0% 0, -35% 100%, -40% 100%); }
+.hero.is-wiping .hero-wipe i,
+.hero.is-wiping .slide.is-in { animation: wipeIn 1.1s cubic-bezier(.77, 0, .18, 1) both; }
+.hero.is-wiping .hero-wipe i:nth-child(2) { animation-delay: .11s; }
+.hero.is-wiping .hero-wipe i:nth-child(3) { animation-delay: .22s; }
+.hero.is-wiping .slide.is-in { animation-delay: .33s; }
+.hero.is-back.is-wiping .hero-wipe i,
+.hero.is-back.is-wiping .slide.is-in { animation-name: wipeBack; }
+@keyframes wipeIn {
+  from { clip-path: polygon(-40% 0, 0% 0, -35% 100%, -40% 100%); }
+  to   { clip-path: polygon(-40% 0, 140% 0, 105% 100%, -40% 100%); }
+}
+@keyframes wipeBack {
+  from { clip-path: polygon(135% 0, 140% 0, 140% 100%, 100% 100%); }
+  to   { clip-path: polygon(0% 0, 140% 0, 140% 100%, -35% 100%); }
+}
+
+/* Caption plate: changes colour with the photo and wears the ribbon on top */
 .hero-cap {
-  position: absolute; z-index: 3; left: 50%; bottom: 0; transform: translateX(-50%);
-  width: min(800px, calc(100% - 40px)); padding: 16px 32px 18px;
+  position: absolute; z-index: 6; left: 50%; bottom: 18px; transform: translateX(-50%);
+  width: min(800px, calc(100% - 40px)); padding: 20px 32px 18px;
   background: rgba(11, 85, 166, .94); color: #fff; text-align: center;
   font: 400 clamp(17px, 1.9vw, 25px)/1.32 var(--head);
+  transition: background-color .7s ease;
 }
+.hero-cap::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px; background: var(--stripes); }
+.hero[data-tone="green"] .hero-cap { background: rgba(0, 120, 56, .95); }
+.hero[data-tone="navy"] .hero-cap { background: rgba(5, 42, 87, .95); }
 .hero-cap p { margin: 0; }
 .hero-cap a { color: var(--gold-soft); font-style: italic; white-space: nowrap; }
+.hero[data-tone="green"] .hero-cap a { color: #fff; text-decoration: underline; text-decoration-color: var(--gold-soft); text-underline-offset: 4px; }
 .hero-cap a:hover { color: #fff; }
 .hero-cap .cap { display: none; }
-.hero-cap .cap.is-on { display: block; animation: capIn .7s ease; }
-@keyframes capIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.hero-cap .cap.is-on { display: block; animation: capIn .8s cubic-bezier(.2, .7, .2, 1) .35s both; }
+@keyframes capIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
 .hero-arrow {
-  position: absolute; z-index: 4; top: 50%; transform: translateY(-50%);
+  position: absolute; z-index: 7; top: 50%; transform: translateY(-50%);
   width: 46px; height: 46px; border: 0; border-radius: 50%; cursor: pointer;
   background: rgba(255,255,255,.18); color: #fff; display: grid; place-items: center;
-  backdrop-filter: blur(4px); transition: background .2s;
+  backdrop-filter: blur(4px); transition: background .2s, color .2s;
 }
 .hero-arrow:hover { background: var(--gold); color: var(--ink); }
 .hero-arrow svg { width: 20px; height: 20px; }
 .hero-arrow--prev { left: 22px; } .hero-arrow--prev svg { transform: rotate(180deg); }
 .hero-arrow--next { right: 22px; }
-.hero-dots { position: absolute; z-index: 4; right: 26px; bottom: 26px; display: flex; gap: 8px; }
-.hero-dots button { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; background: transparent; padding: 0; cursor: pointer; }
-.hero-dots button.is-on { background: var(--gold); border-color: var(--gold); }
+.hero-nav {
+  position: absolute; z-index: 7; right: 26px; top: 24px; display: flex; align-items: center; gap: 14px;
+  padding: 8px 14px; border-radius: 30px; background: rgba(5, 42, 87, .55); backdrop-filter: blur(6px);
+  color: rgba(255,255,255,.75); font: 700 14px/1 var(--head); letter-spacing: .08em;
+}
+.hero-count b { color: #fff; font-size: 18px; }
+.hero-dots { display: flex; gap: 7px; align-items: center; }
+.hero-dots button {
+  width: 10px; height: 10px; border-radius: 6px; border: 0; padding: 0; cursor: pointer;
+  background: rgba(255,255,255,.55); transition: width .45s cubic-bezier(.2,.7,.2,1), background-color .45s;
+}
+.hero-dots button:hover { background: #fff; }
+.hero-dots button.is-on { width: 30px; background: var(--gold); }
+
+/* The ribbon is the slider's clock. It lights up from left to right while a
+   photo is showing; when the light reaches the end the bands sweep across
+   the photo, the stripes roll forward, and the light starts again.
+   Without JavaScript (or with reduced motion) it is simply the ribbon. */
+.hero-ribbon { position: relative; height: 18px; overflow: hidden; background: var(--navy); }
+.hero-ribbon::before { content: ""; position: absolute; top: 0; bottom: 0; left: -33px; right: 0; background: var(--stripes); }
+.hero-ribbon.is-rolling::before { animation: ribbonRoll .42s linear 3; }
+@keyframes ribbonRoll { to { transform: translateX(32.96px); } } /* one stripe period at -55deg */
+.hero-ribbon i {
+  position: absolute; inset: 0; background: rgba(5, 42, 87, .68);
+  border-left: 2px solid #fff; box-shadow: -6px 0 16px 3px rgba(255, 228, 140, .85);
+  transform: translateX(calc(100% + 40px));
+}
+.hero-ribbon.is-timing i { animation: ribbonTime 7s linear both; }
+.hero.is-paused .hero-ribbon i { animation-play-state: paused; }
+@keyframes ribbonTime { from { transform: translateX(0); } to { transform: translateX(calc(100% + 40px)); } }
 
 /* ==========================================================================
    SECTION SCAFFOLD
@@ -604,6 +680,9 @@ code { font-family: Consolas, monospace; font-size: 12.5px; background: var(--sk
   .seal { width: 92px; height: 92px; margin: 6px 0 -30px; border-width: 3px; grid-column: 1; }
   .seal svg.seal-ring { display: none; }
   .seal img { width: 50px; }
+  .seal::before, .seal::after { inset: -10px; }
+  .seal::before { -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4.5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4.5px)); }
+  .seal::after { background: radial-gradient(circle at 50% 2.5px, #fff 0 2.5px, rgba(255,226,120,.95) 3.5px, rgba(255,205,79,0) 9px), radial-gradient(circle at 50% calc(100% - 2.5px), #fff 0 2.5px, rgba(255,226,120,.95) 3.5px, rgba(255,205,79,0) 9px); }
   .brand-m { display: block !important; grid-column: 2; padding-left: 14px; color: #fff; }
   .brand-m strong { display: block; font: 700 20px/1 var(--head); text-transform: uppercase; letter-spacing: .02em; }
   .brand-m span { font-size: 11px; color: var(--gold-soft); letter-spacing: .1em; text-transform: uppercase; }
@@ -627,9 +706,10 @@ code { font-family: Consolas, monospace; font-size: 12.5px; background: var(--sk
   .drawer-apply { margin: 18px 20px; }
 
   .hero-track { height: 62vw; min-height: 300px; }
-  .hero-cap { position: relative; left: auto; transform: none; width: 100%; font-size: 17px; padding: 14px 18px; }
+  .hero-cap { position: relative; left: auto; bottom: auto; transform: none; width: 100%; font-size: 17px; padding: 18px 18px 14px; }
   .hero-arrow { display: none; }
-  .hero-dots { bottom: auto; top: calc(62vw - 26px); right: 16px; }
+  .hero-nav { top: auto; bottom: auto; top: calc(max(62vw, 300px) - 46px); right: 12px; padding: 6px 11px; gap: 10px; font-size: 12px; }
+  .hero-count b { font-size: 15px; }
 
   .fn, .news-grid, .areas { grid-template-columns: 1fr; }
   .areas-photo { height: 320px; }

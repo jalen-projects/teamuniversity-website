@@ -59,45 +59,106 @@
   }, { passive: true });
 
   /* --- Hero slider ---------------------------------------------------------
-     Seven seconds a slide, caption changes with the picture, pauses on hover
-     and when the tab is hidden, and swipes on a phone. */
+     The ribbon under the photo is the clock: its light runs left to right for
+     seven seconds, and when it reaches the end three bands in the crest
+     colours sweep across the photo and bring in the next one. The caption
+     plate changes colour with it. Hover, a hidden tab or a finger on the
+     photo pauses the clock where it is; swipe or the arrows go either way. */
   (function slider() {
     var hero = document.getElementById('hero');
     if (!hero) { return; }
     var slides = hero.querySelectorAll('.slide');
     var caps = hero.querySelectorAll('.cap');
     var dots = hero.querySelectorAll('.hero-dots button');
+    var bands = hero.querySelectorAll('.hero-wipe i');
+    var ribbon = hero.querySelector('.hero-ribbon');
+    var now = document.getElementById('heroNow');
     if (slides.length < 2) { return; }
-    var at = 0, timer = null, HOLD = 7000;
+    var TONES = ['blue', 'green', 'navy'];
+    var COLOURS = ['#0b55a6', '#f6c021', '#00843d'];
+    var at = 0, busy = false, fallback = null;
 
-    function show(n) {
-      at = (n + slides.length) % slides.length;
+    function pad(n) { return (n < 9 ? '0' : '') + (n + 1); }
+
+    function mark(to) {
       for (var i = 0; i < slides.length; i++) {
-        slides[i].classList.toggle('is-on', i === at);
-        if (caps[i]) { caps[i].classList.toggle('is-on', i === at); }
-        if (dots[i]) { dots[i].classList.toggle('is-on', i === at); }
+        if (caps[i]) { caps[i].classList.toggle('is-on', i === to); }
+        if (dots[i]) { dots[i].classList.toggle('is-on', i === to); }
       }
+      hero.setAttribute('data-tone', TONES[to % TONES.length]);
+      if (now) { now.textContent = pad(to); }
     }
-    function start() { if (!reduced && !timer) { timer = setInterval(function () { show(at + 1); }, HOLD); } }
-    function stop() { if (timer) { clearInterval(timer); timer = null; } }
-    function go(n) { stop(); show(n); start(); }
 
-    hero.querySelector('.hero-arrow--prev').addEventListener('click', function () { go(at - 1); });
-    hero.querySelector('.hero-arrow--next').addEventListener('click', function () { go(at + 1); });
-    Array.prototype.forEach.call(dots, function (d, i) { d.addEventListener('click', function () { go(i); }); });
-    hero.addEventListener('mouseenter', stop);
-    hero.addEventListener('mouseleave', start);
-    document.addEventListener('visibilitychange', function () { if (document.hidden) { stop(); } else { start(); } });
+    /* Restarting a CSS animation needs the class off, a reflow, then on. */
+    function clock() {
+      if (reduced) { return; }
+      if (!ribbon) { clearTimeout(fallback); fallback = setTimeout(function () { show(at + 1, 1); }, 7000); return; }
+      ribbon.classList.remove('is-timing');
+      void ribbon.offsetWidth;
+      ribbon.classList.add('is-timing');
+    }
+
+    function show(n, dir) {
+      var to = (n + slides.length) % slides.length;
+      if (to === at || busy) { return; }
+      var from = at;
+      at = to;
+      mark(to);
+      if (reduced) {
+        slides[from].classList.remove('is-on');
+        slides[to].classList.add('is-on');
+        return;
+      }
+      busy = true;
+      /* The bands lead with a different crest colour each time. */
+      for (var k = 0; k < bands.length; k++) { bands[k].style.background = COLOURS[(to + k) % COLOURS.length]; }
+      hero.classList.toggle('is-back', dir < 0);
+      slides[to].classList.add('is-in');
+      hero.classList.remove('is-wiping');
+      void hero.offsetWidth;
+      hero.classList.add('is-wiping');
+      if (ribbon) { ribbon.classList.add('is-rolling'); }
+      setTimeout(function () {
+        slides[from].classList.remove('is-on');
+        slides[to].classList.add('is-on');
+        slides[to].classList.remove('is-in');
+        hero.classList.remove('is-wiping');
+        if (ribbon) { ribbon.classList.remove('is-rolling'); }
+        busy = false;
+      }, 1500);
+      clock();
+    }
+
+    if (ribbon) {
+      ribbon.addEventListener('animationend', function (e) {
+        if (e.animationName === 'ribbonTime') { show(at + 1, 1); }
+      });
+    }
+
+    function pause() { hero.classList.add('is-paused'); }
+    function resume() { hero.classList.remove('is-paused'); }
+
+    hero.querySelector('.hero-arrow--prev').addEventListener('click', function () { show(at - 1, -1); });
+    hero.querySelector('.hero-arrow--next').addEventListener('click', function () { show(at + 1, 1); });
+    Array.prototype.forEach.call(dots, function (d, i) {
+      d.addEventListener('click', function () { show(i, i < at ? -1 : 1); });
+    });
+    hero.addEventListener('mouseenter', pause);
+    hero.addEventListener('mouseleave', resume);
+    hero.addEventListener('focusin', pause);
+    hero.addEventListener('focusout', resume);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) { pause(); } else { resume(); } });
 
     var x0 = null;
-    hero.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    hero.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; pause(); }, { passive: true });
     hero.addEventListener('touchend', function (e) {
+      resume();
       if (x0 === null) { return; }
       var dx = e.changedTouches[0].clientX - x0;
-      if (Math.abs(dx) > 40) { go(dx < 0 ? at + 1 : at - 1); }
+      if (Math.abs(dx) > 40) { show(dx < 0 ? at + 1 : at - 1, dx < 0 ? 1 : -1); }
       x0 = null;
     });
-    start();
+    clock();
   })();
 
   /* --- Counting figures ----------------------------------------------------- */

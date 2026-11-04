@@ -58,6 +58,9 @@ SLIDES = [
 ]
 
 
+TONES = ["blue", "green", "navy"]   # the caption plate changes colour with each photo
+
+
 def hero():
     slides = "".join(
         f'<div class="slide{" is-on" if i == 0 else ""}">{pic(stem, alt, eager=(i == 0))}</div>'
@@ -68,14 +71,17 @@ def hero():
     dots = "".join(
         f'<button type="button" aria-label="Show slide {i + 1}"{" class=\"is-on\"" if i == 0 else ""}></button>'
         for i in range(len(SLIDES)))
-    return f"""<section class="hero" id="hero" aria-roledescription="carousel" aria-label="Team University highlights">
-  <div class="hero-track">{slides}</div>
+    total = f"{len(SLIDES):02d}"
+    return f"""<section class="hero" id="hero" data-tone="{TONES[0]}" aria-roledescription="carousel" aria-label="Team University highlights">
+  <div class="hero-track">{slides}
+    <div class="hero-wipe" aria-hidden="true"><i></i><i></i><i></i></div>
+  </div>
   <button class="hero-arrow hero-arrow--prev" type="button" aria-label="Previous slide"><svg><use href="#i-chevron"/></svg></button>
   <button class="hero-arrow hero-arrow--next" type="button" aria-label="Next slide"><svg><use href="#i-chevron"/></svg></button>
-  <div class="hero-dots">{dots}</div>
+  <div class="hero-nav"><span class="hero-count"><b id="heroNow">01</b> / {total}</span><div class="hero-dots">{dots}</div></div>
   <div class="hero-cap" aria-live="polite">{caps}</div>
-</section>
-<div class="ribbon"></div>"""
+  <div class="hero-ribbon" aria-hidden="true"><i></i></div>
+</section>"""
 
 
 # ------------------------------------------------ 2. FINDER + NOTICE BOARD --
