@@ -17,7 +17,11 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
-SITE = "https://teamuniversity.ac.ug"
+# Where the site is actually served. Link previews (WhatsApp, Facebook) fetch
+# the thumbnail from here, so it MUST be the live address: when the site moves
+# to teamuniversity.ac.ug, change this one line and rebuild.
+SITE = "https://jalen-projects.github.io/teamuniversity-website"
+OG_IMAGE = "img/og-share.jpg"   # 1200x630, made by build_share.py; rename it when it changes
 import shell
 from shell import PORTAL, APPLY, ELEARN, ELIB
 
@@ -52,10 +56,17 @@ SHELL = """<!DOCTYPE html>
 <meta property="og:site_name" content="Team University">
 <meta property="og:title" content="{og_title}">
 <meta property="og:description" content="{description}">
-<meta property="og:image" content="{site}/img/hero-graduands-1400.jpg">
+<meta property="og:image" content="{site}/{og_image}">
+<meta property="og:image:secure_url" content="{site}/{og_image}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Team University crest over graduands celebrating, with the motto Empower for Generations">
+<meta property="og:locale" content="en_UG">
 <meta property="og:url" content="{site}/{page}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@TeamUniversityU">
+<meta name="twitter:image" content="{site}/{og_image}">
 
 <link rel="icon" href="img/crest-160.png" type="image/png">
 <link rel="apple-touch-icon" href="img/crest-320.png">
@@ -192,6 +203,7 @@ def render():
             description=spec["description"],
             page="" if name == "index.html" else name,
             site=SITE,
+            og_image=OG_IMAGE,
             sprite=SPRITE.strip(),
             topbar=shell.topbar(),
             masthead=shell.masthead(name),
