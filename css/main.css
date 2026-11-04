@@ -476,10 +476,10 @@ button, input, select, textarea { font: inherit; }
 .bullets li { position: relative; padding-left: 26px; }
 .bullets li::before { content: ""; position: absolute; left: 0; top: .65em; width: 12px; height: 12px; background: var(--gold); clip-path: polygon(0 0, 100% 50%, 0 100%); }
 
-.callout { margin: 28px 0; padding: 24px 26px; background: var(--sky); border-left: 5px solid var(--blue); }
+.callout { margin: 28px 0; padding: 24px 26px; background: var(--sky); border: 1px solid #cfe0f3; }
 .callout h3 { margin-top: 0; color: var(--blue); }
 .callout p:last-child { margin-bottom: 0; }
-.callout--gold { background: #fff7dc; border-left-color: var(--gold); }
+.callout--gold { background: #fff7dc; border-color: #f3dc95; }
 
 .table-scroll, .table-wrap { overflow-x: auto; margin: 18px 0 30px; border: 1px solid var(--line); }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
